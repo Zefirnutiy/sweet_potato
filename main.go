@@ -15,8 +15,17 @@ func init() {
 		return
 	}
 
+	
 }
 
 func main() {
-	app(cfg.Port)
+	err := db.CreateTable()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	App(cfg.Port)
+
 }

@@ -14,10 +14,20 @@ func Connect(cfg SettingServer) error {
 		return err
 	}
 
-	_, err = dbpool.Exec("SELECT id from Test")
+
+	return nil
+}
+
+func CreateTable() error{
+	_, err := dbpool.Exec("SELECT id from Test")
 
 	if err != nil {
-		_, err = dbpool.Exec(fmt.Sprintf(`%s`, DbCreate("./db/database.sql")))
+		_, err = dbpool.Exec(DbCreate("./db/database.sql"))
+		
+		if err != nil{
+			fmt.Println("Ошибка создания таблиц:", err)
+			return nil
+		}
 	}
 
 	return nil
