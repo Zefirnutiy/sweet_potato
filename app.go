@@ -52,8 +52,8 @@ func App(port string) {
 	students := router.Group("/api/students")
 	{
 		students.GET("/", controllers.GetStudents)
-		students.GET("/:id", controllers.GetStudentsById)
-		students.GET("/:group", controllers.GetStudentsByGroup)
+		students.GET("/:id", controllers.GetStudentById)
+		students.GET("/grup/:group", controllers.GetStudentsByGroup)
 		students.POST("/create", controllers.CreateStudent)
 		students.PATCH("/update/:id", controllers.UpdateStudent)
 		students.DELETE("/delete/:id", controllers.DeleteStudent)

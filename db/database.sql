@@ -42,7 +42,7 @@ CREATE TABLE "Answer_option" (
 );
 
 
-CREATE TABLE "question_file" (
+CREATE TABLE "Question_file" (
                   "id" serial NOT NULL,
                   "question_id" INTEGER NOT NULL,
                   "file" VARCHAR(250) NOT NULL,
