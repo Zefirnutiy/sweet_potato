@@ -53,7 +53,7 @@ func App(port string) {
 	{
 		students.GET("/", controllers.GetStudents)
 		students.GET("/:id", controllers.GetStudentById)
-		students.GET("/grup/:group", controllers.GetStudentsByGroup)
+		students.GET("/group/:group", controllers.GetStudentsByGroup)
 		students.POST("/create", controllers.CreateStudent)
 		students.PATCH("/update/:id", controllers.UpdateStudent)
 		students.DELETE("/delete/:id", controllers.DeleteStudent)
