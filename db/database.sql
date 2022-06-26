@@ -12,62 +12,49 @@ CREATE TABLE "Student" (
 
 
 
-
-CREATE TABLE "Question" (
-                  "id" serial NOT NULL,
-                  "test_id" INTEGER NOT NULL,
-                  "text" VARCHAR(255) NOT NULL,
-                  "Answer" INTEGER NOT NULL,
-                  "files" INTEGER NOT NULL,
-                  "scores" INTEGER NOT NULL,
-                  CONSTRAINT "Question_pk" PRIMARY KEY ("id")
-);
-
-
-CREATE TABLE "Question_result" (
-                  "id" serial NOT NULL,
-                  "student_id" INTEGER NOT NULL,
-                  "question_id" INTEGER NOT NULL,
-                  "accuracy" BOOLEAN NOT NULL, 
-                  CONSTRAINT "Question_result_pk" PRIMARY KEY ("id") 
-);
-
-
-CREATE TABLE "Answer_option" (
-                  "id" serial NOT NULL,
-                  "question_id" INTEGER NOT NULL,
-                  "value" VARCHAR(250) NOT NULL,
-                  "true_answer" BOOLEAN NOT NULL,
-                  CONSTRAINT "Answer_option_pk" PRIMARY KEY("id")
-);
-
-
-CREATE TABLE "Question_file" (
-                  "id" serial NOT NULL,
-                  "question_id" INTEGER NOT NULL,
-                  "file" VARCHAR(250) NOT NULL,
-                  CONSTRAINT "question_file_pk" PRIMARY KEY("id")
-);
-
-
-CREATE TABLE "Answer" (
-                  "id" serial NOT NULL,
-                  "question_id" integer NOT NULL,
-                  "text" VARCHAR(255) NOT NULL,
-                  CONSTRAINT "Answer_pk" PRIMARY KEY ("id")
-);
-
-
 CREATE TABLE "Test" (
                   "id" serial NOT NULL,
                   "professor_id" INTEGER NOT NULL,
                   "title" VARCHAR(255) NOT NULL,
                   "start" timestamp NOT NULL,
                   "end" timestamp NOT NULL,
-                  "questions_id" INTEGER NOT NULL,
                   "attempt" INTEGER NOT NULL, 
                   "time" TIME NOT NULL,
                   CONSTRAINT "Test_pk" PRIMARY KEY ("id")
+);
+
+CREATE TABLE "Question" (
+                            "id" serial NOT NULL,
+                            "test_id" INTEGER NOT NULL,
+                            "text" VARCHAR(255) NOT NULL,
+                            "answer" INTEGER NOT NULL,
+                            "scores" INTEGER NOT NULL,
+                            CONSTRAINT "Question_pk" PRIMARY KEY ("id")
+);
+
+CREATE TABLE "Question_result" (
+                                   "id" serial NOT NULL,
+                                   "student_id" INTEGER NOT NULL,
+                                   "question_id" INTEGER NOT NULL,
+                                   "accuracy" BOOLEAN NOT NULL,
+                                   CONSTRAINT "Question_result_pk" PRIMARY KEY ("id")
+);
+
+
+CREATE TABLE "Answer_option" (
+                                 "id" serial NOT NULL,
+                                 "question_id" INTEGER NOT NULL,
+                                 "value" VARCHAR(250) NOT NULL,
+                                 "true_answer" BOOLEAN NOT NULL,
+                                 CONSTRAINT "Answer_option_pk" PRIMARY KEY("id")
+);
+
+
+CREATE TABLE "Question_file" (
+                                 "id" serial NOT NULL,
+                                 "question_id" INTEGER NOT NULL,
+                                 "file" VARCHAR(250) NOT NULL,
+                                 CONSTRAINT "question_file_pk" PRIMARY KEY("id")
 );
 
 
@@ -95,6 +82,7 @@ CREATE TABLE "Grade" (
 CREATE TABLE "Additional_materials" (
                   "id" serial NOT NULL,
                   "professor_id" integer NOT NULL,
+                  "group" varchar(5) NOT NULL ,
                   "file" varchar(200) NOT NULL,
                   CONSTRAINT "Additional_materials_pk" PRIMARY KEY ("id")
 );
@@ -114,10 +102,7 @@ CREATE TABLE "Professor" (
 
 
 
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_pk0" FOREIGN KEY ("question_id") REFERENCES "Question"("id");
 
-
-ALTER TABLE "Test" ADD CONSTRAINT "Test_fk0" FOREIGN KEY ("questions_id") REFERENCES "Question"("id");
 ALTER TABLE "Test" ADD CONSTRAINT "Test_fk1" FOREIGN KEY ("professor_id") REFERENCES "Professor"("id");
 
 ALTER TABLE "Question_result" ADD CONSTRAINT "Question_result_fk0" FOREIGN KEY("student_id") REFERENCES "Student"("id");
@@ -137,4 +122,4 @@ ALTER TABLE "Additional_materials" ADD CONSTRAINT "Additional_materials_fk0" FOR
 ALTER TABLE "Answer_option" ADD CONSTRAINT "Answer_option_fk0" FOREIGN KEY ("question_id") REFERENCES "Question"("id");
 
 
-ALTER TABLE "question_file" ADD CONSTRAINT "question_file_fk0" FOREIGN KEY ("question_id") REFERENCES "Question"("id");
+ALTER TABLE "Question_file" ADD CONSTRAINT "question_file_fk0" FOREIGN KEY ("question_id") REFERENCES "Question"("id");

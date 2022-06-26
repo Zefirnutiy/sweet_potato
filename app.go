@@ -38,7 +38,7 @@ func App(port string) {
 	{
 		questions.GET("/", controllers.GetQuestions)
 		questions.GET("/:id", controllers.GetQuestionsById)
-		questions.POST("/create", controllers.CreateQuestion)
+		questions.POST("/create/:idTest", controllers.CreateQuestion)
 		questions.PATCH("/update/:id", controllers.UpdateQuestion)
 		questions.DELETE("/delete/:id", controllers.DeleteQuestion)
 		questions.GET("/search", controllers.SearchQuestions)
