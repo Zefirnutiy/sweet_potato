@@ -86,7 +86,7 @@ CREATE TABLE Dead_Line (
 -- Table: Department
 CREATE TABLE Department (
     Id serial  NOT NULL,
-    Tittle varchar(50)  NOT NULL,
+    Title varchar(50)  NOT NULL,
     Organization_Id int8  NOT NULL,
     CONSTRAINT Department_pk PRIMARY KEY (Id)
 );
@@ -105,7 +105,7 @@ CREATE TABLE File (
 );
 
 -- Table: Group
-CREATE TABLE "Group" (
+CREATE TABLE Group (
     Id serial  NOT NULL,
     Title varchar(20)  NOT NULL,
     Department_Id int  NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE "Group" (
 );
 
 -- Table: Level
-CREATE TABLE "Level" (
+CREATE TABLE Level (
     Id smallint  NOT NULL,
     Title varchar(100)  NOT NULL,
     Price int  NOT NULL,
