@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"github.com/Zefirnutiy/sweet_potato.git/db"
-	"github.com/Zefirnutiy/sweet_potato.git/functions"
-	"github.com/Zefirnutiy/sweet_potato.git/structs"
+	"collage_project/backend/db"
+	"collage_project/backend/functions"
+	"collage_project/backend/structs"
 	"github.com/gin-gonic/gin"
 )
 

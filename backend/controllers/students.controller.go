@@ -3,23 +3,23 @@ package controllers
 import (
 	"fmt"
 
-	"github.com/Zefirnutiy/sweet_potato.git/db"
-	"github.com/Zefirnutiy/sweet_potato.git/structs"
+	"collage_project/backend/db"
+	"collage_project/backend/structs"
 
-	"github.com/Zefirnutiy/sweet_potato.git/functions"
+	"collage_project/backend/functions"
 	"github.com/gin-gonic/gin"
 )
 
 func GetStudents(c *gin.Context) {
 
-	rows, e := db.Dbpool.Query(`SELECT * FROM "Student"`) 
+	rows, e := db.Dbpool.Query(`SELECT * FROM "Student"`)
 
 	functions.HandlerError(e)
 
-	var student_list []structs.Student 
+	var student_list []structs.Student
 	var student structs.Student
 
-	for rows.Next(){
+	for rows.Next() {
 		e = rows.Scan(&student.Id, &student.First_name, &student.Sure_name, &student.Email, &student.Password, &student.Major, &student.Course, &student.Group)
 		fmt.Println(student)
 		student_list = append(student_list, student)
@@ -29,20 +29,19 @@ func GetStudents(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Студенты": student_list,
 	})
-	
+
 }
 
 func GetStudentById(c *gin.Context) {
 	id := c.Param("id")
 
-	rows, e := db.Dbpool.Query(`SELECT * FROM "Student" WHERE id=$1`, id) 
+	rows, e := db.Dbpool.Query(`SELECT * FROM "Student" WHERE id=$1`, id)
 
 	functions.HandlerError(e)
 
-
 	var student structs.Student
 
-	for rows.Next(){
+	for rows.Next() {
 		e = rows.Scan(&student.Id, &student.First_name, &student.Sure_name, &student.Email, &student.Password, &student.Major, &student.Course, &student.Group)
 		functions.HandlerError(e)
 	}
@@ -55,15 +54,14 @@ func GetStudentById(c *gin.Context) {
 func GetStudentsByGroup(c *gin.Context) {
 	group := c.Param("group")
 
-	rows, e := db.Dbpool.Query(`SELECT * FROM "Student" WHERE id=$1`, group) 
+	rows, e := db.Dbpool.Query(`SELECT * FROM "Student" WHERE id=$1`, group)
 
 	functions.HandlerError(e)
 
-
-	var student_list []structs.Student 
+	var student_list []structs.Student
 	var student structs.Student
 
-	for rows.Next(){
+	for rows.Next() {
 		e = rows.Scan(&student.Id, &student.First_name, &student.Sure_name, &student.Email, &student.Password, &student.Major, &student.Course, &student.Group)
 		fmt.Println(student)
 		student_list = append(student_list, student)
@@ -73,10 +71,10 @@ func GetStudentsByGroup(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"Студенты": student_list,
 	})
-	
+
 }
 
-func CreateStudent(c *gin.Context){
+func CreateStudent(c *gin.Context) {
 	first_name := c.PostForm("first_name")
 	sure_name := c.PostForm("sure_name")
 	email := c.PostForm("email")
@@ -85,7 +83,7 @@ func CreateStudent(c *gin.Context){
 	course := c.PostForm("course")
 	group := c.PostForm("group")
 
-	_, err := db.Dbpool.Query(`INSERT INTO "Student"("first_name", "sure_name", "email", "password", "major", "course", "group") VALUES($1, $2, $3, $4, $5, $6, $7 )`, first_name, sure_name, email, password, major, course, group,)
+	_, err := db.Dbpool.Query(`INSERT INTO "Student"("first_name", "sure_name", "email", "password", "major", "course", "group") VALUES($1, $2, $3, $4, $5, $6, $7 )`, first_name, sure_name, email, password, major, course, group)
 
 	functions.HandlerError(err)
 
@@ -94,7 +92,7 @@ func CreateStudent(c *gin.Context){
 	})
 }
 
-func UpdateStudent(c *gin.Context){
+func UpdateStudent(c *gin.Context) {
 
 	id := c.Param("id")
 
@@ -106,7 +104,7 @@ func UpdateStudent(c *gin.Context){
 	course := c.PostForm("course")
 	group := c.PostForm("group")
 
-	_, err := db.Dbpool.Query(`UPDATE "Student" SET first_name=$1, sure_name=$2, email=$3, password=$4, major=$5, course=$6, "group"=$7 WHERE id=$8` , first_name, sure_name, email, password, major, course, group, id)
+	_, err := db.Dbpool.Query(`UPDATE "Student" SET first_name=$1, sure_name=$2, email=$3, password=$4, major=$5, course=$6, "group"=$7 WHERE id=$8`, first_name, sure_name, email, password, major, course, group, id)
 
 	functions.HandlerError(err)
 
@@ -115,7 +113,7 @@ func UpdateStudent(c *gin.Context){
 	})
 }
 
-func DeleteStudent(c *gin.Context){
+func DeleteStudent(c *gin.Context) {
 	id := c.Param("id")
 
 	_, err := db.Dbpool.Query(`DELETE FROM "Student" WHERE id=$1`, id)
@@ -127,6 +125,6 @@ func DeleteStudent(c *gin.Context){
 	})
 }
 
-func SearchStudents(c *gin.Context){
+func SearchStudents(c *gin.Context) {
 	// тут нужно придумать что и как делать
 }

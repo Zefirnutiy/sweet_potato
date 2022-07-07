@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
+	"github.com/Zefirnutiy/sweet_potato.git/routs"
 	_ "github.com/lib/pq"
 )
 
@@ -15,7 +16,6 @@ func init() {
 		return
 	}
 
-	
 }
 
 func main() {
@@ -26,6 +26,6 @@ func main() {
 		return
 	}
 
-	App(cfg.Port)
+	routs.Routs(cfg.Port)
 
 }
