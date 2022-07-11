@@ -27,6 +27,7 @@ func CreateTable() error {
 			fmt.Println("Ошибка создания таблиц:", err)
 			return nil
 		}
+
 	}
 
 	return nil

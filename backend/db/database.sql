@@ -224,224 +224,224 @@ CREATE TABLE Type_Entity (
 -- Reference: Active_Test_Client (table: Active_Test)
 ALTER TABLE Active_Test ADD CONSTRAINT Active_Test_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Answer_Question (table: Answer)
 ALTER TABLE Answer ADD CONSTRAINT Answer_Question
     FOREIGN KEY (Question_Id)
-    REFERENCES Question (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Question (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Client_Group (table: Client)
 ALTER TABLE Client ADD CONSTRAINT Client_Group
     FOREIGN KEY (Group_Id)
-    REFERENCES "Group" (Id)  
-    NOT DEFERRABLE 
+    REFERENCES "Group" (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Client_Level (table: Client)
 ALTER TABLE Client ADD CONSTRAINT Client_Level
     FOREIGN KEY (Level_Id)
-    REFERENCES "Level" (Id)  
-    NOT DEFERRABLE 
+    REFERENCES "Level" (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Client_Organization (table: Client)
 ALTER TABLE Client ADD CONSTRAINT Client_Organization
     FOREIGN KEY (Organization_Id)
-    REFERENCES Organization (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Organization (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Course_results_Client (table: Course_results)
 ALTER TABLE Course_results ADD CONSTRAINT Course_results_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Course_results_Created_Courses (table: Course_results)
 ALTER TABLE Course_results ADD CONSTRAINT Course_results_Created_Courses
     FOREIGN KEY (Course_Id)
-    REFERENCES Course (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Course (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Created_Courses_Client (table: Course)
 ALTER TABLE Course ADD CONSTRAINT Created_Courses_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Created_Courses_Type_Entity (table: Course)
 ALTER TABLE Course ADD CONSTRAINT Created_Courses_Type_Entity
     FOREIGN KEY (Type_Entity_Id)
-    REFERENCES Type_Entity (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Type_Entity (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Dead_Line_Organization (table: Dead_Line)
 ALTER TABLE Dead_Line ADD CONSTRAINT Dead_Line_Organization
     FOREIGN KEY (Organization_Id)
-    REFERENCES Organization (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Organization (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Department_Organization (table: Department)
 ALTER TABLE Department ADD CONSTRAINT Department_Organization
     FOREIGN KEY (Organization_Id)
-    REFERENCES Organization (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Organization (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: File_Client (table: File)
 ALTER TABLE File ADD CONSTRAINT File_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: File_Question (table: File)
 ALTER TABLE File ADD CONSTRAINT File_Question
     FOREIGN KEY (Question_Id)
-    REFERENCES Question (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Question (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: File_Test (table: File)
 ALTER TABLE File ADD CONSTRAINT File_Test
     FOREIGN KEY (Test_Id)
-    REFERENCES Test (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Test (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Group_Department (table: Group)
 ALTER TABLE "Group" ADD CONSTRAINT Group_Department
     FOREIGN KEY (Department_Id)
-    REFERENCES Department (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Department (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Organisation_Organisation_Level (table: Dead_Line)
 ALTER TABLE Dead_Line ADD CONSTRAINT Organisation_Organisation_Level
     FOREIGN KEY (Level_Id)
-    REFERENCES "Level" (Id)  
-    NOT DEFERRABLE 
+    REFERENCES "Level" (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Payment_Client (table: Payment)
 ALTER TABLE Payment ADD CONSTRAINT Payment_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Payment_Level (table: Payment)
 ALTER TABLE Payment ADD CONSTRAINT Payment_Level
     FOREIGN KEY (Level_Id)
-    REFERENCES "Level" (Id)  
-    NOT DEFERRABLE 
+    REFERENCES "Level" (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Question_Question_Type (table: Question)
 ALTER TABLE Question ADD CONSTRAINT Question_Question_Type
     FOREIGN KEY (Question_Type_Id)
-    REFERENCES Question_Type (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Question_Type (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Question_Test (table: Question)
 ALTER TABLE Question ADD CONSTRAINT Question_Test
     FOREIGN KEY (Test_Id)
-    REFERENCES Test (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Test (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Question_Type_Entity (table: Question)
 ALTER TABLE Question ADD CONSTRAINT Question_Type_Entity
     FOREIGN KEY (Type_Entity_Id)
-    REFERENCES Type_Entity (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Type_Entity (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Session_Client (table: Session)
 ALTER TABLE Session ADD CONSTRAINT Session_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Test_Results_Client (table: Test_Results)
 ALTER TABLE Test_Results ADD CONSTRAINT Test_Results_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Test_Results_Course (table: Test_Results)
 ALTER TABLE Test_Results ADD CONSTRAINT Test_Results_Course
     FOREIGN KEY (Course_Id)
-    REFERENCES Course (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Course (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Test_Results_Test (table: Test_Results)
 ALTER TABLE Test_Results ADD CONSTRAINT Test_Results_Test
     FOREIGN KEY (Test_Id)
-    REFERENCES Test (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Test (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Test_Type_Entity (table: Test)
 ALTER TABLE Test ADD CONSTRAINT Test_Type_Entity
     FOREIGN KEY (Type_Entity_Id)
-    REFERENCES Type_Entity (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Type_Entity (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Trash_Client (table: Trash)
 ALTER TABLE Trash ADD CONSTRAINT Trash_Client
     FOREIGN KEY (Client_Id)
-    REFERENCES Client (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Client (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: Trash_Type_Entity (table: Trash)
 ALTER TABLE Trash ADD CONSTRAINT Trash_Type_Entity
     FOREIGN KEY (Type_Entity_Id)
-    REFERENCES Type_Entity (Id)  
-    NOT DEFERRABLE 
+    REFERENCES Type_Entity (Id)
+    NOT DEFERRABLE
     INITIALLY IMMEDIATE
 ;
 
