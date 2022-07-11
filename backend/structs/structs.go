@@ -1,14 +1,17 @@
 package structs
 
-import "time"
+import (
+	"github.com/golang/protobuf/ptypes/timestamp"
+)
 
 type Active_Test struct {
 	Id         int64
-	Start      time.Time
-	End        time.Time
-	Time       time.Time
+	Start      timestamp.Timestamp
+	End        timestamp.Timestamp
+	Time       timestamp.Timestamp
 	Attempts   int8
 	Access_Key string
+	Test_id    int
 	Client_Id  int64
 }
 
@@ -44,18 +47,17 @@ type Client struct {
 }
 
 type Course struct {
-	Id             int64
-	Tittle         string
-	Date           time.Time
-	Date_Del       time.Time
-	Client_Id      int64
-	Type_Entity_Id int
+	Id        int64
+	Tittle    string
+	Date      timestamp.Timestamp
+	Date_Del  timestamp.Timestamp
+	Client_Id int64
 }
 
 type Course_results struct {
 	Id         int64
-	Time       time.Time
-	Date       time.Time
+	Time       timestamp.Timestamp
+	Date       timestamp.Timestamp
 	Assessment string
 	Scores     int8
 	Client_Id  int64
@@ -64,7 +66,7 @@ type Course_results struct {
 
 type Dead_Line struct {
 	Id              int64
-	Date            time.Time
+	Date            timestamp.Timestamp
 	Level_Id        int8
 	Organization_Id int8
 }
@@ -77,8 +79,8 @@ type Department struct {
 
 type File struct {
 	Id            int64
-	Date          time.Time
-	Date_Del      time.Time
+	Date          timestamp.Timestamp
+	Date_Del      timestamp.Timestamp
 	File_Name     string
 	File_Name_Tmp string
 	Test_Id       int8
@@ -119,7 +121,7 @@ type Payment struct {
 	Number    int
 	Name      string
 	Money     int
-	Date      time.Time
+	Date      timestamp.Timestamp
 	Level_Id  int8
 	Client_Id int8
 }
@@ -127,9 +129,8 @@ type Payment struct {
 type Question struct {
 	Id               int64
 	Text             string
-	Date             time.Time
-	Date_Del         time.Time
-	Type_Entity_Id   int
+	Date             timestamp.Timestamp
+	Date_Del         timestamp.Timestamp
 	Test_Id          int64
 	Question_Type_Id int
 }
@@ -147,35 +148,21 @@ type Session struct {
 }
 
 type Test struct {
-	Id             int64
-	Title          string
-	Text           string
-	Date           time.Time
-	Date_Del       time.Time
-	Type_Entity_Id int
+	Id       int64
+	Title    string
+	Text     string
+	Date     timestamp.Timestamp
+	Date_Del timestamp.Timestamp
 }
 
 type Test_Results struct {
 	Id           int64
-	Time         time.Time
-	Date         time.Time
+	Time         timestamp.Timestamp
+	Date         timestamp.Timestamp
 	Client_Id    int64
 	Test_Id      int8
 	Assessment   string
-	Passage_Time time.Time
+	Passage_Time timestamp.Timestamp
 	Scores       int8
 	Course_Id    int8
-}
-
-type Trash struct {
-	Id             int64
-	Client_Id      int64
-	Record_ID      int64
-	Type_Entity_Id int
-	Date_Del       time.Time
-}
-
-type Type_Entity struct {
-	Id   int64
-	Type string
 }
