@@ -1,0 +1,51 @@
+@font-face {
+  font-family: 'Feral';
+  src: url("../../backend/resources/ofont.ru_Acherus Feral.ttf");
+}
+
+body {
+  font-family: Feral;
+  margin: 0px;
+}
+
+main {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: calc(100% - 400px) 400px;
+      grid-template-columns: calc(100% - 400px) 400px;
+}
+
+main .container {
+  background-color: #F7F8FF;
+}
+
+main .container .information {
+  margin: 10% 25% 10% 25%;
+}
+
+main .registration-container .registration {
+  background-color: white;
+  margin: 60px;
+}
+
+main .registration-container .registration .registrationForm {
+  display: -ms-grid;
+  display: grid;
+}
+
+main .registration-container .registration .registrationForm span {
+  margin-top: 15px;
+}
+
+main .registration-container .registration .registrationForm button {
+  margin-top: 20px;
+}
+
+main .registration-container .registration .registrationForm .contract {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 30px auto;
+      grid-template-columns: 30px auto;
+}
+/*# sourceMappingURL=registration.css.map */

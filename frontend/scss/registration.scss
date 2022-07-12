@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'Feral' ;
+    src: url('../../backend/resources/ofont.ru_Acherus\ Feral.ttf');
+}
+
+body{
+    font-family: Feral;
+    margin: 0px;
+}
+
+main{
+    position: relative;
+    display: grid;
+    grid-template-columns: calc(100% - 400px) 400px;
+    .container{
+        background-color: #F7F8FF;
+        .information{
+            margin: 10% 25% 10% 25%;
+        }
+    }
+    .registration-container{
+        .registration{
+            background-color: white;
+            margin: 60px;
+            .registrationForm{
+                display: grid;
+                & span{
+                    margin-top: 15px;
+                }
+                & button{
+                    margin-top: 20px;
+                }
+                .contract{
+                    display: grid;
+                    grid-template-columns: 30px auto;
+                }
+            }
+        }
+    }
+}
+

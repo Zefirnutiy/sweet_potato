@@ -6,6 +6,9 @@ import (
 
 func Routs(port string) {
 	router := gin.Default()
+	router.LoadHTMLGlob("../frontend/templates/*.html")
+	router.Static("/js/", "../frontend/js")
+	router.Static("/css/", "../frontend/css")
 
 	auth := router.Group("/api/auth")
 	{
