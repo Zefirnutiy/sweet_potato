@@ -187,7 +187,6 @@ CREATE TABLE Payment (
 CREATE TABLE Session (
     Id int  NOT NULL,
     Date int  NOT NULL,
-    Token int  NOT NULL,
     Client_Id int8  NOT NULL,
     CONSTRAINT Session_pk PRIMARY KEY (Id)
 );
