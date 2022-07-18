@@ -3,7 +3,7 @@ import {LoginPage} from "./pages/LoginPage"
 import {RegisterPage} from "./pages/RegisterPage"
 
 
-export const useRoutes = isAuthenticted => {
+export const useRoutes: React.FC<boolean> = (isAuthenticted: boolean) => {
 
     if(isAuthenticted){
         return (
