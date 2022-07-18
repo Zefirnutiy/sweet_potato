@@ -1,29 +1,4 @@
 
--- Table: Level
-CREATE TABLE "Level" (
-    Id smallserial  NOT NULL,
-    Title varchar(100)  NOT NULL,
-    Price int  NOT NULL,
-    Paid boolean  default false,
-    CreateCourse boolean  default false,
-    TakeCourse boolean  default false,
-    AploadFile boolean  default false,
-    ViewYourResult boolean  default false,
-    ViewOtherResults boolean  default false,
-    CONSTRAINT Levelpk PRIMARY KEY (Id)
-);
-
--- Table: Organization
-CREATE TABLE "Organization" (
-    Id serial  NOT NULL,
-    Title varchar(50)  NOT NULL,
-    Password varchar(30)  NOT NULL,
-    Email varchar(256)  NULL,
-    EmailNotifications boolean  default false,
-    LevelId smallint  NOT null default 0,
-    CONSTRAINT Organizationpk PRIMARY KEY (Id)
-);
-
 -- Table: Client
 CREATE TABLE "Client" (
     Id serial  NOT NULL,
@@ -35,9 +10,7 @@ CREATE TABLE "Client" (
     Email varchar(256)  NULL,
     Telephone varchar(15)  NULL,
     EmailNotifications boolean  default false,
-    LevelId smallint  NOT NULL,
     GroupId int  NOT NULL,
-    OrganizationId int8  NOT NULL,
     CONSTRAINT Clientpk PRIMARY KEY (Id)
 );
 
@@ -134,20 +107,11 @@ CREATE TABLE "Courseresults" (
     CONSTRAINT Courseresultspk PRIMARY KEY (Id)
 );
 
--- Table: DeadLine
-CREATE TABLE "DeadLine" (
-    Id serial  NOT NULL,
-    Date timestamp  NOT NULL,
-    LevelId smallint  NOT NULL,
-    OrganizationId int8  NOT NULL,
-    CONSTRAINT DeadLinepk PRIMARY KEY (Id)
-);
 
 -- Table: Department
 CREATE TABLE "Department" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
-    OrganizationId int8  NOT NULL,
     CONSTRAINT Departmentpk PRIMARY KEY (Id)
 );
 
@@ -170,17 +134,6 @@ CREATE TABLE "File" (
     QuestionId int  NOT NULL,
     ClientId int8  NOT NULL,
     CONSTRAINT Filepk PRIMARY KEY (Id)
-);
-
--- Table: Payment
-CREATE TABLE "Payment" (
-    Number int  NOT NULL,
-    Name varchar(100)  NOT NULL,
-    Money int  NOT NULL,
-    Date timestamp  NOT NULL,
-    LevelId smallint  NOT NULL,
-    ClientId int8  NOT NULL,
-    CONSTRAINT Paymentpk PRIMARY KEY (Number)
 );
 
 -- Table: Session
@@ -277,22 +230,6 @@ ALTER TABLE "Client" ADD CONSTRAINT ClientGroup
     INITIALLY IMMEDIATE
 ;
 
--- Reference: ClientLevel (table: Client)
-ALTER TABLE "Client" ADD CONSTRAINT ClientLevel
-    FOREIGN KEY (LevelId)
-    REFERENCES "Level" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: ClientOrganization (table: Client)
-ALTER TABLE "Client" ADD CONSTRAINT ClientOrganization
-    FOREIGN KEY (OrganizationId)
-    REFERENCES "Organization" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
 -- Reference: CourseresultsClient (table: Courseresults)
 ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsClient
     FOREIGN KEY (ClientId)
@@ -317,22 +254,6 @@ ALTER TABLE "Course" ADD CONSTRAINT CreatedCoursesClient
     INITIALLY IMMEDIATE
 ;
 
-
--- Reference: DeadLineOrganization (table: DeadLine)
-ALTER TABLE "DeadLine" ADD CONSTRAINT DeadLineOrganization
-    FOREIGN KEY (OrganizationId)
-    REFERENCES "Organization" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: DepartmentOrganization (table: Department)
-ALTER TABLE "Department" ADD CONSTRAINT DepartmentOrganization
-    FOREIGN KEY (OrganizationId)
-    REFERENCES "Organization" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
 
 -- Reference: FileClient (table: File)
 ALTER TABLE "File" ADD CONSTRAINT FileClient
@@ -362,30 +283,6 @@ ALTER TABLE "File" ADD CONSTRAINT FileTest
 ALTER TABLE "Group" ADD CONSTRAINT GroupDepartment
     FOREIGN KEY (DepartmentId)
     REFERENCES "Department" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: OrganisationOrganisationLevel (table: DeadLine)
-ALTER TABLE "DeadLine" ADD CONSTRAINT OrganisationOrganisationLevel
-    FOREIGN KEY (LevelId)
-    REFERENCES "Level" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: PaymentClient (table: Payment)
-ALTER TABLE "Payment" ADD CONSTRAINT PaymentClient
-    FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
--- Reference: PaymentLevel (table: Payment)
-ALTER TABLE "Payment" ADD CONSTRAINT PaymentLevel
-    FOREIGN KEY (LevelId)
-    REFERENCES "Level" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
