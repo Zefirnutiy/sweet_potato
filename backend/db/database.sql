@@ -14,7 +14,7 @@ CREATE TABLE "Level" (
 );
 
 -- Table: Organization
-CREATE TABLE Organization (
+CREATE TABLE "Organization" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
     Password varchar(30)  NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE Organization (
 );
 
 -- Table: Client
-CREATE TABLE Client (
+CREATE TABLE "Client" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE Client (
 );
 
 -- Table: Test
-CREATE TABLE Test (
+CREATE TABLE "Test" (
     Id serial  NOT NULL,
     Title varchar(256)  NOT NULL,
     Text text  NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE Test (
 );
 
 -- Table: Admin
-CREATE TABLE Admin (
+CREATE TABLE "Admin" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE Admin (
 );
 
 -- Table: Question
-CREATE TABLE Question (
+CREATE TABLE "Question" (
     Id serial  NOT NULL,
     Text text  NOT NULL,
     Date timestamp  NOT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE Question (
 );
 
 -- Table: Questionresult
-CREATE TABLE Questionresult (
+CREATE TABLE "Questionresult" (
 	Id serial  NOT NULL,
 	QuestionId int NOT null,
 	ClientId int NOT null,
@@ -84,14 +84,14 @@ CREATE TABLE Questionresult (
 );
 
 -- Table: QuestionType
-CREATE TABLE QuestionType (
+CREATE TABLE "QuestionType" (
     Id serial  NOT NULL,
     Type int  NOT NULL,
     CONSTRAINT QuestionTypepk PRIMARY KEY (Id)
 );
 
 -- Table: Answer
-CREATE TABLE Answer (
+CREATE TABLE "Answer" (
     Id serial  NOT NULL,
     Text text  NOT NULL,
     Correct boolean  default false,
@@ -100,7 +100,7 @@ CREATE TABLE Answer (
 );
 
 -- Table: Course
-CREATE TABLE Course (
+CREATE TABLE "Course" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
     Date timestamp  NOT NULL,
@@ -110,7 +110,7 @@ CREATE TABLE Course (
 );
 
 --Table: Publicinfo
-CREATE TABLE Publicinfo (
+CREATE TABLE "Publicinfo" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
     Text text,
@@ -123,7 +123,7 @@ CREATE TABLE Publicinfo (
 
 
 -- Table: Courseresults
-CREATE TABLE Courseresults (
+CREATE TABLE "Courseresults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
     Date date  NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE Courseresults (
 );
 
 -- Table: DeadLine
-CREATE TABLE DeadLine (
+CREATE TABLE "DeadLine" (
     Id serial  NOT NULL,
     Date timestamp  NOT NULL,
     LevelId smallint  NOT NULL,
@@ -144,7 +144,7 @@ CREATE TABLE DeadLine (
 );
 
 -- Table: Department
-CREATE TABLE Department (
+CREATE TABLE "Department" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
     OrganizationId int8  NOT NULL,
@@ -160,7 +160,7 @@ CREATE TABLE "Group" (
 );
 
 -- Table: File
-CREATE TABLE File (
+CREATE TABLE "File" (
     Id serial  NOT NULL,
     Date timestamp  NOT NULL,
     DateDel timestamp  NULL,
@@ -173,7 +173,7 @@ CREATE TABLE File (
 );
 
 -- Table: Payment
-CREATE TABLE Payment (
+CREATE TABLE "Payment" (
     Number int  NOT NULL,
     Name varchar(100)  NOT NULL,
     Money int  NOT NULL,
@@ -184,7 +184,7 @@ CREATE TABLE Payment (
 );
 
 -- Table: Session
-CREATE TABLE Session (
+CREATE TABLE "Session" (
     Id int  NOT NULL,
     Date int  NOT NULL,
     ClientId int8  NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE Session (
 );
 
 --Table: ActiveTest
-CREATE TABLE ActiveTest (
+CREATE TABLE "ActiveTest" (
     Id serial  NOT NULL,
     Start timestamp  NOT NULL,
     End timestamp  NOT NULL,
@@ -205,7 +205,7 @@ CREATE TABLE ActiveTest (
 );
 
 -- Table: TestResults
-CREATE TABLE TestResults (
+CREATE TABLE "TestResults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
     Date date  NOT NULL,
@@ -221,56 +221,56 @@ CREATE TABLE TestResults (
 
 -- foreign keys
 -- Reference: QuestionresultClient (table: Questionresult)
-ALTER TABLE Questionresult ADD CONSTRAINT QuestionresultClient
+ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: PublicinfoClient (table: Publicinfo)
-alter table Publicinfo add constraint PublicinfoClient
+alter table "Publicinfo" add constraint PublicinfoClient
 	FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: QuestionresultQuestion (table: Questionresult)
-ALTER TABLE Questionresult ADD CONSTRAINT QuestionresultQuestion
+ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultQuestion
     FOREIGN KEY (QuestionId)
-    REFERENCES Question (Id)  
+    REFERENCES "Question" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 
 -- Reference: ActiveTestClient (table: ActiveTest)
-ALTER TABLE ActiveTest ADD CONSTRAINT ActiveTestClient
+ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: ActiveTestTest (table: Test)
-ALTER TABLE ActiveTest ADD CONSTRAINT ActiveTestTest
+ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestTest
     FOREIGN KEY (TestId)
-    REFERENCES Test (Id)  
+    REFERENCES "Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: AnswerQuestion (table: Answer)
-ALTER TABLE Answer ADD CONSTRAINT AnswerQuestion
+ALTER TABLE "Answer" ADD CONSTRAINT AnswerQuestion
     FOREIGN KEY (QuestionId)
-    REFERENCES Question (Id)  
+    REFERENCES "Question" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: ClientGroup (table: Client)
-ALTER TABLE Client ADD CONSTRAINT ClientGroup
+ALTER TABLE "Client" ADD CONSTRAINT ClientGroup
     FOREIGN KEY (GroupId)
     REFERENCES "Group" (Id)  
     NOT DEFERRABLE 
@@ -278,7 +278,7 @@ ALTER TABLE Client ADD CONSTRAINT ClientGroup
 ;
 
 -- Reference: ClientLevel (table: Client)
-ALTER TABLE Client ADD CONSTRAINT ClientLevel
+ALTER TABLE "Client" ADD CONSTRAINT ClientLevel
     FOREIGN KEY (LevelId)
     REFERENCES "Level" (Id)  
     NOT DEFERRABLE 
@@ -286,74 +286,74 @@ ALTER TABLE Client ADD CONSTRAINT ClientLevel
 ;
 
 -- Reference: ClientOrganization (table: Client)
-ALTER TABLE Client ADD CONSTRAINT ClientOrganization
+ALTER TABLE "Client" ADD CONSTRAINT ClientOrganization
     FOREIGN KEY (OrganizationId)
-    REFERENCES Organization (Id)  
+    REFERENCES "Organization" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: CourseresultsClient (table: Courseresults)
-ALTER TABLE Courseresults ADD CONSTRAINT CourseresultsClient
+ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: CourseresultsCreatedCourses (table: Courseresults)
-ALTER TABLE Courseresults ADD CONSTRAINT CourseresultsCreatedCourses
+ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsCreatedCourses
     FOREIGN KEY (CourseId)
-    REFERENCES Course (Id)  
+    REFERENCES "Course" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: CreatedCoursesClient (table: Course)
-ALTER TABLE Course ADD CONSTRAINT CreatedCoursesClient
+ALTER TABLE "Course" ADD CONSTRAINT CreatedCoursesClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 
 -- Reference: DeadLineOrganization (table: DeadLine)
-ALTER TABLE DeadLine ADD CONSTRAINT DeadLineOrganization
+ALTER TABLE "DeadLine" ADD CONSTRAINT DeadLineOrganization
     FOREIGN KEY (OrganizationId)
-    REFERENCES Organization (Id)  
+    REFERENCES "Organization" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: DepartmentOrganization (table: Department)
-ALTER TABLE Department ADD CONSTRAINT DepartmentOrganization
+ALTER TABLE "Department" ADD CONSTRAINT DepartmentOrganization
     FOREIGN KEY (OrganizationId)
-    REFERENCES Organization (Id)  
+    REFERENCES "Organization" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: FileClient (table: File)
-ALTER TABLE File ADD CONSTRAINT FileClient
+ALTER TABLE "File" ADD CONSTRAINT FileClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: FileQuestion (table: File)
-ALTER TABLE File ADD CONSTRAINT FileQuestion
+ALTER TABLE "File" ADD CONSTRAINT FileQuestion
     FOREIGN KEY (QuestionId)
-    REFERENCES Question (Id)  
+    REFERENCES "Question" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: FileTest (table: File)
-ALTER TABLE File ADD CONSTRAINT FileTest
+ALTER TABLE "File" ADD CONSTRAINT FileTest
     FOREIGN KEY (TestId)
-    REFERENCES Test (Id)  
+    REFERENCES "Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
@@ -361,13 +361,13 @@ ALTER TABLE File ADD CONSTRAINT FileTest
 -- Reference: GroupDepartment (table: Group)
 ALTER TABLE "Group" ADD CONSTRAINT GroupDepartment
     FOREIGN KEY (DepartmentId)
-    REFERENCES Department (Id)  
+    REFERENCES "Department" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: OrganisationOrganisationLevel (table: DeadLine)
-ALTER TABLE DeadLine ADD CONSTRAINT OrganisationOrganisationLevel
+ALTER TABLE "DeadLine" ADD CONSTRAINT OrganisationOrganisationLevel
     FOREIGN KEY (LevelId)
     REFERENCES "Level" (Id)  
     NOT DEFERRABLE 
@@ -375,15 +375,15 @@ ALTER TABLE DeadLine ADD CONSTRAINT OrganisationOrganisationLevel
 ;
 
 -- Reference: PaymentClient (table: Payment)
-ALTER TABLE Payment ADD CONSTRAINT PaymentClient
+ALTER TABLE "Payment" ADD CONSTRAINT PaymentClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: PaymentLevel (table: Payment)
-ALTER TABLE Payment ADD CONSTRAINT PaymentLevel
+ALTER TABLE "Payment" ADD CONSTRAINT PaymentLevel
     FOREIGN KEY (LevelId)
     REFERENCES "Level" (Id)  
     NOT DEFERRABLE 
@@ -391,50 +391,50 @@ ALTER TABLE Payment ADD CONSTRAINT PaymentLevel
 ;
 
 -- Reference: QuestionQuestionType (table: Question)
-ALTER TABLE Question ADD CONSTRAINT QuestionQuestionType
+ALTER TABLE "Question" ADD CONSTRAINT QuestionQuestionType
     FOREIGN KEY (QuestionTypeId)
-    REFERENCES QuestionType (Id)  
+    REFERENCES "QuestionType" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: QuestionTest (table: Question)
-ALTER TABLE Question ADD CONSTRAINT QuestionTest
+ALTER TABLE "Question" ADD CONSTRAINT QuestionTest
     FOREIGN KEY (TestId)
-    REFERENCES Test (Id)  
+    REFERENCES "Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 
 -- Reference: SessionClient (table: Session)
-ALTER TABLE Session ADD CONSTRAINT SessionClient
+ALTER TABLE "Session" ADD CONSTRAINT SessionClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: TestResultsClient (table: TestResults)
-ALTER TABLE TestResults ADD CONSTRAINT TestResultsClient
+ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsClient
     FOREIGN KEY (ClientId)
-    REFERENCES Client (Id)  
+    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: TestResultsCourse (table: TestResults)
-ALTER TABLE TestResults ADD CONSTRAINT TestResultsCourse
+ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsCourse
     FOREIGN KEY (CourseId)
-    REFERENCES Course (Id)  
+    REFERENCES "Course" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: TestResultsTest (table: TestResults)
-ALTER TABLE TestResults ADD CONSTRAINT TestResultsTest
+ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsTest
     FOREIGN KEY (TestId)
-    REFERENCES Test (Id)  
+    REFERENCES "Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
