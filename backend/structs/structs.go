@@ -4,21 +4,21 @@ import (
 	"github.com/golang/protobuf/ptypes/timestamp"
 )
 
-type Active_Test struct {
+type ActiveTest struct {
 	Id         int64
 	Start      timestamp.Timestamp
 	End        timestamp.Timestamp
 	Time       timestamp.Timestamp
 	Attempts   int8
-	Access_Key string
-	Test_id    int
-	Client_Id  int64
+	AccessKey  string
+	TestId     int
+	ClientId   int64
 }
 
 type Admin struct {
 	Id         int64
-	Last_Name  string
-	First_Name string
+	LastName   string
+	FirstName  string
 	Login      string
 	Password   string
 	Email      string
@@ -28,70 +28,70 @@ type Answer struct {
 	Id          int64
 	Text        string
 	Correct     bool
-	Question_Id int8
+	QuestionId  int8
 }
 
 type Client struct {
 	Id                  int64
-	First_Name          string
-	Last_Name           string
+	FirstName           string
+	LastName            string
 	Patronymic          string
 	Login               string
 	Password            string
 	Email               string
 	Telephone           string
-	Email_Notifications bool
-	Level_Id            int8
-	Group_Id            int
-	Organization_Id     int8
+	EmailNotifications  bool
+	LevelId             int8
+	GroupId             int
+	OrganizationId      int8
 }
 
 type Course struct {
 	Id        int64
 	Tittle    string
 	Date      timestamp.Timestamp
-	Date_Del  timestamp.Timestamp
-	Client_Id int64
+	DateDel   timestamp.Timestamp
+	ClientId  int64
 }
 
-type Course_results struct {
+type CourseResults struct {
 	Id         int64
 	Time       timestamp.Timestamp
 	Date       timestamp.Timestamp
 	Assessment string
 	Scores     int8
-	Client_Id  int64
-	Course_Id  int64
+	ClientId  int64
+	CourseId  int64
 }
 
-type Dead_Line struct {
+type DeadLine struct {
 	Id              int64
 	Date            timestamp.Timestamp
-	Level_Id        int8
-	Organization_Id int8
+	LevelId         int8
+	OrganizationId  int8
 }
 
 type Department struct {
 	Id              int64
 	Title           string
-	Organization_Id int8
+	OrganizationId  int8
 }
 
 type File struct {
 	Id            int64
 	Date          timestamp.Timestamp
-	Date_Del      timestamp.Timestamp
-	File_Name     string
-	File_Name_Tmp string
-	Test_Id       int8
-	Question_Id   int64
-	Client_Id     int8
+	DateDel       timestamp.Timestamp
+	FileName      string
+	FileNameTmp   string
+	TestId        int8
+	QuestionId    int64
+	ClientId      int8
 }
 
 type Group struct {
 	Id            int64
 	Title         string
-	Department_Id int
+	DepartmentId  int
 }
 
 type Level struct {
@@ -99,11 +99,11 @@ type Level struct {
 	Title              string
 	Price              int
 	Paid               bool
-	Create_Course      bool
-	Take_Course        bool
-	Apload_File        bool
-	View_Your_Result   bool
-	View_Other_Results bool
+	CreateCourse       bool
+	TakeCourse         bool
+	AploadFile         bool
+	ViewYourResult     bool
+	ViewOtherResults   bool
 }
 
 type Organization struct {
@@ -113,8 +113,8 @@ type Organization struct {
 	Password            string
 	Email               string
 	Telephone           string
-	Email_Notifications bool
-	Level_Id            int8
+	EmailNotifications  bool
+	LevelId             int8
 }
 
 type Payment struct {
@@ -122,29 +122,29 @@ type Payment struct {
 	Name      string
 	Money     int
 	Date      timestamp.Timestamp
-	Level_Id  int8
-	Client_Id int8
+	LevelId   int8
+	ClientId  int8
 }
 
 type Question struct {
 	Id               int64
 	Text             string
 	Date             timestamp.Timestamp
-	Date_Del         timestamp.Timestamp
-	Test_Id          int64
-	Question_Type_Id int
+	DateDel          timestamp.Timestamp
+	TestId           int64
+	QuestionTypeId   int
 }
 
-type Question_Type struct {
-	Id   int64
-	Type int
+type QuestionType struct {
+	Id   	int64
+	Type 	int
 }
 
 type Session struct {
 	Id        int64
 	Date      int
 	Token     int
-	Client_Id int8
+	ClientId  int8
 }
 
 type Test struct {
@@ -152,17 +152,27 @@ type Test struct {
 	Title    string
 	Text     string
 	Date     timestamp.Timestamp
-	Date_Del timestamp.Timestamp
+	DateDel  timestamp.Timestamp
 }
 
-type Test_Results struct {
+type TestResults struct {
 	Id           int64
 	Time         timestamp.Timestamp
 	Date         timestamp.Timestamp
-	Client_Id    int64
-	Test_Id      int8
+	ClientId     int64
+	TestId       int8
 	Assessment   string
-	Passage_Time timestamp.Timestamp
+	PassageTime  timestamp.Timestamp
 	Scores       int8
-	Course_Id    int8
+	CourseId     int8
+}
+
+type Publicinfo struct {
+    	Id 		int64
+    	Title 		string
+    	Text 		string
+    	File 		string
+    	Date 		timestamp.Timestamp
+    	DateDel 	timestamp.Timestamp
+    	ClientId 	int8
 }
