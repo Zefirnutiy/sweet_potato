@@ -21,7 +21,7 @@ func CreateTable() error {
 	_, err := Dbpool.Exec("SELECT id from Test")
 
 	if err != nil {
-		_, err = Dbpool.Exec(DbCreate("./db/database.sql"))
+		_, err = Dbpool.Exec(DbCreate("./db/main.sql"))
 
 		if err != nil {
 			fmt.Println("Ошибка создания таблиц:", err)
