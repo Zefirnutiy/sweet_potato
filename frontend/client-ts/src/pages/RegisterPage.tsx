@@ -2,13 +2,13 @@
 import { Link } from "react-router-dom"
 import "../styles/css/registration.css"
 
-export const RegisterPage = () => {
+export const RegisterPage: React.FC = () => {
     return (
         <main>
-            <div class="container">
-                <div class="information">
+            <div className="container">
+                <div className="information">
                 <h1>Добро пожаловать в систему тестирования</h1>
-                <p>
+                <div>
                     При создании тестировочного аккаунта, у вас будут возможности:
                     <ul>
                         <li>
@@ -30,13 +30,13 @@ export const RegisterPage = () => {
                             Проверять тесты
                         </li>
                     </ul>
-                </p>
+                </div>
             </div>
         </div>
-        <div class="registration-container">
-            <div class="registration">
+        <div className="registration-container">
+            <div className="registration">
                 <h3>Регистрация</h3>
-                <form action="#" class="registrationForm">
+                <form action="/" className="registrationForm">
                     <span>Название организации</span>
                     <input type="text"/>
                     <span>Email</span>
@@ -45,13 +45,13 @@ export const RegisterPage = () => {
                     <input type="text"/>
                     <span>Повторите пароль</span>
                     <input type="text"/>
-                    <div class="contract">
+                    <div className="contract">
                         <p><input type="checkbox"/></p>
                         <p>
                         <small>
-                            Отправляя сведения через электронную форму, вы соглашаетесь с условиями <a href="#">Лицензионного договора</a>, 
+                            Отправляя сведения через электронную форму, вы соглашаетесь с условиями <a href="/">Лицензионного договора</a>, 
                             даете согласие на обработку персональных данных, их сбор, хранение и передачу третьим лицам предоставленной вами 
-                            информации на условиях <a href="#">Политики обработки персональных данных</a>.
+                            информации на условиях <a href="/">Политики обработки персональных данных</a>.
                         </small>
                         </p>
                     </div>

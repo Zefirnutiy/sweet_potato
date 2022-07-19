@@ -2,13 +2,13 @@
 import { Link } from "react-router-dom"
 import "../styles/css/login.css"
 
-export const LoginPage = () => {
+export const LoginPage: React.FC = () => {
     return (
         <main>
-        <div class="container">
-            <div class="information">
+        <div className="container">
+            <div className="information">
                 <h1>Добро пожаловать в систему тестирования</h1>
-                <p>
+                <div>
                     При создании тестировочного аккаунта, у вас будут возможности:
                     <ul>
                         <li>
@@ -30,20 +30,20 @@ export const LoginPage = () => {
                             Проверять тесты
                         </li>
                     </ul>
-                </p> 
+                </div> 
             </div>
         </div>
-        <div class="registration-container">
-           <div class="switch">
-                <input type="radio" id="user" name="switch" checked/><label for="user" class="switch-client-radio">Пользователь</label>
-                <input type="radio" id="organization" name="switch"/><label for="organization" class="switch-client-radio">Организация</label>
+        <div className="registration-container">
+           <div className="switch">
+                <input type="radio" id="user" name="switch" readOnly/><label htmlFor="user" className="switch-client-radio">Пользователь</label>
+                <input type="radio" id="organization" name="switch" readOnly/><label htmlFor="organization" className="switch-client-radio">Организация</label>
            </div>
-            <div class="registration">
-                <form action="#" class="registrationForm">
+            <div className="registration">
+                <form action="#" className="registrationForm">
                     <span>Email</span>
-                    <input type="text"/> 
+                    <input type="text" />
                     <span>Пароль</span>
-                    <input type="text"/>
+                    <input type="text" />
                     <button type="submit">Войти</button>
                 </form>
                 <hr/>
