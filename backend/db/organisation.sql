@@ -136,14 +136,6 @@ CREATE TABLE "File" (
     CONSTRAINT Filepk PRIMARY KEY (Id)
 );
 
--- Table: Session
-CREATE TABLE "Session" (
-    Id int  NOT NULL,
-    Date int  NOT NULL,
-    ClientId int8  NOT NULL,
-    CONSTRAINT Sessionpk PRIMARY KEY (Id)
-);
-
 --Table: ActiveTest
 CREATE TABLE "ActiveTest" (
     Id serial  NOT NULL,
@@ -299,15 +291,6 @@ ALTER TABLE "Question" ADD CONSTRAINT QuestionQuestionType
 ALTER TABLE "Question" ADD CONSTRAINT QuestionTest
     FOREIGN KEY (TestId)
     REFERENCES "Test" (Id)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-
--- Reference: SessionClient (table: Session)
-ALTER TABLE "Session" ADD CONSTRAINT SessionClient
-    FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
