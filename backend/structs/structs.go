@@ -140,13 +140,6 @@ type QuestionType struct {
 	Type 	int
 }
 
-type Session struct {
-	Id        int64
-	Date      int
-	Token     int
-	ClientId  int8
-}
-
 type Test struct {
 	Id       int64
 	Title    string
