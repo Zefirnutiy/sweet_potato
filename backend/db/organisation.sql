@@ -48,7 +48,7 @@ CREATE TABLE "Question" (
 );
 
 -- Table: Questionresult
-CREATE TABLE "Questionresult" (
+CREATE TABLE "QuestionResult" (
 	Id serial  NOT NULL,
 	QuestionId int NOT null,
 	ClientId int NOT null,
@@ -83,7 +83,7 @@ CREATE TABLE "Course" (
 );
 
 --Table: Publicinfo
-CREATE TABLE "Publicinfo" (
+CREATE TABLE "PublicInfo" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
     Text text,
@@ -96,7 +96,7 @@ CREATE TABLE "Publicinfo" (
 
 
 -- Table: Courseresults
-CREATE TABLE "Courseresults" (
+CREATE TABLE "CourseResults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
     Date date  NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE "TestResults" (
 
 -- foreign keys
 -- Reference: QuestionresultClient (table: Questionresult)
-ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultClient
+ALTER TABLE "QuestionResult" ADD CONSTRAINT QuestionresultClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
@@ -174,7 +174,7 @@ ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultClient
 ;
 
 -- Reference: PublicinfoClient (table: Publicinfo)
-alter table "Publicinfo" add constraint PublicinfoClient
+alter table "PublicInfo" add constraint PublicinfoClient
 	FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
@@ -182,7 +182,7 @@ alter table "Publicinfo" add constraint PublicinfoClient
 ;
 
 -- Reference: QuestionresultQuestion (table: Questionresult)
-ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultQuestion
+ALTER TABLE "QuestionResult" ADD CONSTRAINT QuestionresultQuestion
     FOREIGN KEY (QuestionId)
     REFERENCES "Question" (Id)  
     NOT DEFERRABLE 
@@ -223,7 +223,7 @@ ALTER TABLE "Client" ADD CONSTRAINT ClientGroup
 ;
 
 -- Reference: CourseresultsClient (table: Courseresults)
-ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsClient
+ALTER TABLE "CourseResults" ADD CONSTRAINT CourseresultsClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
     NOT DEFERRABLE 
@@ -231,7 +231,7 @@ ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsClient
 ;
 
 -- Reference: CourseresultsCreatedCourses (table: Courseresults)
-ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsCreatedCourses
+ALTER TABLE "CourseResults" ADD CONSTRAINT CourseresultsCreatedCourses
     FOREIGN KEY (CourseId)
     REFERENCES "Course" (Id)  
     NOT DEFERRABLE 
