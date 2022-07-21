@@ -16,7 +16,7 @@ CREATE TABLE "Level" (
 CREATE TABLE "Organization" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
-    Password varchar(30)  NOT NULL,
+    Password varchar(60)  NOT NULL,
     Email varchar(256)  NULL,
     EmailNotifications boolean  default false,
     LevelId smallint  NOT null default 0,
