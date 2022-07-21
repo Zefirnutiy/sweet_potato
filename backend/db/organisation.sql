@@ -1,5 +1,3 @@
-
--- Table: Client
 CREATE TABLE "Client" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
@@ -13,7 +11,6 @@ CREATE TABLE "Client" (
     CONSTRAINT Clientpk PRIMARY KEY (Id)
 );
 
--- Table: Test
 CREATE TABLE "Test" (
     Id serial  NOT NULL,
     Title varchar(256)  NOT NULL,
@@ -23,7 +20,6 @@ CREATE TABLE "Test" (
     CONSTRAINT Testpk PRIMARY KEY (Id)
 );
 
--- Table: Admin
 CREATE TABLE "Admin" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
@@ -33,7 +29,6 @@ CREATE TABLE "Admin" (
     CONSTRAINT Adminpk PRIMARY KEY (Id)
 );
 
--- Table: Question
 CREATE TABLE "Question" (
     Id serial  NOT NULL,
     Text text  NOT NULL,
@@ -45,7 +40,6 @@ CREATE TABLE "Question" (
     CONSTRAINT Questionpk PRIMARY KEY (Id)
 );
 
--- Table: Questionresult
 CREATE TABLE "QuestionResult" (
 	Id serial  NOT NULL,
 	QuestionId int NOT null,
@@ -54,14 +48,12 @@ CREATE TABLE "QuestionResult" (
 	CONSTRAINT Questionresultpk PRIMARY KEY (Id)
 );
 
--- Table: QuestionType
 CREATE TABLE "QuestionType" (
     Id serial  NOT NULL,
     Type int  NOT NULL,
     CONSTRAINT QuestionTypepk PRIMARY KEY (Id)
 );
 
--- Table: Answer
 CREATE TABLE "Answer" (
     Id serial  NOT NULL,
     Text text  NOT NULL,
@@ -70,7 +62,6 @@ CREATE TABLE "Answer" (
     CONSTRAINT Answerpk PRIMARY KEY (Id)
 );
 
--- Table: Course
 CREATE TABLE "Course" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
@@ -80,7 +71,6 @@ CREATE TABLE "Course" (
     CONSTRAINT Coursepk PRIMARY KEY (Id)
 );
 
---Table: Publicinfo
 CREATE TABLE "PublicInfo" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
@@ -92,8 +82,6 @@ CREATE TABLE "PublicInfo" (
     CONSTRAINT Publicinfopk PRIMARY KEY (Id)
 );
 
-
--- Table: Courseresults
 CREATE TABLE "CourseResults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
@@ -105,15 +93,12 @@ CREATE TABLE "CourseResults" (
     CONSTRAINT Courseresultspk PRIMARY KEY (Id)
 );
 
-
--- Table: Department
 CREATE TABLE "Department" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
     CONSTRAINT Departmentpk PRIMARY KEY (Id)
 );
 
--- Table: Group
 CREATE TABLE "Group" (
     Id serial  NOT NULL,
     Title varchar(20)  NOT NULL,
@@ -121,7 +106,6 @@ CREATE TABLE "Group" (
     CONSTRAINT Grouppk PRIMARY KEY (Id)
 );
 
--- Table: File
 CREATE TABLE "File" (
     Id serial  NOT NULL,
     Date timestamp  NOT NULL,
@@ -134,7 +118,6 @@ CREATE TABLE "File" (
     CONSTRAINT Filepk PRIMARY KEY (Id)
 );
 
---Table: ActiveTest
 CREATE TABLE "ActiveTest" (
     Id serial  NOT NULL,
     TimeStart timestamp  NOT NULL,
@@ -147,7 +130,6 @@ CREATE TABLE "ActiveTest" (
     CONSTRAINT ActiveTestpk PRIMARY KEY (Id)
 );
 
--- Table: TestResults
 CREATE TABLE "TestResults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
@@ -161,9 +143,6 @@ CREATE TABLE "TestResults" (
     CONSTRAINT TestResultspk PRIMARY KEY (Id)
 );
 
-
--- foreign keys
--- Reference: QuestionresultClient (table: Questionresult)
 ALTER TABLE "QuestionResult" ADD CONSTRAINT QuestionresultClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -171,7 +150,6 @@ ALTER TABLE "QuestionResult" ADD CONSTRAINT QuestionresultClient
     INITIALLY IMMEDIATE
 ;
 
--- Reference: PublicinfoClient (table: Publicinfo)
 alter table "PublicInfo" add constraint PublicinfoClient
 	FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -179,7 +157,6 @@ alter table "PublicInfo" add constraint PublicinfoClient
     INITIALLY IMMEDIATE
 ;
 
--- Reference: QuestionresultQuestion (table: Questionresult)
 ALTER TABLE "QuestionResult" ADD CONSTRAINT QuestionresultQuestion
     FOREIGN KEY (QuestionId)
     REFERENCES "Question" (Id)  
@@ -187,8 +164,6 @@ ALTER TABLE "QuestionResult" ADD CONSTRAINT QuestionresultQuestion
     INITIALLY IMMEDIATE
 ;
 
-
--- Reference: ActiveTestClient (table: ActiveTest)
 ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -196,7 +171,6 @@ ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestClient
     INITIALLY IMMEDIATE
 ;
 
--- Reference: ActiveTestTest (table: Test)
 ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestTest
     FOREIGN KEY (TestId)
     REFERENCES "Test" (Id)  
@@ -204,7 +178,6 @@ ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestTest
     INITIALLY IMMEDIATE
 ;
 
--- Reference: AnswerQuestion (table: Answer)
 ALTER TABLE "Answer" ADD CONSTRAINT AnswerQuestion
     FOREIGN KEY (QuestionId)
     REFERENCES "Question" (Id)  
@@ -212,7 +185,6 @@ ALTER TABLE "Answer" ADD CONSTRAINT AnswerQuestion
     INITIALLY IMMEDIATE
 ;
 
--- Reference: ClientGroup (table: Client)
 ALTER TABLE "Client" ADD CONSTRAINT ClientGroup
     FOREIGN KEY (GroupId)
     REFERENCES "Group" (Id)  
@@ -220,7 +192,6 @@ ALTER TABLE "Client" ADD CONSTRAINT ClientGroup
     INITIALLY IMMEDIATE
 ;
 
--- Reference: CourseresultsClient (table: Courseresults)
 ALTER TABLE "CourseResults" ADD CONSTRAINT CourseresultsClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -228,7 +199,6 @@ ALTER TABLE "CourseResults" ADD CONSTRAINT CourseresultsClient
     INITIALLY IMMEDIATE
 ;
 
--- Reference: CourseresultsCreatedCourses (table: Courseresults)
 ALTER TABLE "CourseResults" ADD CONSTRAINT CourseresultsCreatedCourses
     FOREIGN KEY (CourseId)
     REFERENCES "Course" (Id)  
@@ -236,7 +206,6 @@ ALTER TABLE "CourseResults" ADD CONSTRAINT CourseresultsCreatedCourses
     INITIALLY IMMEDIATE
 ;
 
--- Reference: CreatedCoursesClient (table: Course)
 ALTER TABLE "Course" ADD CONSTRAINT CreatedCoursesClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -244,8 +213,6 @@ ALTER TABLE "Course" ADD CONSTRAINT CreatedCoursesClient
     INITIALLY IMMEDIATE
 ;
 
-
--- Reference: FileClient (table: File)
 ALTER TABLE "File" ADD CONSTRAINT FileClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -253,7 +220,6 @@ ALTER TABLE "File" ADD CONSTRAINT FileClient
     INITIALLY IMMEDIATE
 ;
 
--- Reference: FileQuestion (table: File)
 ALTER TABLE "File" ADD CONSTRAINT FileQuestion
     FOREIGN KEY (QuestionId)
     REFERENCES "Question" (Id)  
@@ -261,7 +227,6 @@ ALTER TABLE "File" ADD CONSTRAINT FileQuestion
     INITIALLY IMMEDIATE
 ;
 
--- Reference: FileTest (table: File)
 ALTER TABLE "File" ADD CONSTRAINT FileTest
     FOREIGN KEY (TestId)
     REFERENCES "Test" (Id)  
@@ -269,7 +234,6 @@ ALTER TABLE "File" ADD CONSTRAINT FileTest
     INITIALLY IMMEDIATE
 ;
 
--- Reference: GroupDepartment (table: Group)
 ALTER TABLE "Group" ADD CONSTRAINT GroupDepartment
     FOREIGN KEY (DepartmentId)
     REFERENCES "Department" (Id)  
@@ -277,7 +241,6 @@ ALTER TABLE "Group" ADD CONSTRAINT GroupDepartment
     INITIALLY IMMEDIATE
 ;
 
--- Reference: QuestionQuestionType (table: Question)
 ALTER TABLE "Question" ADD CONSTRAINT QuestionQuestionType
     FOREIGN KEY (QuestionTypeId)
     REFERENCES "QuestionType" (Id)  
@@ -285,7 +248,6 @@ ALTER TABLE "Question" ADD CONSTRAINT QuestionQuestionType
     INITIALLY IMMEDIATE
 ;
 
--- Reference: QuestionTest (table: Question)
 ALTER TABLE "Question" ADD CONSTRAINT QuestionTest
     FOREIGN KEY (TestId)
     REFERENCES "Test" (Id)  
@@ -293,7 +255,6 @@ ALTER TABLE "Question" ADD CONSTRAINT QuestionTest
     INITIALLY IMMEDIATE
 ;
 
--- Reference: TestResultsClient (table: TestResults)
 ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsClient
     FOREIGN KEY (ClientId)
     REFERENCES "Client" (Id)  
@@ -301,7 +262,6 @@ ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsClient
     INITIALLY IMMEDIATE
 ;
 
--- Reference: TestResultsCourse (table: TestResults)
 ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsCourse
     FOREIGN KEY (CourseId)
     REFERENCES "Course" (Id)  
@@ -309,7 +269,6 @@ ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsCourse
     INITIALLY IMMEDIATE
 ;
 
--- Reference: TestResultsTest (table: TestResults)
 ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsTest
     FOREIGN KEY (TestId)
     REFERENCES "Test" (Id)  
