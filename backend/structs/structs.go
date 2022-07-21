@@ -140,6 +140,13 @@ type QuestionType struct {
 	Type 	int
 }
 
+type QuestionResult struct {
+	Id 		int
+	QuestionId 	int
+	ClientId 	int
+	Scores 		int
+}
+
 type Test struct {
 	Id       int64
 	Title    string
@@ -169,3 +176,4 @@ type Publicinfo struct {
     	DateDel 	timestamp.Timestamp
     	ClientId 	int8
 }
+
