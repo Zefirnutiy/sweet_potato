@@ -5,7 +5,6 @@ CREATE TABLE "Client" (
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
     Patronymic varchar(30)  NOT NULL,
-    Login varchar(30)  NOT NULL,
     Password varchar(60)  NOT NULL,
     Email varchar(256)  NOT NULL,
     Telephone varchar(15)  NULL,
