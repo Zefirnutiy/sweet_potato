@@ -2,8 +2,11 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/Zefirnutiy/sweet_potato.git/controllers"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
+
 	_ "github.com/lib/pq"
 )
 
@@ -20,12 +23,12 @@ func init() {
 
 func main() {
 	err := db.CreateTable()
-
 	if err != nil {
 		fmt.Println(err.Error())
 		return
 	}
 
+	controllers.GetRequestGenerate("Client", "*#Id", "#FirstName", "#LastName", "#GroupId")
 	routes.Routs(cfg.Port)
 
 }

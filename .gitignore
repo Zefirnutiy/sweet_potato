@@ -1,2 +1,4 @@
 .idea
 ./client-ts/node_modules
+.vscode
+./backend/logs

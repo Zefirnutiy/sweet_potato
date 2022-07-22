@@ -1,4 +1,3 @@
--- Table: Level
 CREATE TABLE "Level" (
     Id smallserial  NOT NULL,
     Title varchar(100)  NOT NULL,
@@ -12,18 +11,16 @@ CREATE TABLE "Level" (
     CONSTRAINT Levelpk PRIMARY KEY (Id)
 );
 
--- Table: Organization
 CREATE TABLE "Organization" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
-    Password varchar(30)  NOT NULL,
+    Password varchar(60)  NOT NULL,
     Email varchar(256)  NULL,
     EmailNotifications boolean  default false,
     LevelId smallint  NOT null default 0,
     CONSTRAINT Organizationpk PRIMARY KEY (Id)
 );
 
--- Table: DeadLine
 CREATE TABLE "DeadLine" (
     Id serial  NOT NULL,
     Date timestamp  NOT NULL,
@@ -32,7 +29,6 @@ CREATE TABLE "DeadLine" (
     CONSTRAINT DeadLinepk PRIMARY KEY (Id)
 );
 
--- Table: Payment
 CREATE TABLE "Payment" (
     Number int  NOT NULL,
     Name varchar(100)  NOT NULL,
@@ -44,7 +40,6 @@ CREATE TABLE "Payment" (
 );
 
 
--- Reference: OrganisationOrganisationLevel (table: DeadLine)
 ALTER TABLE "DeadLine" ADD CONSTRAINT OrganisationOrganisationLevel
     FOREIGN KEY (LevelId)
     REFERENCES "Level" (Id)  
@@ -52,7 +47,6 @@ ALTER TABLE "DeadLine" ADD CONSTRAINT OrganisationOrganisationLevel
     INITIALLY IMMEDIATE
 ;
 
--- Reference: PaymentClient (table: Payment)
 ALTER TABLE "Payment" ADD CONSTRAINT PaymentOrganization
     FOREIGN KEY (OrganizationId)
     REFERENCES "Organization" (Id)  
@@ -60,7 +54,7 @@ ALTER TABLE "Payment" ADD CONSTRAINT PaymentOrganization
     INITIALLY IMMEDIATE
 ;
 
--- Reference: PaymentLevel (table: Payment)
+
 ALTER TABLE "Payment" ADD CONSTRAINT PaymentLevel
     FOREIGN KEY (LevelId)
     REFERENCES "Level" (Id)  
@@ -68,7 +62,6 @@ ALTER TABLE "Payment" ADD CONSTRAINT PaymentLevel
     INITIALLY IMMEDIATE
 ;
 
--- Reference: DeadLineOrganization (table: DeadLine)
 ALTER TABLE "DeadLine" ADD CONSTRAINT DeadLineOrganization
     FOREIGN KEY (OrganizationId)
     REFERENCES "Organization" (Id)  

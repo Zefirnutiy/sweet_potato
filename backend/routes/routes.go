@@ -14,6 +14,12 @@ func Routs(port string) {
 		auth.POST("/login", controllers.Login)
 	}
 
+	client := router.Group("/api/client")
+	{
+		client.POST("/register", controllers.Register)
+		client.POST("/login", controllers.Login)
+	}
+
 	router.Run(port)
 
 }

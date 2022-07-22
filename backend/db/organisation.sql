@@ -5,22 +5,21 @@ CREATE TABLE "KTK"."Client" (
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
     Patronymic varchar(30)  NOT NULL,
-    Login varchar(30)  NOT NULL,
-    Password varchar(30)  NOT NULL,
-    Email varchar(256)  NULL,
+    Password varchar(60)  NOT NULL,
+    Email varchar(256)  NOT NULL,
     Telephone varchar(15)  NULL,
     EmailNotifications boolean  default false,
-    GroupId int  NOT NULL,
+    GroupId int  NULL,
     CONSTRAINT Clientpk PRIMARY KEY (Id)
 );
 
 -- Table: Test
-CREATE TABLE {aaaaa}."Test" (
+CREATE TABLE "KTK"."Test" (
     Id serial  NOT NULL,
     Title varchar(256)  NOT NULL,
     Text text  NOT NULL,
     Date timestamp  NOT NULL,
-    DateDel timestamp  NOT NULL,
+    DateDel timestamp  NULL,
     CONSTRAINT Testpk PRIMARY KEY (Id)
 );
 
@@ -29,8 +28,7 @@ CREATE TABLE "KTK"."Admin" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
-    Login varchar(30)  NOT NULL,
-    Password varchar(30)  NOT NULL,
+    Password varchar(60)  NOT NULL,
     Email varchar(256)  NULL,
     CONSTRAINT Adminpk PRIMARY KEY (Id)
 );
@@ -52,7 +50,7 @@ CREATE TABLE "KTK"."Questionresult" (
 	Id serial  NOT NULL,
 	QuestionId int NOT null,
 	ClientId int NOT null,
-	Scores int not null,
+	Scores int NOT null,
 	CONSTRAINT Questionresultpk PRIMARY KEY (Id)
 );
 
