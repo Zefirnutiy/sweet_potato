@@ -54,7 +54,7 @@ ALTER TABLE "DeadLine" ADD CONSTRAINT OrganisationOrganisationLevel
 
 -- Reference: PaymentClient (table: Payment)
 ALTER TABLE "Payment" ADD CONSTRAINT PaymentOrganization
-    FOREIGN KEY (ClientId)
+    FOREIGN KEY (OrganizationId)
     REFERENCES "Organization" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE

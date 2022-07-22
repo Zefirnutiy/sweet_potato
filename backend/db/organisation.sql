@@ -1,6 +1,6 @@
 
 -- Table: Client
-CREATE TABLE "Client" (
+CREATE TABLE "KTK"."Client" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
@@ -15,7 +15,7 @@ CREATE TABLE "Client" (
 );
 
 -- Table: Test
-CREATE TABLE "Test" (
+CREATE TABLE {aaaaa}."Test" (
     Id serial  NOT NULL,
     Title varchar(256)  NOT NULL,
     Text text  NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE "Test" (
 );
 
 -- Table: Admin
-CREATE TABLE "Admin" (
+CREATE TABLE "KTK"."Admin" (
     Id serial  NOT NULL,
     FirstName varchar(20)  NOT NULL,
     LastName varchar(30)  NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE "Admin" (
 );
 
 -- Table: Question
-CREATE TABLE "Question" (
+CREATE TABLE "KTK"."Question" (
     Id serial  NOT NULL,
     Text text  NOT NULL,
     Date timestamp  NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE "Question" (
 );
 
 -- Table: Questionresult
-CREATE TABLE "Questionresult" (
+CREATE TABLE "KTK"."Questionresult" (
 	Id serial  NOT NULL,
 	QuestionId int NOT null,
 	ClientId int NOT null,
@@ -57,14 +57,14 @@ CREATE TABLE "Questionresult" (
 );
 
 -- Table: QuestionType
-CREATE TABLE "QuestionType" (
+CREATE TABLE "KTK"."QuestionType" (
     Id serial  NOT NULL,
     Type int  NOT NULL,
     CONSTRAINT QuestionTypepk PRIMARY KEY (Id)
 );
 
 -- Table: Answer
-CREATE TABLE "Answer" (
+CREATE TABLE "KTK"."Answer" (
     Id serial  NOT NULL,
     Text text  NOT NULL,
     Correct boolean  default false,
@@ -73,7 +73,7 @@ CREATE TABLE "Answer" (
 );
 
 -- Table: Course
-CREATE TABLE "Course" (
+CREATE TABLE "KTK"."Course" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
     Date timestamp  NOT NULL,
@@ -83,7 +83,7 @@ CREATE TABLE "Course" (
 );
 
 --Table: Publicinfo
-CREATE TABLE "Publicinfo" (
+CREATE TABLE "KTK"."Publicinfo" (
     Id serial  NOT NULL,
     Title varchar(30)  NOT NULL,
     Text text,
@@ -96,7 +96,7 @@ CREATE TABLE "Publicinfo" (
 
 
 -- Table: Courseresults
-CREATE TABLE "Courseresults" (
+CREATE TABLE "KTK"."Courseresults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
     Date date  NOT NULL,
@@ -109,14 +109,14 @@ CREATE TABLE "Courseresults" (
 
 
 -- Table: Department
-CREATE TABLE "Department" (
+CREATE TABLE "KTK"."Department" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
     CONSTRAINT Departmentpk PRIMARY KEY (Id)
 );
 
 -- Table: Group
-CREATE TABLE "Group" (
+CREATE TABLE "KTK"."Group" (
     Id serial  NOT NULL,
     Title varchar(20)  NOT NULL,
     DepartmentId int  NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE "Group" (
 );
 
 -- Table: File
-CREATE TABLE "File" (
+CREATE TABLE "KTK"."File" (
     Id serial  NOT NULL,
     Date timestamp  NOT NULL,
     DateDel timestamp  NULL,
@@ -137,10 +137,10 @@ CREATE TABLE "File" (
 );
 
 --Table: ActiveTest
-CREATE TABLE "ActiveTest" (
+CREATE TABLE "KTK"."ActiveTest" (
     Id serial  NOT NULL,
     Start timestamp  NOT NULL,
-    End timestamp  NOT NULL,
+    "End" timestamp  NOT NULL,
     Time timestamp  NOT NULL,
     Attempts smallint  NOT NULL,
     TestId int  NOT NULL,
@@ -150,7 +150,7 @@ CREATE TABLE "ActiveTest" (
 );
 
 -- Table: TestResults
-CREATE TABLE "TestResults" (
+CREATE TABLE "KTK"."TestResults" (
     Id serial  NOT NULL,
     Time time  NOT NULL,
     Date date  NOT NULL,
@@ -166,155 +166,155 @@ CREATE TABLE "TestResults" (
 
 -- foreign keys
 -- Reference: QuestionresultClient (table: Questionresult)
-ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultClient
+ALTER TABLE "KTK"."Questionresult" ADD CONSTRAINT QuestionresultClient
     FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: PublicinfoClient (table: Publicinfo)
-alter table "Publicinfo" add constraint PublicinfoClient
+alter table "KTK"."Publicinfo" add constraint PublicinfoClient
 	FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: QuestionresultQuestion (table: Questionresult)
-ALTER TABLE "Questionresult" ADD CONSTRAINT QuestionresultQuestion
+ALTER TABLE "KTK"."Questionresult" ADD CONSTRAINT QuestionresultQuestion
     FOREIGN KEY (QuestionId)
-    REFERENCES "Question" (Id)  
+    REFERENCES "KTK"."Question" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 
 -- Reference: ActiveTestClient (table: ActiveTest)
-ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestClient
+ALTER TABLE "KTK"."ActiveTest" ADD CONSTRAINT ActiveTestClient
     FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: ActiveTestTest (table: Test)
-ALTER TABLE "ActiveTest" ADD CONSTRAINT ActiveTestTest
+ALTER TABLE "KTK"."ActiveTest" ADD CONSTRAINT ActiveTestTest
     FOREIGN KEY (TestId)
-    REFERENCES "Test" (Id)  
+    REFERENCES "KTK"."Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: AnswerQuestion (table: Answer)
-ALTER TABLE "Answer" ADD CONSTRAINT AnswerQuestion
+ALTER TABLE "KTK"."Answer" ADD CONSTRAINT AnswerQuestion
     FOREIGN KEY (QuestionId)
-    REFERENCES "Question" (Id)  
+    REFERENCES "KTK"."Question" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: ClientGroup (table: Client)
-ALTER TABLE "Client" ADD CONSTRAINT ClientGroup
+ALTER TABLE "KTK"."Client" ADD CONSTRAINT ClientGroup
     FOREIGN KEY (GroupId)
-    REFERENCES "Group" (Id)  
+    REFERENCES "KTK"."Group" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: CourseresultsClient (table: Courseresults)
-ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsClient
+ALTER TABLE "KTK"."Courseresults" ADD CONSTRAINT CourseresultsClient
     FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: CourseresultsCreatedCourses (table: Courseresults)
-ALTER TABLE "Courseresults" ADD CONSTRAINT CourseresultsCreatedCourses
+ALTER TABLE "KTK"."Courseresults" ADD CONSTRAINT CourseresultsCreatedCourses
     FOREIGN KEY (CourseId)
-    REFERENCES "Course" (Id)  
+    REFERENCES "KTK"."Course" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: CreatedCoursesClient (table: Course)
-ALTER TABLE "Course" ADD CONSTRAINT CreatedCoursesClient
+ALTER TABLE "KTK"."Course" ADD CONSTRAINT CreatedCoursesClient
     FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 
 -- Reference: FileClient (table: File)
-ALTER TABLE "File" ADD CONSTRAINT FileClient
+ALTER TABLE "KTK"."File" ADD CONSTRAINT FileClient
     FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: FileQuestion (table: File)
-ALTER TABLE "File" ADD CONSTRAINT FileQuestion
+ALTER TABLE "KTK"."File" ADD CONSTRAINT FileQuestion
     FOREIGN KEY (QuestionId)
-    REFERENCES "Question" (Id)  
+    REFERENCES "KTK"."Question" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: FileTest (table: File)
-ALTER TABLE "File" ADD CONSTRAINT FileTest
+ALTER TABLE "KTK"."File" ADD CONSTRAINT FileTest
     FOREIGN KEY (TestId)
-    REFERENCES "Test" (Id)  
+    REFERENCES "KTK"."Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: GroupDepartment (table: Group)
-ALTER TABLE "Group" ADD CONSTRAINT GroupDepartment
+ALTER TABLE "KTK"."Group" ADD CONSTRAINT GroupDepartment
     FOREIGN KEY (DepartmentId)
-    REFERENCES "Department" (Id)  
+    REFERENCES "KTK"."Department" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: QuestionQuestionType (table: Question)
-ALTER TABLE "Question" ADD CONSTRAINT QuestionQuestionType
+ALTER TABLE "KTK"."Question" ADD CONSTRAINT QuestionQuestionType
     FOREIGN KEY (QuestionTypeId)
-    REFERENCES "QuestionType" (Id)  
+    REFERENCES "KTK"."QuestionType" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: QuestionTest (table: Question)
-ALTER TABLE "Question" ADD CONSTRAINT QuestionTest
+ALTER TABLE "KTK"."Question" ADD CONSTRAINT QuestionTest
     FOREIGN KEY (TestId)
-    REFERENCES "Test" (Id)  
+    REFERENCES "KTK"."Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: TestResultsClient (table: TestResults)
-ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsClient
+ALTER TABLE "KTK"."TestResults" ADD CONSTRAINT TestResultsClient
     FOREIGN KEY (ClientId)
-    REFERENCES "Client" (Id)  
+    REFERENCES "KTK"."Client" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: TestResultsCourse (table: TestResults)
-ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsCourse
+ALTER TABLE "KTK"."TestResults" ADD CONSTRAINT TestResultsCourse
     FOREIGN KEY (CourseId)
-    REFERENCES "Course" (Id)  
+    REFERENCES "KTK"."Course" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
 
 -- Reference: TestResultsTest (table: TestResults)
-ALTER TABLE "TestResults" ADD CONSTRAINT TestResultsTest
+ALTER TABLE "KTK"."TestResults" ADD CONSTRAINT TestResultsTest
     FOREIGN KEY (TestId)
-    REFERENCES "Test" (Id)  
+    REFERENCES "KTK"."Test" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
