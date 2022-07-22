@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Zefirnutiy/sweet_potato.git/controllers"
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
 
@@ -28,7 +28,7 @@ func main() {
 		return
 	}
 
-	controllers.GetRequestGenerate("Client", "*#Id", "#FirstName", "#LastName", "#GroupId")
+	utils.GetRequestGenerate("DeadLine", "*#Id", "#Date", "#LevelId", "#OrganizationId")
 	routes.Routs(cfg.Port)
 
 }

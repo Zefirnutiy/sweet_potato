@@ -1,11 +1,11 @@
-package controllers
+package utils
 
 import (
 	"fmt"
 	"os"
 	"strings"
 
-	"github.com/Zefirnutiy/sweet_potato.git/utils"
+	// "github.com/Zefirnutiy/sweet_potato.git/utils"
 )
 
 // создание переменных в scan
@@ -24,7 +24,7 @@ func createPostFields(postFieldsMassive []string) string{
 	text := ""
 
 	for _, field := range postFieldsMassive {
-		text += fmt.Sprintf("%[1]s := c.PostForm(\"%[1]s\") \n		", field )
+		text += fmt.Sprintf("%[1]s := c.PostForm(\"%[1]s\") \n	", field )
 	}
 
 	return text
@@ -83,12 +83,9 @@ func generateString(postFieldsMassive []string) string {
 
 func CreatePatchRequest(title string, postFieldsMassive []string) string{
 
-	_, _, third := generateVariables(postFieldsMassive)
-
 	text := fmt.Sprintf(`
-func Update%[1]s(c *gin.Context) error {
+func Update%[1]s(c *gin.Context){
 	var %[2]s structs.%[1]s
-	%[5]s
 	
 	if err := c.ShouldBindJSON(&%[2]s); err != nil {
 		c.String(http.StatusBadGateway, err.Error())
@@ -97,14 +94,14 @@ func Update%[1]s(c *gin.Context) error {
 	_, err := db.Dbpool.Query("UPDATE Student SET %[3]s, WHERE id=$1", %[4]s )
 	if err != nil {
 		utils.Logger.Println(err)
+		return
 	}
 	
 	c.JSON(http.StatusOK, gin.H{
-		"org": %[2]s,
+		"message": %[2]s,
 	})
-	return nil
 }
-	`, title, strings.ToLower(title), generateString(postFieldsMassive), third, createPostFields(postFieldsMassive))
+	`, title, strings.ToLower(title), generateString(postFieldsMassive), scanVariables(strings.ToLower(title), postFieldsMassive))
 
 	return text
 }
@@ -115,17 +112,16 @@ func PostRequestGenerate(title string, postFieldsMassive []string) string {
 
 	first, second, third := generateVariables(postFieldsMassive)
 	text := fmt.Sprintf(`
-func Create%[4]s(c *gin.Context) error {
+func Create%[4]s(c *gin.Context){
 	%[5]s
 	_, err := db.Dbpool.Query("INSERT INTO \"%[4]s\"( %[1]s ) VALUES( %[2]s )", %[3]s)
 	if err != nil{
 		utils.Logger.Println(err)
-		return err
+		return
 	}
 	c.JSON(200, gin.H{
-		"message": "",
+		"message": "all good",
 	})
-	return nil
 }	
 	`, first, second, third, title, createPostFields(postFieldsMassive))
 
@@ -137,25 +133,26 @@ func GetByRequestGenerate(title string, getByMassive, cleanMassive []string) str
 	text := ""
 	for _, name := range getByMassive {
 		text += fmt.Sprintf(`
-func Get%[1]sBy%[3]s(c *gin.Context) error {
+func Get%[1]sBy%[3]s(c *gin.Context){
 	%[3]s := c.Param("%[3]s")
 	rows, err := db.Dbpool.Query("SELECT * FROM \"%[1]s\" WHERE %[3]s=$1", %[3]s) 
 	if err != nil{
 		utils.Logger.Println(err)
-		return err
+		return
 	}
 	var %[2]s structs.%[1]s
+
 	for rows.Next(){
 		err = rows.Scan(%[2]s)
 		if err != nil{
 			utils.Logger.Println(err)
-			return err
+			return
 		}
 	}
 	c.JSON(200, gin.H{
 		"%[1]s": %[2]s,
 	})
-	return nil
+
 }
 		`, title, strings.ToLower(title), name, scanVariables(title, cleanMassive))
 	}
@@ -190,41 +187,43 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 )
-func Get%[1]s(c *gin.Context) error {
+func Get%[1]s(c *gin.Context){
+
 	rows, err := db.Dbpool.Query("SELECT * FROM \"%[1]s\"") 
 	if err != nil{
 		utils.Logger.Println(err)
-		return err
+		return
 	}
+
 	var %[2]s_list []structs.%[1]s
 	var %[2]s structs.%[1]s
+
 	for rows.Next(){
 		err = rows.Scan(%[2]s)
 		%[2]s_list = append(%[2]s_list, %[2]s)
 		if err != nil{
 			utils.Logger.Println(err)
-			return err
+			return
 		}
 	}
 	c.JSON(200, gin.H{
 		"%[2]s's": %[2]s_list,
 	})
-	return nil
+
 }
 %[4]s
 %[5]s
 %[6]s
-func Delete%[1]s(c *gin.Context) error{
+func Delete%[1]s(c *gin.Context){
 	id := c.Param("id")
 	_, err := db.Dbpool.Query("DELETE FROM \"%[1]s\" WHERE id=$1", id)
 	if err != nil{
 		utils.Logger.Println(err)
-		return err
+		return
 	}
 	c.JSON(200, gin.H{
-		"message": "",
+		"message": "all good",
 	})
-	return nil
 }
 	
 	`, title,
@@ -237,7 +236,7 @@ func Delete%[1]s(c *gin.Context) error{
 
 	file, err := os.Create(fmt.Sprintf(`./controllers/%[1]s.controllers.go`, title))
 	if err != nil {
-		utils.Logger.Println(err)
+		Logger.Println(err)
 		return err
 	}
 	fmt.Fprint(file, text)

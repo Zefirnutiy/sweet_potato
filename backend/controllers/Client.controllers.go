@@ -72,9 +72,9 @@ func CreateClient(c *gin.Context) error {
 func UpdateClient(c *gin.Context) error {
 	var client structs.Client
 	Id := c.PostForm("Id") 
-		FirstName := c.PostForm("FirstName") 
-		LastName := c.PostForm("LastName") 
-		GroupId := c.PostForm("GroupId") 
+	FirstName := c.PostForm("FirstName") 
+	LastName := c.PostForm("LastName") 
+	GroupId := c.PostForm("GroupId") 
 		
 	
 	if err := c.ShouldBindJSON(&client); err != nil {
