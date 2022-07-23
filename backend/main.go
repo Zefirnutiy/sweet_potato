@@ -12,8 +12,7 @@ var cfg = db.Load("./settings.cfg")
 func init() {
 	err := db.Connect(*cfg)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		panic(err)
 	}
 
 }
@@ -25,7 +24,6 @@ func main() {
 		fmt.Println(err.Error())
 		return
 	}
-
 	routes.Routs(cfg.Port)
 
 }

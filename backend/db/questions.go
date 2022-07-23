@@ -1,13 +1,27 @@
 package db
 
-import "github.com/golang/protobuf/ptypes/timestamp"
+import (
+	"database/sql"
+)
 
-func QuestionRegister(title, password, email string, email_notification bool) {
+func QuestionRegister(title, password, email string, emailnotifications bool) (sql.Result, error) {
 
-	Dbpool.Exec(`INSERT INTO public."Service" (title, password, email, email_notification) VALUES ($1, $2, $3, $4);`, title, password, email, email_notification)
+	result, err := Dbpool.Exec(`INSERT INTO main."Organization" (title, password, email, emailnotifications) VALUES ($1, $2, $3, $4);`, title, password, email, emailnotifications)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }
 
-func QuestionSession(title, date timestamp.Timestamp, password, email string, email_notification bool) {
+func SelectOrganization(email string) bool {
 
-	Dbpool.Exec(`INSERT INTO public."Service" (title, password, email, email_notification) VALUES ($1, $2, $3, $4);`, password, email, email_notification)
+	err := Dbpool.QueryRow(`SELECT * FROM main."Organization" WHERE email IN ($1)`, email).Scan()
+
+	if err != nil && err == sql.ErrNoRows {
+		return false
+	}
+
+	return true
 }

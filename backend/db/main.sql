@@ -16,8 +16,8 @@ CREATE TABLE "Level" (
 CREATE TABLE "Organization" (
     Id serial  NOT NULL,
     Title varchar(50)  NOT NULL,
-    Password varchar(30)  NOT NULL,
-    Email varchar(256)  NULL,
+    Password varchar(60)  NOT NULL,
+    Email varchar(256)  NOT NULL,
     EmailNotifications boolean  default false,
     LevelId smallint  NOT null default 0,
     CONSTRAINT Organizationpk PRIMARY KEY (Id)
@@ -54,7 +54,7 @@ ALTER TABLE "DeadLine" ADD CONSTRAINT OrganisationOrganisationLevel
 
 -- Reference: PaymentClient (table: Payment)
 ALTER TABLE "Payment" ADD CONSTRAINT PaymentOrganization
-    FOREIGN KEY (ClientId)
+    FOREIGN KEY (OrganizationId)
     REFERENCES "Organization" (Id)  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
