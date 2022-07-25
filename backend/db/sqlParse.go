@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func DbCreate(path string) string {
+func DbCreate(path, schemaName string) string {
 	file, err := os.Open(path)
 	if err != nil {
 		fmt.Println(err)
@@ -15,14 +15,19 @@ func DbCreate(path string) string {
 	defer file.Close()
 
 	data := make([]byte, 64)
-	data_string := ""
+	dataString := ""
 	for {
 		n, err := file.Read(data)
 		if err == io.EOF { // если конец файла
 			break // выходим из цикла
 		}
-		data_string += (string(data[:n]))
+		dataString += (string(data[:n]))
 	}
-	return data_string
+
+	text := fmt.Sprintf(`set schema '%[1]s';
+
+%[2]s`, schemaName, dataString)
+
+	return text
 
 }

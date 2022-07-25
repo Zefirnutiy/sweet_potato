@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/Zefirnutiy/sweet_potato.git/utils"
+	// "github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
 
@@ -22,13 +22,21 @@ func init() {
 }
 
 func main() {
-	err := db.CreateTable()
-	if err != nil {
-		fmt.Println(err.Error())
-		return
-	}
+	
+	// err := db.CreateTable("./db/main.sql", "Main")
 
-	utils.GetRequestGenerate("DeadLine", "*#Id", "#Date", "#LevelId", "#OrganizationId")
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return
+	// }
+	// err = db.CreateTable("./db/organisation.sql", "KTK")
+	
+	// if err != nil {
+	// 	fmt.Println(err.Error())
+	// 	return
+	// }
+
+	// utils.GetRequestGenerate("DeadLine", "*#Id", "#Date", "#LevelId", "#OrganizationId")
 	routes.Routs(cfg.Port)
 
 }
