@@ -32,6 +32,10 @@ git clone https://github.com/Zefirnutiy/sweet_potato.git -b develop
     }
 }
 ```
+Зайдите через консоль в папку с react по пути **.\frontend\client-ts** и выполните команду для докачки node_modules.
+```
+npm i
+```
 ____
 # Запуск локального сервера
 Наш проект работает на 2-х серверах. На go и react, так что придётся запускать их оба для полноценной работы сайта. <br>
@@ -39,7 +43,7 @@ ____
 ``` 
 go run main.go 
 ```
-**Сервер react -** Зайдите через консоль в папку с react по пути **.\frontend\client-ts** и выполните команду
+**Сервер react -** Зайдите через консоль в папку с react по пути **.\frontend\client-ts** и выполните команду.
 ```
 npm run start
 ```
