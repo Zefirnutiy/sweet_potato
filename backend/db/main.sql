@@ -21,6 +21,15 @@ CREATE TABLE "Level" (
 );
 
 CREATE TABLE "Organization" (
+<<<<<<< HEAD
+    Id serial  NOT NULL,
+    Title varchar(50)  NOT NULL,
+    Password varchar(60)  NOT NULL,
+    Email varchar(256)  NOT NULL,
+    EmailNotifications boolean  default false,
+    LevelId smallint  NOT null default 0,
+    CONSTRAINT Organizationpk PRIMARY KEY (Id)
+=======
     "Id" serial  NOT NULL,
     "Title" varchar(50)  NOT NULL,
     "Password" varchar(60)  NOT NULL,
@@ -28,6 +37,7 @@ CREATE TABLE "Organization" (
     "EmailNotifications" boolean  default false,
     "LevelId" smallint  NOT null default 0,
     CONSTRAINT "OrganizationPk" PRIMARY KEY ("Id")
+>>>>>>> 495706b989217b6557a78f9451b7f69b60a1096c
 );
 
 CREATE TABLE "DeadLine" (
@@ -55,9 +65,16 @@ ALTER TABLE "DeadLine" ADD CONSTRAINT "OrganisationOrganisationLevel"
     INITIALLY IMMEDIATE
 ;
 
+<<<<<<< HEAD
+-- Reference: PaymentClient (table: Payment)
+ALTER TABLE "Payment" ADD CONSTRAINT PaymentOrganization
+    FOREIGN KEY (OrganizationId)
+    REFERENCES "Organization" (Id)  
+=======
 ALTER TABLE "Payment" ADD CONSTRAINT "PaymentOrganization"
     FOREIGN KEY ("OrganizationId")
     REFERENCES "Organization" ("Id")  
+>>>>>>> 495706b989217b6557a78f9451b7f69b60a1096c
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
