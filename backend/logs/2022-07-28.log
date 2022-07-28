@@ -1,0 +1,17 @@
+2022/07/28 22:25:49 Client.controllers.go:268: pq: ошибка синтаксиса (примерное положение: ""EmailNotifications"")
+2022/07/28 22:27:16 Client.controllers.go:268: pq: ошибка синтаксиса (примерное положение: ""EmailNotifications"")
+2022/07/28 22:28:05 Client.controllers.go:268: pq: ошибка синтаксиса (примерное положение: ""EmailNotifications"")
+2022/07/28 22:28:54 Client.controllers.go:268: pq: столбец "Egor" не существует
+2022/07/28 22:34:25 Client.controllers.go:269: pq: столбец "Egor" не существует
+2022/07/28 22:35:13 Client.controllers.go:269: pq: столбец "egor" не существует
+2022/07/28 22:35:55 Client.controllers.go:269: pq: столбец "ghgh" не существует
+2022/07/28 22:48:48 Client.controllers.go:259: pq: отношение "bebra.client" не существует
+2022/07/28 22:49:08 Client.controllers.go:259: pq: столбец "ghgh" не существует
+2022/07/28 22:49:56 Client.controllers.go:259: pq: столбец "ghgh" не существует
+2022/07/28 23:24:24 Client.controllers.go:262: pq: ошибка синтаксиса (примерное положение: "WHERE")
+2022/07/28 23:27:04 Client.controllers.go:267: pq: столбец "id" не существует
+2022/07/28 23:28:47 Client.controllers.go:267: pq: столбец "id" не существует
+2022/07/28 23:30:08 Client.controllers.go:268: pq: столбец "id" не существует
+2022/07/28 23:30:39 Client.controllers.go:268: pq: ошибка синтаксиса (примерное положение: ",")
+2022/07/28 23:35:20 Client.controllers.go:269: pq: столбец "SureName" в таблице "Client" не существует
+2022/07/28 23:35:34 Client.controllers.go:269: pq: столбец "Organisation" в таблице "Client" не существует

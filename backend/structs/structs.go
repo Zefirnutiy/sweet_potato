@@ -49,12 +49,13 @@ type Client struct {
     Id 						int  
     FirstName               string   
     LastName                string   
-    Patronymic              string      
+    Patronymic              string          
     Password                string   
     Email                   string   
     Telephone               string   
     EmailNotifications      bool  
     GroupId                 int  
+    Organization            string
 }
 
 type Test struct {

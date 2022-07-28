@@ -96,7 +96,7 @@ func Login(c *gin.Context) {
 
 	if !yes {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Вы ввели неправильные данные 1",
+			"message": "Вы ввели неправильные данные",
 		})
 		return
 	}

@@ -3,3 +3,4 @@
 ./backend/settings.cfg
 .vscode
 ./backend/logs
+settings.cfg

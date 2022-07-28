@@ -2,6 +2,8 @@ package main
 
 import (
 	// "github.com/Zefirnutiy/sweet_potato.git/utils"
+	// "fmt"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
 
