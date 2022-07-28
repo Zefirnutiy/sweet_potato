@@ -1,5 +1,5 @@
 .idea
 ./client-ts/node_modules
+./backend/settings.cfg
 .vscode
 ./backend/logs
-settings.cfg

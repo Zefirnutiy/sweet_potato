@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/controllers"
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,19 +15,9 @@ func Routs(port string) {
 		auth.POST("/login", controllers.Login)
 	}
 
-	client := router.Group("/api/client")
+	test := router.Group("/api/test")
 	{
-		client.POST("/register", controllers.Register)
-		client.POST("/login", controllers.Login)
-	}
-
-	deadLine := router.Group("/api/deadline")
-	{
-		deadLine.GET("/", controllers.GetDeadLine)
-		deadLine.GET("/:id", controllers.GetDeadLineById)
-		deadLine.POST("/create", controllers.CreateDeadLine)
-		deadLine.PATCH("/update", controllers.UpdateDeadLine)
-		deadLine.DELETE("/delete", controllers.DeleteDeadLine)
+		test.GET("/", utils.TokenCheckedFromHeader, controllers.Test)
 	}
 	router.Run(port)
 

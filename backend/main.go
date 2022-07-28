@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	// "github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
@@ -15,8 +13,7 @@ var cfg = db.Load("./settings.cfg")
 func init() {
 	err := db.Connect(*cfg)
 	if err != nil {
-		fmt.Println(err.Error())
-		return
+		panic(err)
 	}
 
 }

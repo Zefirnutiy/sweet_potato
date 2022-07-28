@@ -58,16 +58,9 @@ ALTER TABLE "DeadLine" ADD CONSTRAINT "OrganisationOrganisationLevel"
 ALTER TABLE "Payment" ADD CONSTRAINT "PaymentOrganization"
     FOREIGN KEY ("OrganizationId")
     REFERENCES "Organization" ("Id")  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
-;
-
-ALTER TABLE "Payment" ADD CONSTRAINT "PaymentLevel"
-    FOREIGN KEY ("LevelId")
     REFERENCES "Level" ("Id")  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
-;
 
 ALTER TABLE "DeadLine" ADD CONSTRAINT "DeadLineOrganization"
     FOREIGN KEY ("OrganizationId")

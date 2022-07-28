@@ -46,7 +46,7 @@ type Payment struct {
 
 
 type Client struct {
-    Id int  
+    Id 						int  
     FirstName               string   
     LastName                string   
     Patronymic              string      
