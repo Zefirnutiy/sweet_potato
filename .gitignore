@@ -1,3 +1,8 @@
 .idea
 ./client-ts/node_modules
+<<<<<<< HEAD
 ./backend/settings.cfg
+=======
+.vscode
+./backend/logs
+>>>>>>> 495706b989217b6557a78f9451b7f69b60a1096c

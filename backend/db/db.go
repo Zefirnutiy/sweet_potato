@@ -17,17 +17,21 @@ func Connect(cfg SettingServer) error {
 	return nil
 }
 
-func CreateTable() error {
-	_, err := Dbpool.Exec("SELECT id from Test")
+//путь к sql файлу указывается относительно корня
+//for example: ./db/main.sql
+func CreateTable(filePath, schemaName string) error {
+
+	_, err := Dbpool.Exec(fmt.Sprintf(`CREATE SCHEMA "%s";`, schemaName))
 
 	if err != nil {
-		_, err = Dbpool.Exec(DbCreate("./db/main.sql"))
+		fmt.Println("Ошибка создания Схемы:", err)
+		return err
+	}
+	_, err = Dbpool.Exec(DbCreate(filePath, schemaName))
 
-		if err != nil {
-			fmt.Println("Ошибка создания таблиц:", err)
-			return nil
-		}
-
+	if err != nil {
+		fmt.Println("Ошибка создания таблиц:", err)
+		return err
 	}
 
 	return nil
