@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/controllers"
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,10 @@ func Routs(port string) {
 		auth.POST("/login", controllers.Login)
 	}
 
+	test := router.Group("/api/test")
+	{
+		test.GET("/", utils.TokenCheckedFromHeader, controllers.Test)
+	}
 	router.Run(port)
 
 }
