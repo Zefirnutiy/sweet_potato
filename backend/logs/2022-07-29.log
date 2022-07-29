@@ -1,0 +1,5 @@
+2022/07/29 15:13:45 Client.controllers.go:94: pq: отношение "KTK.Client" не существует
+2022/07/29 18:17:52 Client.controllers.go:217: pq: отношение "$10.Client" не существует
+2022/07/29 18:19:39 Client.controllers.go:217: pq: отношение "%[10]s.Client" не существует
+2022/07/29 18:20:50 Client.controllers.go:218: pq: отношение "%[10]s.Client" не существует
+2022/07/29 18:21:34 Client.controllers.go:218: pq: отношение "%[10]s.Client" не существует
