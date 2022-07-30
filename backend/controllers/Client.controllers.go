@@ -1,3 +1,4 @@
+
 package controllers
 
 import (
@@ -7,7 +8,7 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessing(c gin.Context) structs.Client {
+func DataProcessingClient(c gin.Context) structs.Client {
 	var data structs.Client
 	err := c.BindJSON(&data)
 	if err != nil {
@@ -29,7 +30,7 @@ func GetClients(c *gin.Context) {
 	tokken := c.Params.ByName("tokken")
 	fmt.Println("tokken:", tokken)
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "` + "%[1]s" + `"."Client"`, schema)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "` + schema + `"."Client"`, schema)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -41,16 +42,16 @@ func GetClients(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-			&client.Id,
-			&client.FirstName,
-			&client.LastName,
-			&client.Patronymic,
-			&client.Password,
-			&client.Email,
-			&client.Telephone,
-			&client.EmailNotifications,
-			&client.GroupId,
-			&client.Organization)
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.GroupId, 
+		)
 		clientList = append(clientList, client)
 		if err != nil {
 			utils.Logger.Println(err)
@@ -75,17 +76,17 @@ func GetClientById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+ "%[2]s"+`"."Client" WHERE "Id"=$1`, id, schema).Scan(
-		&client.Id,
-		&client.FirstName,
-		&client.LastName,
-		&client.Patronymic,
-		&client.Password,
-		&client.Email,
-		&client.Telephone,
-		&client.EmailNotifications,
-		&client.GroupId,
-		&client.Organization,
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Client" WHERE "Id"=$1`, id ).Scan(
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.GroupId, 
+		
 	)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -102,26 +103,26 @@ func GetClientById(c *gin.Context) {
 	})
 }
 
-
+	
 func GetClientByGroupId(c *gin.Context) {
 	schema := c.GetString("schema")
 	tokken := c.Params.ByName("tokken")
 	fmt.Println("tokken:", tokken)
 
-	id := c.Params.ByName("id")
+	groupId := c.Params.ByName("groupId")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+ "%[2]s"+`"."Client" WHERE "GroupId"=$1`, id, schema).Scan(
-		&client.Id,
-		&client.FirstName,
-		&client.LastName,
-		&client.Patronymic,
-		&client.Password,
-		&client.Email,
-		&client.Telephone,
-		&client.EmailNotifications,
-		&client.GroupId,
-		&client.Organization,
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Client" WHERE "GroupId"=$1`, groupId ).Scan(
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.GroupId, 
+		
 	)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -138,37 +139,43 @@ func GetClientByGroupId(c *gin.Context) {
 	})
 }
 
+	
+
 func CreateClient(c *gin.Context) {
-	data := DataProcessing(*c)
-	encryptedPassword, err := utils.Encrypt(data.Password)
+	schema := c.GetString("schema")
+	data := DataProcessingClient(*c)
+	var err error
+	
+	data.Password, err = utils.Encrypt(data.Password)
 	if err != nil {
-		utils.Logger.Println(data.Email, err)
+		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
 			"message": "Ошибка сервера",
 		})
 		return
 	}
+	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+data.Organization+`"."Client"
-							("FirstName", 
-							"LastName", 
-							"Patronymic", 
-							"Password", 
-							"Email", 
-							"Telephone", 
-							"EmailNotifications", 
-							"GroupId", 
-							"Organization") 
-							VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9)`,
-		data.FirstName,
-		data.LastName,
-		data.Patronymic,
-		encryptedPassword,
-		data.Email,
-		data.Telephone,
-		data.EmailNotifications,
-		data.GroupId,
-		data.Organization)
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Client"
+		(
+		"FirstName", 
+		"LastName", 
+		"Patronymic", 
+		"Email", 
+		"Telephone", 
+		"EmailNotifications", 
+		"GroupId", 
+		
+		) 
+		VALUES( $1, $2, $3, $4, $5, $6, $7 )`,
+		data.FirstName, 
+		data.LastName, 
+		data.Patronymic, 
+		data.Email, 
+		data.Telephone, 
+		data.EmailNotifications, 
+		data.GroupId, 
+		)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -180,40 +187,47 @@ func CreateClient(c *gin.Context) {
 		"message": "Запись создана",
 	})
 }
+	
 
 func UpdateClient(c *gin.Context) {
-	schema := c.GetString("title")
-	fmt.Println(schema)
-	data := DataProcessing(*c)
-	encryptedPassword, err := utils.Encrypt(data.Password)
+
+	schema := c.GetString("schema")
+	data := DataProcessingClient(*c)
+	var err error
+	
+	data.Password, err = utils.Encrypt(data.Password)
 	if err != nil {
-		utils.Logger.Println(data.Email, err)
+		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
 			"message": "Ошибка сервера",
 		})
 		return
 	}
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+"%[10]s"+`"."Client" 
-		SET "FirstName"=$1 ,
-		"LastName"=$2,
-		"Patronymic"=$3, 
-		"Password"=$4, 
-		"Email"=$5, 
-		"Telephone"=$6, 
-		"EmailNotifications"=$7, 
-		"GroupId"=$8
-		WHERE "Id"=$9`,
-		data.FirstName,
-		data.LastName,
-		data.Patronymic,
-		encryptedPassword,
-		data.Email,
-		data.Telephone,
-		data.EmailNotifications,
-		data.GroupId,
-		data.Id,
-		schema)
+	
+	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Client" 
+		SET 
+		"FirstName"=$2,
+		"LastName"=$3,
+		"Patronymic"=$4,
+		"Password"=$5,
+		"Email"=$6,
+		"Telephone"=$7,
+		"EmailNotifications"=$8,
+		"GroupId"=$9
+		
+		WHERE "Id"=$1`,
+		data.Id, 
+		data.FirstName, 
+		data.LastName, 
+		data.Patronymic, 
+		data.Password, 
+		data.Email, 
+		data.Telephone, 
+		data.EmailNotifications, 
+		data.GroupId, 
+		
+		)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -224,14 +238,15 @@ func UpdateClient(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"result": "Данные обновлены",
 	})
-}
+}	
+	
 
 func DeleteClient(c *gin.Context) {
 	schema := c.GetString("schema")
 	tokken := c.Params.ByName("tokken")
 	id := c.Params.ByName("id") 
 	fmt.Println(tokken)
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+"%[2]s"+`"."Client" WHERE "Id"=$1`, id, schema)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Client" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

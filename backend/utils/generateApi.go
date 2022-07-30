@@ -230,7 +230,7 @@ func postRequestGenerate(tableName string, postColumns, encryptColumns []string)
 	text := fmt.Sprintf(`
 func Create%[1]s(c *gin.Context) {
 	schema := c.GetString("schema")
-	data := DataProcessing(*c)
+	data := DataProcessing%[1]s(*c)
 	var err error
 	%[6]s
 
@@ -264,7 +264,7 @@ func patchRequestGenerate(tableName string, allColumns, encryptColumns []string)
 func Update%[1]s(c *gin.Context) {
 
 	schema := c.GetString("schema")
-	data := DataProcessing(*c)
+	data := DataProcessing%[1]s(*c)
 	var err error
 	%[2]s
 	
@@ -335,7 +335,7 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessing(c gin.Context) structs.%[1]s {
+func DataProcessing%[1]s(c gin.Context) structs.%[1]s {
 	var data structs.%[1]s
 	err := c.BindJSON(&data)
 	if err != nil {
@@ -375,3 +375,4 @@ func DataProcessing(c gin.Context) structs.%[1]s {
 	
 	return nil
 }
+

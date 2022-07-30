@@ -11,8 +11,7 @@ import (
 	"net/http"
 )
 
-func QuestionRegister(title, password, email string, emailnotifications bool) (sql.Result, error) {
-
+func CreateOrganization(title, password, email string, emailnotifications bool) (sql.Result, error) {
 	result, err := db.Dbpool.Exec(`
 		INSERT INTO main."Organization" (title, password, email, emailnotifications) 
 		VALUES ($1, $2, $3, $4);`,
@@ -25,7 +24,7 @@ func QuestionRegister(title, password, email string, emailnotifications bool) (s
 	return result, nil
 }
 
-func SelectOrganization(email string) (structs.Organization, bool) {
+func GetOrganization(email string) (structs.Organization, bool) {
 	var organization structs.Organization
 
 	err := db.Dbpool.QueryRow(`SELECT * FROM main."Organization" WHERE email IN ($1)`, email).Scan(
@@ -58,7 +57,7 @@ func Register(c *gin.Context) {
 		panic(err)
 	}
 
-	_, candidate := SelectOrganization(organization.Email)
+	_, candidate := GetOrganization(organization.Email)
 
 	if candidate == true {
 		fmt.Println(candidate)
@@ -68,7 +67,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	_, err = QuestionRegister(organization.Title, string(hashedPassword), organization.Email, organization.EmailNotifications)
+	_, err = CreateOrganization(organization.Title, string(hashedPassword), organization.Email, organization.EmailNotifications)
 
 	if err != nil {
 		c.String(http.StatusNotImplemented, err.Error())
@@ -92,7 +91,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	result, yes := SelectOrganization(organization.Email)
+	result, yes := GetOrganization(organization.Email)
 
 	if !yes {
 		c.JSON(http.StatusBadRequest, gin.H{
