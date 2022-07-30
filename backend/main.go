@@ -1,7 +1,7 @@
 package main
 
 import (
-	// "github.com/Zefirnutiy/sweet_potato.git/utils"
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	// "fmt"
 
 	"github.com/Zefirnutiy/sweet_potato.git/db"
@@ -36,6 +36,7 @@ func main() {
 	// }
 
 	// utils.GetRequestGenerate("DeadLine", "*#Id", "#Date", "#LevelId", "#OrganizationId")
+	utils.Generate()
 	routes.Routs(cfg.Port)
 
 }

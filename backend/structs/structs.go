@@ -4,8 +4,6 @@ import (
 	"github.com/golang/protobuf/ptypes/timestamp"
 )
 
-
-
 type Level struct {
     Id                      int  
     Title                   string  
@@ -43,8 +41,6 @@ type Payment struct {
     OrganizationId          int8  
 }
 
-
-
 type Client struct {
     Id 						int  
     FirstName               string   
@@ -55,7 +51,6 @@ type Client struct {
     Telephone               string   
     EmailNotifications      bool  
     GroupId                 int  
-    Organization            string
 }
 
 type Test struct {
@@ -86,6 +81,7 @@ type Question struct {
 
 type QuestionResult struct {
 	Id                      int  
+    Date                    timestamp.Timestamp
 	QuestionId              int 
 	ClientId                int 
 	Scores                  int 
@@ -115,7 +111,6 @@ type PublicInfo struct {
     Id                      int  
     Title                   string 
     Text                    string
-    File                    string
     Date                    timestamp.Timestamp
     DateDel                 timestamp.Timestamp
     ClientId                int  
@@ -157,13 +152,13 @@ type File struct {
 
 type ActiveTest struct {
     Id                      int  
-    TimeStart               timestamp.Timestamp
-    TimeEnd                 timestamp.Timestamp
+    Start               timestamp.Timestamp
+    End                 timestamp.Timestamp
     Time                    timestamp.Timestamp
     Attempts                int  
     TestId                  int  
     ClientId                int  
-    Trainingtest            bool 
+    TrainingTest            bool 
 }
 
 type TestResults struct {

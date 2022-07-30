@@ -8,7 +8,6 @@ CREATE TABLE "Client" (
     "Telephone" varchar(15)  NULL,
     "EmailNotifications" boolean  default false,
     "GroupId" int  NULL,
-    "Organization" varchar(256)  NOT NULL,
     CONSTRAINT Clientpk PRIMARY KEY ("Id")
 );
 
@@ -34,6 +33,7 @@ CREATE TABLE "Question" (
 
 CREATE TABLE "QuestionResult" (
 	"Id" serial  NOT NULL,
+    "Date" timestamp  NOT NULL,
 	"QuestionId" int NOT null,
 	"ClientId" int NOT null,
 	"Scores" int NOT null,
@@ -67,7 +67,6 @@ CREATE TABLE "PublicInfo" (
     "Id" serial  NOT NULL,
     "Title" varchar(30)  NOT NULL,
     "Text" text,
-    "File" varchar(200),
     "Date" timestamp  NULL,
     "DateDel" timestamp  NULL,
     "ClientId" int  NOT NULL,
@@ -81,7 +80,6 @@ CREATE TABLE "CourseResults" (
     "Assessment" varchar(20)  NOT NULL,
     "Scores" real  NOT NULL,
     "ClientId" int  NOT NULL,
-    "CourseId" int  NOT NULL,
     CONSTRAINT "CourseResultsPk" PRIMARY KEY ("Id")
 );
 
@@ -104,8 +102,9 @@ CREATE TABLE "File" (
     "DateDel" timestamp  NULL,
     "FileName" varchar(256)  NOT NULL,
     "FileNameTmp" varchar(256)  NOT NULL,
-    "TestId" int8  NOT NULL,
-    "QuestionId" int  NOT NULL,
+    "PublicInfoId" int8  NULL,
+    "TestId" int8  NULL,
+    "QuestionId" int NULL,
     "ClientId" int8  NOT NULL,
     CONSTRAINT "FilePk" PRIMARY KEY ("Id")
 );
@@ -126,12 +125,12 @@ CREATE TABLE "TestResults" (
     "Id" serial  NOT NULL,
     "Time" time  NOT NULL,
     "Date" date  NOT NULL,
-    "ClientId" int  NOT NULL,
-    "TestId" int8  NOT NULL,
     "Assessment" varchar(20)  NOT NULL,
     "PassageTime" time  NOT NULL,
     "Scores" real  NOT NULL,
     "CourseId" int8  NOT NULL,
+    "ClientId" int  NOT NULL,
+    "TestId" int8  NOT NULL,
     CONSTRAINT "TestResultsPk" PRIMARY KEY ("Id")
 );
 
@@ -211,6 +210,13 @@ ALTER TABLE "Course" ADD CONSTRAINT "CreatedCoursesClient"
 ALTER TABLE "File" ADD CONSTRAINT "FileClient"
     FOREIGN KEY ("ClientId")
     REFERENCES "Client" ("Id")  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+ALTER TABLE "File" ADD CONSTRAINT "FilePublicInfo"
+    FOREIGN KEY ("PublicInfoId")
+    REFERENCES "PublicInfo" ("Id")  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;
