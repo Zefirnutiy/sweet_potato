@@ -2,5 +2,5 @@
 ./client-ts/node_modules
 ./backend/settings.cfg
 .vscode
-./backend/logs
+*.log
 settings.cfg
