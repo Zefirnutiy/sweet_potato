@@ -16,8 +16,8 @@ func Routs(port string) {
 	}
 
 	// client := router.Group("/api/client")
-	// {	
-	// 	client.GET("/getClients/:tokken", controllers.GetClients)
+	// {
+	// 	client.GET("/getClients/:token", controllers.GetClients)
 	// 	client.GET("/getClientById/:tokken/:id", controllers.GetClientById)
 	// 	client.POST("/create", controllers.CreateClient)
 	// 	client.PATCH("/update", controllers.UpdateClient)
