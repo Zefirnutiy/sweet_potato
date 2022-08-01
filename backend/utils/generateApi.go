@@ -19,6 +19,7 @@ func clean(str string) string{
 	str = strings.ReplaceAll(str, "*", "")
 	str = strings.ReplaceAll(str, "#", "")
 	str = strings.ReplaceAll(str, "$", "")
+	str = strings.ReplaceAll(str, "%", "")
 
 	return str
 }
@@ -221,6 +222,62 @@ func Get%[1]sBy%[3]s(c *gin.Context) {
 
 	return text
 }
+func getByManyRequestGenerate(tableName string, fields, allColumns []string) string {
+
+	lowerName := firstLower(tableName)
+	text := ``
+	for _, field := range fields{
+
+	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:tokken/:%[4]s", controllers.Get%[1]stBy%[3]s)
+	`, tableName, lowerName, field, firstLower(field))
+
+	text += fmt.Sprintf(`
+func Get%[1]sBy%[3]s(c *gin.Context) {
+	schema := c.GetString("schema")
+	tokken := c.Params.ByName("tokken")
+	fmt.Println("tokken:", tokken)
+
+	%[4]s := c.Params.ByName("%[4]s")
+	var %[2]sList []structs.%[1]s
+	var %[2]s structs.%[1]s
+
+	rows, err := db.Dbpool.Query(@SELECT * FROM "@+schema+@"."%[1]s" WHERE "%[3]s"=$1@, %[4]s ).Scan(
+		%[5]s
+	)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	for rows.Next() {
+		err = rows.Scan(
+		%[5]s)
+		%[2]sList = append(%[2]sList, %[2]s)
+		if err != nil {
+			utils.Logger.Println(err)
+			c.JSON(500, gin.H{
+				"result": nil,
+				"message": "Ошибка сервера",
+			})
+			return
+		}
+	}
+
+	c.JSON(200, gin.H{
+		"result": %[2]sList,
+		"message": nil,
+	})
+}
+
+	`,tableName, lowerName, field, firstLower(field), beforeVar(allColumns, "&" + lowerName + "."))
+	}
+
+	return text
+}
 
 func postRequestGenerate(tableName string, postColumns, encryptColumns []string) string {
 
@@ -353,10 +410,12 @@ func DataProcessing%[1]s(c gin.Context) structs.%[1]s {
 %[4]s
 %[5]s
 %[6]s
+%[7]s
 	`,
 	tableName, 
 	getRequestGenerate(tableName, sortColumn(columns, "")),
 	getByRequestGenerate(tableName, sortColumn(columns, "*"), sortColumn(columns, "")),
+	getByManyRequestGenerate(tableName, sortColumn(columns, "%"), sortColumn(columns, "")),
 	postRequestGenerate(tableName, sortColumn(columns, "#"), sortColumn(columns, "$")),
 	patchRequestGenerate(tableName, sortColumn(columns, ""), sortColumn(columns, "$")),
 	deleteRequestGenerate(tableName))
