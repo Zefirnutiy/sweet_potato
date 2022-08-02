@@ -141,6 +141,7 @@ func GetClientByGroupId(c *gin.Context) {
 
 	
 
+
 func CreateClient(c *gin.Context) {
 	schema := c.GetString("schema")
 	data := DataProcessingClient(*c)

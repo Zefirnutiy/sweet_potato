@@ -95,6 +95,7 @@ func GetAnswerById(c *gin.Context) {
 
 	
 
+
 func CreateAnswer(c *gin.Context) {
 	schema := c.GetString("schema")
 	data := DataProcessingAnswer(*c)

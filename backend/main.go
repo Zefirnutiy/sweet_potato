@@ -21,7 +21,7 @@ func init() {
 }
 
 func main() {
-	
+
 	// err := db.CreateTable("./db/main.sql", "Main")
 
 	// if err != nil {
@@ -29,13 +29,13 @@ func main() {
 	// 	return
 	// }
 	// err = db.CreateTable("./db/organisation.sql", "KTK")
-	
+
 	// if err != nil {
 	// 	fmt.Println(err.Error())
 	// 	return
 	// }
 
-	// utils.GetRequestGenerate("DeadLine", "*#Id", "#Date", "#LevelId", "#OrganizationId")
+	utils.ControllerFileCreate("Admin", "*#Id", "#FirstName", "#LastName", "#Email", "Password")
 	utils.Generate()
 	routes.Routs(cfg.Port)
 
