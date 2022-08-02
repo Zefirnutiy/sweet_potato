@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/dgrijalva/jwt-go/v4"
 	"time"
 )
@@ -10,6 +11,8 @@ type MyCustomOrganization struct {
 	Title string
 	jwt.StandardClaims
 }
+
+var cfg = db.Load("./settings.cfg")
 
 // Функция нужна для создания токена, при создании организации
 func CreateToken(Title string) (string, error) {
@@ -23,7 +26,7 @@ func CreateToken(Title string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := token.SignedString([]byte("lol"))
+	ss, err := token.SignedString([]byte(cfg.SecretWordForOrganisation))
 
 	if err != nil {
 		return "", err

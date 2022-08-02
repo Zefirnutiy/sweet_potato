@@ -26,6 +26,15 @@ func Routs(port string) {
 		admin.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteAdmin)
 	}
 
+	level := router.Group("/api/level")
+	{
+		level.GET("/", utils.TokenCheckedFromHeader, controllers.GetLevels)
+		level.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetLevelById)
+		level.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateLevel)
+		level.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateLevel)
+		level.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteLevel)
+	}
+
 	// client := router.Group("/api/client")
 	// {
 	// 	client.GET("/getClients/:token", controllers.GetClients)
