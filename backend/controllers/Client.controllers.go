@@ -188,7 +188,6 @@ func CreateClient(c *gin.Context) {
 		"message": "Запись создана",
 	})
 }
-	
 
 func UpdateClient(c *gin.Context) {
 

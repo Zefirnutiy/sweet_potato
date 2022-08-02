@@ -43,7 +43,7 @@ func GetOrganization(email string) (structs.Organization, bool) {
 	return organization, true
 }
 
-func Register(c *gin.Context) {
+func RegisterOrganization(c *gin.Context) {
 	var organization structs.Organization
 
 	if err := c.ShouldBindJSON(&organization); err != nil {
@@ -59,7 +59,7 @@ func Register(c *gin.Context) {
 
 	_, candidate := GetOrganization(organization.Email)
 
-	if candidate == true {
+	if candidate{
 		fmt.Println(candidate)
 		c.JSON(http.StatusConflict, gin.H{
 			"message": "Такой пользователь уже существует",
@@ -70,11 +70,18 @@ func Register(c *gin.Context) {
 	_, err = CreateOrganization(organization.Title, string(hashedPassword), organization.Email, organization.EmailNotifications)
 
 	if err != nil {
-		c.String(http.StatusNotImplemented, err.Error())
+		c.String(http.StatusNotImplemented, err.Error(), gin.H{
+			"message": "что-то пошло не так с созданием токена",
+		})
 		return
 	}
-
+	
 	token, err := utils.CreateToken(organization.Title)
+	
+	if err != nil {
+		c.String(500, err.Error())
+		return
+	}
 
 	c.JSON(http.StatusCreated, gin.H{
 		"organization": organization,
@@ -83,7 +90,7 @@ func Register(c *gin.Context) {
 	})
 }
 
-func Login(c *gin.Context) {
+func LoginOrganization(c *gin.Context) {
 	var organization structs.Organization
 
 	if err := c.ShouldBindJSON(&organization); err != nil {

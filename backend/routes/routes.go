@@ -13,8 +13,8 @@ func Routs(port string) {
 
 	organization := router.Group("/api/organization")
 	{
-		organization.POST("/register", controllers.Register)
-		organization.POST("/login", controllers.Login)
+		organization.POST("/register", controllers.RegisterOrganization)
+		organization.POST("/login", controllers.LoginOrganization)
 	}
 
 	admin := router.Group("/api/admin")
@@ -28,11 +28,11 @@ func Routs(port string) {
 
 	// client := router.Group("/api/client")
 	// {
-	// 	client.GET("/getClients/:token", controllers.GetClients)
-	// 	client.GET("/getClientById/:tokken/:id", controllers.GetClientById)
-	// 	client.POST("/create", controllers.CreateClient)
-	// 	client.PATCH("/update", controllers.UpdateClient)
-	// 	client.DELETE("/delete/:tokken/:id", controllers.DeleteClient)
+		// client.GET("/getClients/:token", controllers.GetClients)
+		// client.GET("/getClientById/:tokken/:id", controllers.GetClientById)
+		// client.POST("/create", controllers.CreateClient)
+		// client.PATCH("/update", controllers.UpdateClient)
+		// client.DELETE("/delete/:tokken/:id", controllers.DeleteClient)
 	// }
 	router.Run(port)
 

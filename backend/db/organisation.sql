@@ -80,6 +80,7 @@ CREATE TABLE "CourseResults" (
     "Assessment" varchar(20)  NOT NULL,
     "Scores" real  NOT NULL,
     "ClientId" int  NOT NULL,
+    "CourseId" int  NOT NULL,
     CONSTRAINT "CourseResultsPk" PRIMARY KEY ("Id")
 );
 
