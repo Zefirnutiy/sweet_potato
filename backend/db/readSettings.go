@@ -7,9 +7,10 @@ import (
 )
 
 type SettingServer struct {
-	Host     string
-	Port     string
-	Database SettingDatabase
+	Host                      string
+	Port                      string
+	SecretWordForOrganisation string
+	Database                  SettingDatabase
 }
 
 type SettingDatabase struct {
