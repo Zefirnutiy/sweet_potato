@@ -177,6 +177,7 @@ func GetTestResultsByCourseId(c *gin.Context) {
 
 	
 
+
 func CreateTestResults(c *gin.Context) {
 	schema := c.GetString("schema")
 	data := DataProcessingTestResults(*c)

@@ -123,6 +123,7 @@ func GetGroupByDepartmentId(c *gin.Context) {
 
 	
 
+
 func CreateGroup(c *gin.Context) {
 	schema := c.GetString("schema")
 	data := DataProcessingGroup(*c)

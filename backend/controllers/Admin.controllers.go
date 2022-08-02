@@ -8,29 +8,29 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingLevel(c gin.Context) structs.Level {
-	var data structs.Level
+func DataProcessingAdmin(c gin.Context) structs.Admin {
+	var data structs.Admin
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.Level{}
+		return structs.Admin{}
 	}
 	return data
 }
 
 
-func GetLevels(c *gin.Context) {
+func GetAdmins(c *gin.Context) {
 	schema := c.GetString("schema")
-	var levelList []structs.Level
-	var level structs.Level
+	var adminList []structs.Admin
+	var admin structs.Admin
 
 	tokken := c.Params.ByName("tokken")
 	fmt.Println("tokken:", tokken)
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "` + schema + `"."Level"`, schema)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "` + schema + `"."Admin"`, schema)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -42,17 +42,13 @@ func GetLevels(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&level.Id, 
-		&level.Title, 
-		&level.Price, 
-		&level.Paid, 
-		&level.CreateCourse, 
-		&level.TakeCourse, 
-		&level.AploadFile, 
-		&level.ViewYourResult, 
-		&level.ViewOtherResults, 
+		&admin.Id, 
+		&admin.FirstName, 
+		&admin.LastName, 
+		&admin.Email, 
+		&admin.Password, 
 		)
-		levelList = append(levelList, level)
+		adminList = append(adminList, admin)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -63,29 +59,25 @@ func GetLevels(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": levelList,
+		"result": adminList,
 		"message": nil,
 	})
 }
 
-func GetLevelById(c *gin.Context) {
+func GetAdminById(c *gin.Context) {
 	schema := c.GetString("schema")
 	tokken := c.Params.ByName("tokken")
 	fmt.Println("tokken:", tokken)
 
 	id := c.Params.ByName("id")
-	var level structs.Level
+	var admin structs.Admin
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Level" WHERE "Id"=$1`, id ).Scan(
-		&level.Id, 
-		&level.Title, 
-		&level.Price, 
-		&level.Paid, 
-		&level.CreateCourse, 
-		&level.TakeCourse, 
-		&level.AploadFile, 
-		&level.ViewYourResult, 
-		&level.ViewOtherResults, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Admin" WHERE "Id"=$1`, id ).Scan(
+		&admin.Id, 
+		&admin.FirstName, 
+		&admin.LastName, 
+		&admin.Email, 
+		&admin.Password, 
 		
 	)
 	if err != nil {
@@ -98,7 +90,7 @@ func GetLevelById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": level,
+		"result": admin,
 		"message": nil,
 	})
 }
@@ -106,33 +98,25 @@ func GetLevelById(c *gin.Context) {
 	
 
 
-func CreateLevel(c *gin.Context) {
+func CreateAdmin(c *gin.Context) {
 	schema := c.GetString("schema")
-	data := DataProcessingLevel(*c)
+	data := DataProcessingAdmin(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Level"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Admin"
 		(
-		"Title", 
-		"Price", 
-		"Paid", 
-		"CreateCourse", 
-		"TakeCourse", 
-		"AploadFile", 
-		"ViewYourResult", 
-		"ViewOtherResults", 
+		"Id", 
+		"FirstName", 
+		"LastName", 
+		"Email", 
 		
 		) 
-		VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )`,
-		data.Title, 
-		data.Price, 
-		data.Paid, 
-		data.CreateCourse, 
-		data.TakeCourse, 
-		data.AploadFile, 
-		data.ViewYourResult, 
-		data.ViewOtherResults, 
+		VALUES( $1, $2, $3, $4 )`,
+		data.Id, 
+		data.FirstName, 
+		data.LastName, 
+		data.Email, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -147,34 +131,26 @@ func CreateLevel(c *gin.Context) {
 }
 	
 
-func UpdateLevel(c *gin.Context) {
+func UpdateAdmin(c *gin.Context) {
 
 	schema := c.GetString("schema")
-	data := DataProcessingLevel(*c)
+	data := DataProcessingAdmin(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Level" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Admin" 
 		SET 
-		"Title"=$2,
-		"Price"=$3,
-		"Paid"=$4,
-		"CreateCourse"=$5,
-		"TakeCourse"=$6,
-		"AploadFile"=$7,
-		"ViewYourResult"=$8,
-		"ViewOtherResults"=$9
+		"FirstName"=$2,
+		"LastName"=$3,
+		"Email"=$4,
+		"Password"=$5
 		
 		WHERE "Id"=$1`,
 		data.Id, 
-		data.Title, 
-		data.Price, 
-		data.Paid, 
-		data.CreateCourse, 
-		data.TakeCourse, 
-		data.AploadFile, 
-		data.ViewYourResult, 
-		data.ViewOtherResults, 
+		data.FirstName, 
+		data.LastName, 
+		data.Email, 
+		data.Password, 
 		
 		)
 	if err != nil {
@@ -190,12 +166,12 @@ func UpdateLevel(c *gin.Context) {
 }	
 	
 
-func DeleteLevel(c *gin.Context) {
+func DeleteAdmin(c *gin.Context) {
 	schema := c.GetString("schema")
 	tokken := c.Params.ByName("tokken")
 	id := c.Params.ByName("id") 
 	fmt.Println(tokken)
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Level" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Admin" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

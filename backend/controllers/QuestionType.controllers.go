@@ -91,6 +91,7 @@ func GetQuestionTypeById(c *gin.Context) {
 
 	
 
+
 func CreateQuestionType(c *gin.Context) {
 	schema := c.GetString("schema")
 	data := DataProcessingQuestionType(*c)

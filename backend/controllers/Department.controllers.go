@@ -91,6 +91,7 @@ func GetDepartmentById(c *gin.Context) {
 
 	
 
+
 func CreateDepartment(c *gin.Context) {
 	schema := c.GetString("schema")
 	data := DataProcessingDepartment(*c)
