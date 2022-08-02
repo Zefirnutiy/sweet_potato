@@ -35,7 +35,15 @@ func main() {
 	// 	return
 	// }
 
-	utils.ControllerFileCreate("Admin", "*#Id", "#FirstName", "#LastName", "#Email", "Password")
+	utils.ControllerFileCreate(
+		"govno",
+		"*#Id",
+		"#Title", "#Price",
+		"#Paid", "#CreateCourse",
+		"#TakeCourse",
+		"#AploadFile",
+		"#ViewYourResult",
+		"#ViewOtherResults")
 	utils.Generate()
 	routes.Routs(cfg.Port)
 
