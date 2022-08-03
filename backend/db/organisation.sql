@@ -1,3 +1,14 @@
+CREATE TABLE "ClientLevel" (
+    "Id" smallserial  NOT NULL,
+    "Title" varchar(100)  NOT NULL,
+    "CreateCourse" boolean  default false,
+    "TakeCourse" boolean  default false,
+    "AploadFile" boolean  default false,
+    "ViewYourResult" boolean  default false,
+    "ViewOtherResults" boolean  default false,
+    CONSTRAINT "ClientLevelPk" PRIMARY KEY ("Id")
+);
+
 CREATE TABLE "Client" (
     "Id" serial  NOT NULL,
     "FirstName" varchar(20)  NOT NULL,
@@ -8,6 +19,7 @@ CREATE TABLE "Client" (
     "Telephone" varchar(15)  NULL,
     "EmailNotifications" boolean  default false,
     "GroupId" int  NULL,
+    "ClientLevelId" int  NULL,
     CONSTRAINT Clientpk PRIMARY KEY ("Id")
 );
 
@@ -182,6 +194,13 @@ ALTER TABLE "Answer" ADD CONSTRAINT "AnswerQuestion"
 ALTER TABLE "Client" ADD CONSTRAINT "ClientGroup"
     FOREIGN KEY ("GroupId")
     REFERENCES "Group" ("Id")  
+    NOT DEFERRABLE 
+    INITIALLY IMMEDIATE
+;
+
+ALTER TABLE "Client" ADD CONSTRAINT "ClientLevelId"
+    FOREIGN KEY ("ClientLevelId")
+    REFERENCES "ClientLevel" ("Id")  
     NOT DEFERRABLE 
     INITIALLY IMMEDIATE
 ;

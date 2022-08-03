@@ -27,6 +27,7 @@ CREATE TABLE "Organization" (
     "Email" varchar(256)  NULL,
     "EmailNotifications" boolean  default false,
     "LevelId" smallint  NOT null default 0,
+    "Key" VARCHAR(6) not null,
     CONSTRAINT "OrganizationPk" PRIMARY KEY ("Id")
 );
 
