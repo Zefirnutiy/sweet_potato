@@ -10,16 +10,40 @@ import (
 
 type MyCustomOrganization struct {
 	Organization structs.Organization
+	Client       structs.Client
 	jwt.StandardClaims
 }
 
 var cfg = db.Load("./settings.cfg")
 
 // Функция нужна для создания токена, при создании организации
-func CreateToken(Organization structs.Organization) (string, error) {
+func CreateToken(Organization structs.Organization, Client structs.Client) (string, error) {
+
+	if Organization.Title != "" {
+
+		claims := MyCustomOrganization{
+			Organization,
+			structs.Client{},
+			jwt.StandardClaims{
+				ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
+				Issuer:    "test",
+			},
+		}
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		ss, err := token.SignedString([]byte("lol"))
+
+		if err != nil {
+			return "", err
+		}
+
+		return ss, nil
+
+	}
 
 	claims := MyCustomOrganization{
-		Organization,
+		structs.Organization{},
+		Client,
 		jwt.StandardClaims{
 			ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
 			Issuer:    "test",
@@ -34,6 +58,7 @@ func CreateToken(Organization structs.Organization) (string, error) {
 	}
 
 	return ss, nil
+
 }
 
 // Функция нужна для создания токена, при создании Клиента
@@ -50,7 +75,7 @@ func CreateClientToken(customeStruct jwt.Claims, secretWord string) (string, err
 }
 
 // Функция нужна для расшифровки токена, для middleware
-func ParseToken(accessToken string, signingKey []byte) (structs.Organization, error) {
+func ParseToken(accessToken string, signingKey []byte) (structs.Organization, structs.Client, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &MyCustomOrganization{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -59,13 +84,16 @@ func ParseToken(accessToken string, signingKey []byte) (structs.Organization, er
 	})
 
 	if err != nil {
-		return structs.Organization{}, err
+		return structs.Organization{}, structs.Client{}, err
 	}
 
 	if claims, ok := token.Claims.(*MyCustomOrganization); ok && token.Valid {
 		fmt.Println(claims)
-		return claims.Organization, nil
+		if claims.Organization.Title != "" {
+			return claims.Organization, structs.Client{}, nil
+		}
+		return structs.Organization{}, claims.Client, nil
 	}
 
-	return structs.Organization{}, fmt.Errorf("Расшифровки нет")
+	return structs.Organization{}, structs.Client{}, fmt.Errorf("Расшифровки нет")
 }

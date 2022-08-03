@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"database/sql"
-	"fmt"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -37,7 +36,6 @@ func GetOrganization(email string) (structs.Organization, bool) {
 	)
 
 	if err != nil {
-		fmt.Println(err)
 		return structs.Organization{}, false
 	}
 
@@ -52,41 +50,42 @@ func RegisterOrganization(c *gin.Context) {
 		return
 	}
 
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(organization.Password), bcrypt.DefaultCost)
-
-	if err != nil {
-		panic(err)
-	}
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(organization.Password), bcrypt.DefaultCost)
 
 	_, candidate := GetOrganization(organization.Email)
 
-	fmt.Println(candidate, organization.Email)
 	if candidate {
-		fmt.Println(candidate)
 		c.JSON(http.StatusConflict, gin.H{
 			"message": "Такой пользователь уже существует",
 		})
 		return
 	}
 
-	_, err = CreateOrganization(organization.Title, string(hashedPassword), organization.Email, organization.EmailNotifications)
+	_, err := CreateOrganization(
+		organization.Title,
+		string(hashedPassword),
+		organization.Email,
+		organization.EmailNotifications)
 
 	if err != nil {
 		c.String(http.StatusNotImplemented, err.Error(), gin.H{
-			"message": "что-то пошло не так с созданием токена",
+			"message": "Что-то пошло не так",
 		})
 		return
 	}
 
-	token, err := utils.CreateToken(organization)
+	token, err := utils.CreateToken(organization, structs.Client{})
 
 	if err != nil {
 		c.String(500, err.Error())
 		return
 	}
 
+	organizationFromDb, _ := GetOrganization(organization.Email)
+	organizationFromDb.Password = ""
+
 	c.JSON(http.StatusCreated, gin.H{
-		"organization": organization,
+		"organization": organizationFromDb,
 		"token":        token,
 		"message":      "Организация успешно создана",
 	})
@@ -100,9 +99,9 @@ func LoginOrganization(c *gin.Context) {
 		return
 	}
 
-	result, yes := GetOrganization(organization.Email)
+	result, candidate := GetOrganization(organization.Email)
 
-	if !yes {
+	if !candidate {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Вы ввели неправильные данные",
 		})
@@ -122,7 +121,8 @@ func LoginOrganization(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.CreateToken(organization)
+	result.Password = ""
+	token, err := utils.CreateToken(result, structs.Client{})
 
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
@@ -131,7 +131,8 @@ func LoginOrganization(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Вы успешно вошли",
-		"token":   token,
+		"organization": result,
+		"message":      "Вы успешно вошли",
+		"token":        token,
 	})
 }
