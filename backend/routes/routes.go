@@ -35,6 +35,11 @@ func Routs(port string) {
 		level.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteLevel)
 	}
 
+	test := router.Group("/api/test")
+	{
+		test.GET("/", utils.TokenCheckedFromHeader, controllers.Test)
+	}
+
 	client := router.Group("/api/client")
 	{
 		// client.GET("/getClients/:token", controllers.GetClients)

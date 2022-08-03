@@ -27,7 +27,7 @@ func CreateOrganization(title, password, email string, emailnotifications bool) 
 func GetOrganization(email string) (structs.Organization, bool) {
 	var organization structs.Organization
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Main"."Organization" WHERE email IN ($1)`, email).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "Main"."Organization" WHERE "Email" IN ($1)`, email).Scan(
 		&organization.Id,
 		&organization.Title,
 		&organization.Password,
@@ -37,6 +37,7 @@ func GetOrganization(email string) (structs.Organization, bool) {
 	)
 
 	if err != nil {
+		fmt.Println(err)
 		return structs.Organization{}, false
 	}
 
@@ -59,7 +60,8 @@ func RegisterOrganization(c *gin.Context) {
 
 	_, candidate := GetOrganization(organization.Email)
 
-	if candidate{
+	fmt.Println(candidate, organization.Email)
+	if candidate {
 		fmt.Println(candidate)
 		c.JSON(http.StatusConflict, gin.H{
 			"message": "Такой пользователь уже существует",
@@ -75,9 +77,9 @@ func RegisterOrganization(c *gin.Context) {
 		})
 		return
 	}
-	
-	token, err := utils.CreateToken(organization.Title)
-	
+
+	token, err := utils.CreateToken(organization)
+
 	if err != nil {
 		c.String(500, err.Error())
 		return
@@ -120,7 +122,7 @@ func LoginOrganization(c *gin.Context) {
 		return
 	}
 
-	token, err := utils.CreateToken(result.Title)
+	token, err := utils.CreateToken(organization)
 
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
