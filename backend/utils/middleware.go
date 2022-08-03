@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -30,12 +31,14 @@ func TokenCheckedFromHeader(c *gin.Context) {
 		return
 	}
 
-	Title, err := ParseToken(header[1], []byte("lol"))
+	Organization, err := ParseToken(header[1], []byte("lol"))
 
 	if err != nil {
+
+		fmt.Println(err)
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
-	c.Set("title", Title)
+	c.Set("Organization", Organization)
 }
