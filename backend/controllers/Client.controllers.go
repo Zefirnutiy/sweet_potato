@@ -1,11 +1,13 @@
-
 package controllers
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
+	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gin-gonic/gin"
 )
 func DataProcessingClient(c gin.Context) structs.Client {
@@ -187,6 +189,100 @@ func CreateClient(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"message": "Запись создана",
 	})
+}
+
+type ClientLogin struct {
+	Schema 		string  
+	Email 		string 
+	Password 	string 
+}
+
+type customClient struct {
+	id 					int
+	groupId 			int
+	firstName 			string
+	lastName 			string
+	jwt.StandardClaims
+}
+
+func LoginClient(c *gin.Context) {
+
+	var loginData ClientLogin
+	err := c.ShouldBindJSON(&loginData)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(400, gin.H{
+			"message": "некорректные данные",
+		})
+		return
+	}
+
+	var client structs.Client
+	err = db.Dbpool.QueryRow(`SELECT * FROM "` + loginData.Schema + `"."Client" WHERE "Email"=$1`, loginData.Email).Scan(
+		&client.Id, 						  
+		&client.FirstName,                  
+		&client.LastName,                   
+		&client.Patronymic,                        
+		&client.Password,                   
+		&client.Email,                      
+		&client.Telephone,                  
+		&client.EmailNotifications,        
+		&client.GroupId, 
+	) 
+	if err != nil{
+		fmt.Println(err)
+		utils.Logger.Println(err)
+		c.JSON(400, gin.H{
+			"message": "нет такого клиента",
+		})
+		return
+	}
+
+	encryptPass, err := utils.Encrypt(loginData.Password) 
+
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"message": "проблема с хэшированием пароля",
+		})
+		return
+	}
+
+	if encryptPass != client.Password {
+		utils.Logger.Println(err)
+		c.JSON(400, gin.H{
+			"error": err,
+			"message": "Неверные данные",
+		})
+		return
+	}
+
+	claims := customClient{
+		client.Id, 
+		client.GroupId, 
+		client.FirstName, 
+		client.LastName,
+		jwt.StandardClaims{
+			ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
+			Issuer:    "test",
+		},
+	}
+
+	token, err := utils.CreateClientToken(claims, "someFuckingWord")
+
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"message": "ошибка создания токена",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "авторизирован",
+		"token": token,
+	})
+
 }
 
 func UpdateClient(c *gin.Context) {

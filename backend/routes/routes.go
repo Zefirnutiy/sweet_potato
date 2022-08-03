@@ -35,14 +35,15 @@ func Routs(port string) {
 		level.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteLevel)
 	}
 
-	// client := router.Group("/api/client")
-	// {
+	client := router.Group("/api/client")
+	{
 		// client.GET("/getClients/:token", controllers.GetClients)
 		// client.GET("/getClientById/:tokken/:id", controllers.GetClientById)
 		// client.POST("/create", controllers.CreateClient)
 		// client.PATCH("/update", controllers.UpdateClient)
 		// client.DELETE("/delete/:tokken/:id", controllers.DeleteClient)
-	// }
+		client.POST("/login", controllers.LoginClient)
+	}
 	router.Run(port)
 
 }

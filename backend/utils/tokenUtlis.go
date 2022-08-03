@@ -35,6 +35,19 @@ func CreateToken(Title string) (string, error) {
 	return ss, nil
 }
 
+// Функция нужна для создания токена, при создании Клиента
+func CreateClientToken(customeStruct jwt.Claims, secretWord string) (string, error) {
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, customeStruct)
+	ss, err := token.SignedString([]byte(secretWord))
+
+	if err != nil {
+		return "", err
+	}
+
+	return ss, nil
+}
+
 // Функция нужна для расшифровки токена, для middleware
 func ParseToken(accessToken string, signingKey []byte) (string, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &MyCustomOrganization{}, func(token *jwt.Token) (interface{}, error) {

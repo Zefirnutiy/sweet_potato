@@ -1,8 +1,6 @@
 package main
 
 import (
-	// "github.com/Zefirnutiy/sweet_potato.git/utils"
-
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
 
@@ -20,6 +18,8 @@ func init() {
 }
 
 func main() {
+	// bebra, _ := utils.Encrypt("123456qwert")
+	// fmt.Println(bebra)
 	// err := db.CreateTable("./db/main.sql", "main")
 
 	// if err != nil {
