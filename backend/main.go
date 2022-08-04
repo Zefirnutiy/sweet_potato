@@ -26,13 +26,13 @@ func main() {
 	// 	fmt.Println(err.Error())
 	// 	return
 	// }
-	// err = db.CreateTable("./db/organisation.sql", "KTK")
+	// err = db.CreateTable("./db/organization.sql", "KTK")
 
 	// if err != nil {
 	// 	fmt.Println(err.Error())
 	// 	return
 	// }
-	
+
 	// utils.Generate()
 	routes.Routs(cfg.Port)
 

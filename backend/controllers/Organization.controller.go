@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -10,11 +11,11 @@ import (
 	"net/http"
 )
 
-func CreateOrganization(title, password, email string, emailnotifications bool) (sql.Result, error) {
+func CreateOrganization(title, password, email, key string, emailnotifications bool) (sql.Result, error) {
 	result, err := db.Dbpool.Exec(`
-		INSERT INTO "Main"."Organization" ("Title", "Password", "Email", "EmailNotifications") 
-		VALUES ($1, $2, $3, $4);`,
-		title, password, email, emailnotifications)
+		INSERT INTO "Main"."Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
+		VALUES ($1, $2, $3, $4, $5);`,
+		title, password, email, emailnotifications, key)
 
 	if err != nil {
 		return nil, err
@@ -33,9 +34,11 @@ func GetOrganization(email string) (structs.Organization, bool) {
 		&organization.Email,
 		&organization.EmailNotifications,
 		&organization.LevelId,
+		&organization.Key,
 	)
 
 	if err != nil {
+		fmt.Println(err)
 		return structs.Organization{}, false
 	}
 
@@ -66,7 +69,10 @@ func RegisterOrganization(c *gin.Context) {
 		organization.Title,
 		string(hashedPassword),
 		organization.Email,
-		organization.EmailNotifications)
+		string(hashedPassword[len(hashedPassword)-6:]),
+		organization.EmailNotifications,
+	)
+	db.CreateTable("./db/organization.sql", string(hashedPassword[len(hashedPassword)-6:]))
 
 	if err != nil {
 		c.String(http.StatusNotImplemented, err.Error(), gin.H{
@@ -77,6 +83,7 @@ func RegisterOrganization(c *gin.Context) {
 	organizationFromDb, _ := GetOrganization(organization.Email)
 	claimOrganization.Id = organization.Id
 	claimOrganization.Email = organization.Email
+	claimOrganization.Schema = organizationFromDb.Key
 
 	token, err := utils.CreateToken(claimOrganization)
 
@@ -127,6 +134,7 @@ func LoginOrganization(c *gin.Context) {
 
 	claimOrganization.Id = result.Id
 	claimOrganization.Email = result.Email
+	claimOrganization.Schema = result.Key
 	token, err := utils.CreateToken(claimOrganization)
 
 	if err != nil {
