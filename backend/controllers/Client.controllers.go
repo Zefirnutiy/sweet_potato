@@ -225,7 +225,6 @@ type ClientLogin struct {
 	Password 	string 
 }
 
-var claims structs.Claims
 
 func LoginClient(c *gin.Context) {
 
