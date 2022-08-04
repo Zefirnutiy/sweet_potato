@@ -2,7 +2,8 @@ package structs
 
 import "github.com/dgrijalva/jwt-go/v4"
 
-type OrganizationClaims struct {
+type Claims struct {
 	jwt.StandardClaims
-	Id int32
+	Id    int
+	Email string
 }
