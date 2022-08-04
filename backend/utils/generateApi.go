@@ -36,18 +36,6 @@ func sortColumn(columns []string, separator string)[]string{
 	return strings.Fields(fieldsMas)
 }
 
-// создание переменных в scan
-func scanVariables(structName string, columns []string) string{
-
-	variables := ""
- 
-	for _, column := range columns{
-		variables += fmt.Sprintf(`&%[1]s.%[2]s, `, structName, column)
-	}
-
-	return variables
-}
-
 // принимает массив переменных, возвращает строку этих переменных в обертке
 // из заданных символов
 func simbAroundVar(mas []string, simbol string) string{
@@ -135,15 +123,15 @@ func getTextEncrypt(fields []string)string{
 func getRequestGenerate(tableName string, columns []string) string {
 
 	lowerName := firstLower(tableName)
-	routerText += fmt.Sprintf(`%[1]s.GET("/get%[2]ss/:tokken", controllers.Get%[2]ss)
+	routerText += fmt.Sprintf(`%[1]s.GET("/get%[2]ss/:token", controllers.Get%[2]ss)
 	`, lowerName, tableName)
 	text := fmt.Sprintf(`
 func Get%[1]ss(c *gin.Context) {
-	schema := c.GetString("schema")
+	schema := c.Params.ByName("schema")
 	var %[2]sList []structs.%[1]s
 	var %[2]s structs.%[1]s
 
-	rows, err := db.Dbpool.Query(@SELECT * FROM "@ + schema + @"."%[1]s"@, schema)
+	rows, err := db.Dbpool.Query(@SELECT * FROM "@ + schema + @"."%[1]s"@)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -184,7 +172,7 @@ func getByRequestGenerate(tableName string, fields, allColumns []string) string 
 	text := ``
 	for _, field := range fields{
 
-	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sBy%[3]s/:tokken/:%[4]s", controllers.Get%[1]stBy%[3]s)
+	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sBy%[3]s/:token/:%[4]s", controllers.Get%[1]stBy%[3]s)
 	`, tableName, lowerName, field, firstLower(field))
 
 	text += fmt.Sprintf(`
@@ -222,7 +210,7 @@ func getByManyRequestGenerate(tableName string, fields, allColumns []string) str
 	text := ``
 	for _, field := range fields{
 
-	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:tokken/:%[4]s", controllers.Get%[1]stBy%[3]s)
+	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:token/:%[4]s", controllers.Get%[1]stBy%[3]s)
 	`, tableName, lowerName, field, firstLower(field))
 
 	text += fmt.Sprintf(`
@@ -312,6 +300,7 @@ func patchRequestGenerate(tableName string, allColumns, encryptColumns []string)
 func Update%[1]s(c *gin.Context) {
 
 	schema := c.Params.ByName("schema")
+	id := c.Params.ByName("id")
 	data := DataProcessing%[1]s(*c)
 	var err error
 	%[2]s
@@ -320,6 +309,7 @@ func Update%[1]s(c *gin.Context) {
 		SET 
 		%[3]s
 		WHERE "Id"=$1@,
+		id,
 		%[4]s
 		)
 	if err != nil {
@@ -333,20 +323,20 @@ func Update%[1]s(c *gin.Context) {
 		"result": "Данные обновлены",
 	})
 }	
-	`, tableName, getTextEncrypt(encryptColumns), generatePatchFieldString(allColumns), beforeVar(allColumns, "data."),)
+	`, tableName, getTextEncrypt(encryptColumns), generatePatchFieldString(allColumns[1:]), beforeVar(allColumns[1:], "data."),)
 
 	return text
 }
 
 func deleteRequestGenerate(tableName string) string{
 
-	routerText += fmt.Sprintf(`%[1]s.DELETE("/delete/:tokken/:id", controllers.Delete%[2]s)
+	routerText += fmt.Sprintf(`%[1]s.DELETE("/delete/:token/:id", controllers.Delete%[2]s)
 	}`, firstLower(tableName), tableName)
 	text := fmt.Sprintf(`
 func Delete%[1]s(c *gin.Context) {
 	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id") 
-	fmt.Println(tokken)
+	fmt.Println(token)
 	_, err := db.Dbpool.Exec(@DELETE FROM "@+schema+@"."%[1]s" WHERE "Id"=$1@, id)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -387,7 +377,7 @@ func DataProcessing%[1]s(c gin.Context) structs.%[1]s {
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
 		return structs.%[1]s{}

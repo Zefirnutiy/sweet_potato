@@ -6,6 +6,10 @@ func Generate(){
 		"*Id", "#Title", "#Price", "#Paid", "#CreateCourse", "#TakeCourse",
 		"#AploadFile", "#ViewYourResult", "#ViewOtherResults")
 
+	ControllerFileCreate("ClientLevel",
+		"*Id", "#Title", "#CreateCourse", "#TakeCourse", 
+		"#AploadFile", "#ViewYourResult", "#ViewOtherResults")	
+		
 	// ControllerFileCreate("DeadLine",
 	// 	"*Id", "#Date", "#LevelId", "*#OrganizationId")
 
@@ -14,7 +18,7 @@ func Generate(){
 	
 	ControllerFileCreate("Client",
 		"*Id", "#FirstName", "#LastName", "#Patronymic", "$Password", "#Email",
-		"#Telephone", "#EmailNotifications", "*#GroupId")
+		"#Telephone", "#EmailNotifications", "*#GroupId", "*#ClientLevelId")
 
 	// ControllerFileCreate("Test",
 	// 	"*Id", "#Title", "#Text", "#Date", "#DateDel")

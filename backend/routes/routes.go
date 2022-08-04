@@ -37,11 +37,13 @@ func Routs(port string) {
 
 	client := router.Group("/api/client")
 	{
-		// client.GET("/getClients/:token", controllers.GetClients)
-		// client.GET("/getClientById/:tokken/:id", controllers.GetClientById)
-		// client.POST("/create", controllers.CreateClient)
-		// client.PATCH("/update", controllers.UpdateClient)
-		// client.DELETE("/delete/:tokken/:id", controllers.DeleteClient)
+		client.GET("/getClients/:schema", controllers.GetClients)
+		client.GET("/getClientById/:schema/:id", controllers.GetClientById)
+		client.GET("/getClientByGroupId/:schema/:id", controllers.GetClientByGroupId)
+		client.GET("/getClientByClientLevelId/:schema/:id", controllers.GetClientByClientLevelId)
+		client.POST("/create/:schema", controllers.CreateClient)
+		client.PATCH("/update/:schema/:id", controllers.UpdateClient)
+		client.DELETE("/delete/:schema/:id", controllers.DeleteClient)
 		client.POST("/login", controllers.LoginClient)
 	}
 	router.Run(port)

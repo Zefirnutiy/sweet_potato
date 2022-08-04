@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/dgrijalva/jwt-go/v4"
 	"time"
@@ -14,7 +13,6 @@ type MyCustomOrganization struct {
 	jwt.StandardClaims
 }
 
-var cfg = db.Load("./settings.cfg")
 
 // Функция нужна для создания токена, при создании организации
 func CreateToken(Organization structs.Organization, Client structs.Client) (string, error) {
@@ -78,7 +76,7 @@ func CreateClientToken(customeStruct jwt.Claims, secretWord string) (string, err
 func ParseToken(accessToken string, signingKey []byte) (structs.Organization, structs.Client, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &MyCustomOrganization{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
 		return signingKey, nil
 	})
@@ -95,5 +93,5 @@ func ParseToken(accessToken string, signingKey []byte) (structs.Organization, st
 		return structs.Organization{}, claims.Client, nil
 	}
 
-	return structs.Organization{}, structs.Client{}, fmt.Errorf("Расшифровки нет")
+	return structs.Organization{}, structs.Client{}, fmt.Errorf("расшифровки нет")
 }
