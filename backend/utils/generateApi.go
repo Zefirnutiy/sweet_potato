@@ -143,9 +143,6 @@ func Get%[1]ss(c *gin.Context) {
 	var %[2]sList []structs.%[1]s
 	var %[2]s structs.%[1]s
 
-	tokken := c.Params.ByName("tokken")
-	fmt.Println("tokken:", tokken)
-
 	rows, err := db.Dbpool.Query(@SELECT * FROM "@ + schema + @"."%[1]s"@, schema)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -192,10 +189,7 @@ func getByRequestGenerate(tableName string, fields, allColumns []string) string 
 
 	text += fmt.Sprintf(`
 func Get%[1]sBy%[3]s(c *gin.Context) {
-	schema := c.GetString("schema")
-	tokken := c.Params.ByName("tokken")
-	fmt.Println("tokken:", tokken)
-
+	schema := c.Params.ByName("schema")
 	%[4]s := c.Params.ByName("%[4]s")
 	var %[2]s structs.%[1]s
 
@@ -233,10 +227,7 @@ func getByManyRequestGenerate(tableName string, fields, allColumns []string) str
 
 	text += fmt.Sprintf(`
 func Get%[1]sBy%[3]s(c *gin.Context) {
-	schema := c.GetString("schema")
-	tokken := c.Params.ByName("tokken")
-	fmt.Println("tokken:", tokken)
-
+	schema := c.Params.ByName("schema")
 	%[4]s := c.Params.ByName("%[4]s")
 	var %[2]sList []structs.%[1]s
 	var %[2]s structs.%[1]s
@@ -286,7 +277,7 @@ func postRequestGenerate(tableName string, postColumns, encryptColumns []string)
 	`,lowerName, tableName )
 	text := fmt.Sprintf(`
 func Create%[1]s(c *gin.Context) {
-	schema := c.GetString("schema")
+	schema := c.Params.ByName("schema")
 	data := DataProcessing%[1]s(*c)
 	var err error
 	%[6]s
@@ -320,7 +311,7 @@ func patchRequestGenerate(tableName string, allColumns, encryptColumns []string)
 	text := fmt.Sprintf(`
 func Update%[1]s(c *gin.Context) {
 
-	schema := c.GetString("schema")
+	schema := c.Params.ByName("schema")
 	data := DataProcessing%[1]s(*c)
 	var err error
 	%[2]s
@@ -353,8 +344,7 @@ func deleteRequestGenerate(tableName string) string{
 	}`, firstLower(tableName), tableName)
 	text := fmt.Sprintf(`
 func Delete%[1]s(c *gin.Context) {
-	schema := c.GetString("schema")
-	tokken := c.Params.ByName("tokken")
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id") 
 	fmt.Println(tokken)
 	_, err := db.Dbpool.Exec(@DELETE FROM "@+schema+@"."%[1]s" WHERE "Id"=$1@, id)
