@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -10,11 +11,11 @@ import (
 	"net/http"
 )
 
-func CreateOrganization(title, password, email string, emailnotifications bool) (sql.Result, error) {
+func CreateOrganization(title, password, email, key string, emailnotifications bool) (sql.Result, error) {
 	result, err := db.Dbpool.Exec(`
-		INSERT INTO "Main"."Organization" ("Title", "Password", "Email", "EmailNotifications") 
-		VALUES ($1, $2, $3, $4);`,
-		title, password, email, emailnotifications)
+		INSERT INTO "Main"."Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
+		VALUES ($1, $2, $3, $4, $5);`,
+		title, password, email, emailnotifications, key)
 
 	if err != nil {
 		return nil, err
@@ -33,9 +34,11 @@ func GetOrganization(email string) (structs.Organization, bool) {
 		&organization.Email,
 		&organization.EmailNotifications,
 		&organization.LevelId,
+		&organization.Key,
 	)
 
 	if err != nil {
+		fmt.Println(err)
 		return structs.Organization{}, false
 	}
 
@@ -44,6 +47,7 @@ func GetOrganization(email string) (structs.Organization, bool) {
 
 func RegisterOrganization(c *gin.Context) {
 	var organization structs.Organization
+	var claimOrganization structs.Claims
 
 	if err := c.ShouldBindJSON(&organization); err != nil {
 		c.String(http.StatusBadGateway, err.Error())
@@ -65,7 +69,10 @@ func RegisterOrganization(c *gin.Context) {
 		organization.Title,
 		string(hashedPassword),
 		organization.Email,
-		organization.EmailNotifications)
+		string(hashedPassword[len(hashedPassword)-6:]),
+		organization.EmailNotifications,
+	)
+	db.CreateTable("./db/organization.sql", string(hashedPassword[len(hashedPassword)-6:]))
 
 	if err != nil {
 		c.String(http.StatusNotImplemented, err.Error(), gin.H{
@@ -73,15 +80,18 @@ func RegisterOrganization(c *gin.Context) {
 		})
 		return
 	}
+	organizationFromDb, _ := GetOrganization(organization.Email)
+	claimOrganization.Id = organization.Id
+	claimOrganization.Email = organization.Email
+	claimOrganization.Schema = organizationFromDb.Key
 
-	token, err := utils.CreateToken(organization, structs.Client{})
+	token, err := utils.CreateToken(claimOrganization)
 
 	if err != nil {
 		c.String(500, err.Error())
 		return
 	}
 
-	organizationFromDb, _ := GetOrganization(organization.Email)
 	organizationFromDb.Password = ""
 
 	c.JSON(http.StatusCreated, gin.H{
@@ -93,6 +103,7 @@ func RegisterOrganization(c *gin.Context) {
 
 func LoginOrganization(c *gin.Context) {
 	var organization structs.Organization
+	var claimOrganization structs.Claims
 
 	if err := c.ShouldBindJSON(&organization); err != nil {
 		c.String(http.StatusBadGateway, err.Error())
@@ -121,15 +132,17 @@ func LoginOrganization(c *gin.Context) {
 		return
 	}
 
-	result.Password = ""
-	token, err := utils.CreateToken(result, structs.Client{})
+	claimOrganization.Id = result.Id
+	claimOrganization.Email = result.Email
+	claimOrganization.Schema = result.Key
+	token, err := utils.CreateToken(claimOrganization)
 
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
 			"message": "Что-то пошло не так",
 		})
 	}
-
+	result.Password = ""
 	c.JSON(http.StatusOK, gin.H{
 		"organization": result,
 		"message":      "Вы успешно вошли",

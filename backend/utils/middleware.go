@@ -31,7 +31,7 @@ func TokenCheckedFromHeader(c *gin.Context) {
 		return
 	}
 
-	Organization, Client, err := ParseToken(header[1], []byte("lol"))
+	Model, err := ParseToken(header[1], []byte("lol"))
 
 	if err != nil {
 
@@ -40,9 +40,10 @@ func TokenCheckedFromHeader(c *gin.Context) {
 		return
 	}
 
-	if Organization.Title != "" {
-		c.Set("Organization", Organization)
-		return
-	}
-	c.Set("Organization", Client)
+	c.Set("Model", Model)
+
+	//c.Set("Client", Client)
+
+	return
+
 }

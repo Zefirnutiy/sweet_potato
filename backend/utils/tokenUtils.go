@@ -8,40 +8,16 @@ import (
 )
 
 type MyCustomOrganization struct {
-	Organization structs.Organization
-	Client       structs.Client
+	Organization structs.Claims
 	jwt.StandardClaims
 }
 
 
 // Функция нужна для создания токена, при создании организации
-func CreateToken(Organization structs.Organization, Client structs.Client) (string, error) {
-
-	if Organization.Title != "" {
-
-		claims := MyCustomOrganization{
-			Organization,
-			structs.Client{},
-			jwt.StandardClaims{
-				ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
-				Issuer:    "test",
-			},
-		}
-
-		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-		ss, err := token.SignedString([]byte("lol"))
-
-		if err != nil {
-			return "", err
-		}
-
-		return ss, nil
-
-	}
+func CreateToken(Model structs.Claims) (string, error) {
 
 	claims := MyCustomOrganization{
-		structs.Organization{},
-		Client,
+		Model,
 		jwt.StandardClaims{
 			ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
 			Issuer:    "test",
@@ -73,7 +49,7 @@ func CreateClientToken(customeStruct jwt.Claims, secretWord string) (string, err
 }
 
 // Функция нужна для расшифровки токена, для middleware
-func ParseToken(accessToken string, signingKey []byte) (structs.Organization, structs.Client, error) {
+func ParseToken(accessToken string, signingKey []byte) (structs.Claims, error) {
 	token, err := jwt.ParseWithClaims(accessToken, &MyCustomOrganization{}, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -82,15 +58,13 @@ func ParseToken(accessToken string, signingKey []byte) (structs.Organization, st
 	})
 
 	if err != nil {
-		return structs.Organization{}, structs.Client{}, err
+		return structs.Claims{}, err
 	}
 
 	if claims, ok := token.Claims.(*MyCustomOrganization); ok && token.Valid {
 		fmt.Println(claims)
-		if claims.Organization.Title != "" {
-			return claims.Organization, structs.Client{}, nil
-		}
-		return structs.Organization{}, claims.Client, nil
+		return claims.Organization, nil
+
 	}
 
 	return structs.Organization{}, structs.Client{}, fmt.Errorf("расшифровки нет")

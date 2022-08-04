@@ -31,7 +31,7 @@ func main() {
 	// 	fmt.Println(err.Error())
 	// 	return
 	// }
-	
+
 	// utils.Generate()
 	// utils.ControllerFileCreate("Client",
 	// 	"*Id", "#FirstName", "#LastName", "#Patronymic", "$#Password", "#Email",
