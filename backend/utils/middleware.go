@@ -44,6 +44,4 @@ func TokenCheckedFromHeader(c *gin.Context) {
 
 	//c.Set("Client", Client)
 
-	return
-
 }

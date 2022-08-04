@@ -67,5 +67,5 @@ func ParseToken(accessToken string, signingKey []byte) (structs.Claims, error) {
 
 	}
 
-	return structs.Organization{}, structs.Client{}, fmt.Errorf("расшифровки нет")
+	return structs.Claims{}, fmt.Errorf("расшифровки нет")
 }
