@@ -2,12 +2,9 @@ package controllers
 
 import (
 	"fmt"
-	"time"
-
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
-	"github.com/dgrijalva/jwt-go/v4"
 	"github.com/gin-gonic/gin"
 )
 func DataProcessingClient(c gin.Context) structs.Client {
@@ -228,13 +225,7 @@ type ClientLogin struct {
 	Password 	string 
 }
 
-type customClient struct {
-	id 					int
-	groupId 			int
-	firstName 			string
-	lastName 			string
-	jwt.StandardClaims
-}
+var claims structs.Claims
 
 func LoginClient(c *gin.Context) {
 
@@ -289,18 +280,13 @@ func LoginClient(c *gin.Context) {
 		return
 	}
 
-	claims := customClient{
-		client.Id, 
-		client.GroupId, 
-		client.FirstName, 
-		client.LastName,
-		jwt.StandardClaims{
-			ExpiresAt: jwt.At(time.Now().Add(12 * time.Hour)),
-			Issuer:    "test",
-		},
-	}
+	claims := structs.Claims{
+		Id: client.Id, 
+		LevelId: client.ClientLevelId, 
+		Email: client.Email,
+		Schema: loginData.Schema}
 
-	token, err := utils.CreateClientToken(claims, "someFuckingWord")
+	token, err := utils.CreateToken(claims)
 
 	if err != nil {
 		utils.Logger.Println(err)

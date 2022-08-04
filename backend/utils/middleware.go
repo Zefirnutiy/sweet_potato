@@ -31,7 +31,7 @@ func TokenCheckedFromHeader(c *gin.Context) {
 		return
 	}
 
-	Model, err := ParseToken(header[1], []byte("lol"))
+	Model, err := ParseToken(header[1], []byte("woe_ifhb_o$wei_$rhb#fqol#eri@bf"))
 
 	if err != nil {
 

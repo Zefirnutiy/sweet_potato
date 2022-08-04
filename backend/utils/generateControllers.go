@@ -17,7 +17,7 @@ func Generate(){
 	// 	"*#Number", "#Name", "#Money", "#Date", "#LevelId", "*#OrganizationId")
 	
 	ControllerFileCreate("Client",
-		"*Id", "#FirstName", "#LastName", "#Patronymic", "$Password", "#Email",
+		"*Id", "#FirstName", "#LastName", "#Patronymic", "$#Password", "#Email",
 		"#Telephone", "#EmailNotifications", "*#GroupId", "*#ClientLevelId")
 
 	// ControllerFileCreate("Test",

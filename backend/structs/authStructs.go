@@ -1,7 +1,8 @@
 package structs
 
 type Claims struct {
-	Id     int
-	Email  string
-	Schema string
+	Id     			int
+	LevelId 	int
+	Email  		string
+	Schema 		string
 }

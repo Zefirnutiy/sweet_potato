@@ -25,7 +25,7 @@ func CreateToken(Model structs.Claims) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := token.SignedString([]byte("lol"))
+	ss, err := token.SignedString([]byte("woe_ifhb_o$wei_$rhb#fqol#eri@bf"))
 
 	if err != nil {
 		return "", err
@@ -33,19 +33,6 @@ func CreateToken(Model structs.Claims) (string, error) {
 
 	return ss, nil
 
-}
-
-// Функция нужна для создания токена, при создании Клиента
-func CreateClientToken(customeStruct jwt.Claims, secretWord string) (string, error) {
-
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, customeStruct)
-	ss, err := token.SignedString([]byte(secretWord))
-
-	if err != nil {
-		return "", err
-	}
-
-	return ss, nil
 }
 
 // Функция нужна для расшифровки токена, для middleware
