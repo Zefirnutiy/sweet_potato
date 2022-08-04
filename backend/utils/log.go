@@ -7,7 +7,6 @@ import (
 	"time"
 )
 
-var loggerFile *os.File
 var Logger *log.Logger
 
 // Инициализировать логгер

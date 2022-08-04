@@ -15,6 +15,15 @@ type Level struct {
 	ViewYourResult   bool
 	ViewOtherResults bool
 }
+type ClientLevelId struct {
+    Id                      int  
+    Title                   string  
+    CreateCourse            bool  
+    TakeCourse              bool  
+    AploadFile              bool  
+    ViewYourResult          bool  
+    ViewOtherResults        bool  
+}
 
 type Organization struct {
 	Id                 int
@@ -43,15 +52,16 @@ type Payment struct {
 }
 
 type Client struct {
-	Id                 int
-	FirstName          string
-	LastName           string
-	Patronymic         string
-	Password           string
-	Email              string
-	Telephone          string
-	EmailNotifications bool
-	GroupId            int
+    Id 						int  
+    FirstName               string   
+    LastName                string   
+    Patronymic              string          
+    Password                string   
+    Email                   string   
+    Telephone               string   
+    EmailNotifications      bool  
+    GroupId                 int  
+    ClientLevelId           int  
 }
 
 type Test struct {

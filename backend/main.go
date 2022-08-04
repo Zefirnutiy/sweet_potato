@@ -14,12 +14,11 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-
+	
 }
 
 func main() {
-	// bebra, _ := utils.Encrypt("123456qwert")
-	// fmt.Println(bebra)
+
 	// err := db.CreateTable("./db/main.sql", "main")
 
 	// if err != nil {
@@ -34,6 +33,10 @@ func main() {
 	// }
 
 	// utils.Generate()
+	// utils.ControllerFileCreate("Client",
+	// 	"*Id", "#FirstName", "#LastName", "#Patronymic", "$#Password", "#Email",
+	// 	"#Telephone", "#EmailNotifications", "*#GroupId", "*#ClientLevelId")
+
 	routes.Routs(cfg.Port)
 
 }
