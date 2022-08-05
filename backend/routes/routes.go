@@ -3,13 +3,22 @@ package routes
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/controllers"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
-
-	// "github.com/Zefirnutiy/sweet_potato.git/utils"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 func Routs(port string) {
 	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"DELETE", "POST", "GET"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	organization := router.Group("/api/organization")
 	{
@@ -46,6 +55,7 @@ func Routs(port string) {
 		client.DELETE("/delete/:schema/:id", controllers.DeleteClient)
 		client.POST("/login", controllers.LoginClient)
 	}
+
 	router.Run(port)
 
 }
