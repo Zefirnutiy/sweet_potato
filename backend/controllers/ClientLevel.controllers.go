@@ -1,3 +1,4 @@
+
 package controllers
 
 import (
@@ -6,26 +7,26 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingLevel(c gin.Context) structs.Level {
-	var data structs.Level
+func DataProcessingClientLevel(c gin.Context) structs.ClientLevel {
+	var data structs.ClientLevel
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.Level{}
+		return structs.ClientLevel{}
 	}
 	return data
 }
 
 
-func GetLevels(c *gin.Context) {
-	var levelList []structs.Level
-	var level structs.Level
+func GetClientLevels(c *gin.Context) {
+	schema := c.Params.ByName("schema")
+	var clientLevelList []structs.ClientLevel
+	var clientLevel structs.ClientLevel
 
-
-	rows, err := db.Dbpool.Query(`SELECT * FROM "Level"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."ClientLevel"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -37,17 +38,15 @@ func GetLevels(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&level.Id, 
-		&level.Title, 
-		&level.Price, 
-		&level.Paid, 
-		&level.CreateCourse, 
-		&level.TakeCourse, 
-		&level.AploadFile, 
-		&level.ViewYourResult, 
-		&level.ViewOtherResults, 
+		&clientLevel.Id, 
+		&clientLevel.Title, 
+		&clientLevel.CreateCourse, 
+		&clientLevel.TakeCourse, 
+		&clientLevel.AploadFile, 
+		&clientLevel.ViewYourResult, 
+		&clientLevel.ViewOtherResults, 
 		)
-		levelList = append(levelList, level)
+		clientLevelList = append(clientLevelList, clientLevel)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -58,25 +57,24 @@ func GetLevels(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": levelList,
+		"result": clientLevelList,
 		"message": nil,
 	})
 }
 
-func GetLevelById(c *gin.Context) {
+func GetClientLevelById(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
-	var level structs.Level
+	var clientLevel structs.ClientLevel
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Level" WHERE "Id"=$1`, id ).Scan(
-		&level.Id, 
-		&level.Title, 
-		&level.Price, 
-		&level.Paid, 
-		&level.CreateCourse, 
-		&level.TakeCourse, 
-		&level.AploadFile, 
-		&level.ViewYourResult, 
-		&level.ViewOtherResults, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."ClientLevel" WHERE "Id"=$1`, id ).Scan(
+		&clientLevel.Id, 
+		&clientLevel.Title, 
+		&clientLevel.CreateCourse, 
+		&clientLevel.TakeCourse, 
+		&clientLevel.AploadFile, 
+		&clientLevel.ViewYourResult, 
+		&clientLevel.ViewOtherResults, 
 		
 	)
 	if err != nil {
@@ -89,7 +87,7 @@ func GetLevelById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": level,
+		"result": clientLevel,
 		"message": nil,
 	})
 }
@@ -97,16 +95,15 @@ func GetLevelById(c *gin.Context) {
 	
 
 
-func CreateLevel(c *gin.Context) {
-	data := DataProcessingLevel(*c)
+func CreateClientLevel(c *gin.Context) {
+	schema := c.Params.ByName("schema")
+	data := DataProcessingClientLevel(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "Level"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."ClientLevel"
 		(
 		"Title", 
-		"Price", 
-		"Paid", 
 		"CreateCourse", 
 		"TakeCourse", 
 		"AploadFile", 
@@ -114,10 +111,8 @@ func CreateLevel(c *gin.Context) {
 		"ViewOtherResults", 
 		
 		) 
-		VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )`,
+		VALUES( $1, $2, $3, $4, $5, $6 )`,
 		data.Title, 
-		data.Price, 
-		data.Paid, 
 		data.CreateCourse, 
 		data.TakeCourse, 
 		data.AploadFile, 
@@ -137,27 +132,26 @@ func CreateLevel(c *gin.Context) {
 }
 	
 
-func UpdateLevel(c *gin.Context) {
-	data := DataProcessingLevel(*c)
+func UpdateClientLevel(c *gin.Context) {
+
+	schema := c.Params.ByName("schema")
+	id := c.Params.ByName("id")
+	data := DataProcessingClientLevel(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "Level" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."ClientLevel" 
 		SET 
-		"Title"=$2,
-		"Price"=$3,
-		"Paid"=$4,
-		"CreateCourse"=$5,
-		"TakeCourse"=$6,
-		"AploadFile"=$7,
-		"ViewYourResult"=$8,
-		"ViewOtherResults"=$9
+		"Title"=$1,
+		"CreateCourse"=$2,
+		"TakeCourse"=$3,
+		"AploadFile"=$4,
+		"ViewYourResult"=$5,
+		"ViewOtherResults"=$6
 		
 		WHERE "Id"=$1`,
-		data.Id, 
+		id,
 		data.Title, 
-		data.Price, 
-		data.Paid, 
 		data.CreateCourse, 
 		data.TakeCourse, 
 		data.AploadFile, 
@@ -178,9 +172,10 @@ func UpdateLevel(c *gin.Context) {
 }	
 	
 
-func DeleteLevel(c *gin.Context) {
-	id := c.Params.ByName("id") 
-	_, err := db.Dbpool.Exec(`DELETE FROM "Level" WHERE "Id"=$1`, id)
+func DeleteClientLevel(c *gin.Context) {
+	schema := c.Params.ByName("schema")
+	id := c.Params.ByName("id")
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."ClientLevel" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -192,3 +187,5 @@ func DeleteLevel(c *gin.Context) {
 		"result": "Данные удалены",
 	})
 }
+	
+	

@@ -131,7 +131,7 @@ func Get%[1]ss(c *gin.Context) {
 	var %[2]sList []structs.%[1]s
 	var %[2]s structs.%[1]s
 
-	rows, err := db.Dbpool.Query(@SELECT * FROM "@ + schema + @"."%[1]s"@)
+	rows, err := db.Dbpool.Query(@SELECT * FROM "@+schema+@"."%[1]s"@)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -172,7 +172,7 @@ func getByRequestGenerate(tableName string, fields, allColumns []string) string 
 	text := ``
 	for _, field := range fields{
 
-	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sBy%[3]s/:token/:%[4]s", controllers.Get%[1]stBy%[3]s)
+	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sBy%[3]s/:schema/:%[4]s", controllers.Get%[1]sBy%[3]s)
 	`, tableName, lowerName, field, firstLower(field))
 
 	text += fmt.Sprintf(`
@@ -210,7 +210,7 @@ func getByManyRequestGenerate(tableName string, fields, allColumns []string) str
 	text := ``
 	for _, field := range fields{
 
-	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:token/:%[4]s", controllers.Get%[1]stBy%[3]s)
+	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:schema/:%[4]s", controllers.Get%[1]stBy%[3]s)
 	`, tableName, lowerName, field, firstLower(field))
 
 	text += fmt.Sprintf(`
@@ -220,9 +220,7 @@ func Get%[1]sBy%[3]s(c *gin.Context) {
 	var %[2]sList []structs.%[1]s
 	var %[2]s structs.%[1]s
 
-	rows, err := db.Dbpool.Query(@SELECT * FROM "@+schema+@"."%[1]s" WHERE "%[3]s"=$1@, %[4]s ).Scan(
-		%[5]s
-	)
+	rows, err := db.Dbpool.Query(@SELECT * FROM "@+schema+@"."%[1]s" WHERE "%[3]s"=$1@, %[4]s )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -261,7 +259,7 @@ func Get%[1]sBy%[3]s(c *gin.Context) {
 func postRequestGenerate(tableName string, postColumns, encryptColumns []string) string {
 
 	lowerName := firstLower(tableName)
-	routerText += fmt.Sprintf(`%[1]s.POST("/create", controllers.Create%[2]s)
+	routerText += fmt.Sprintf(`%[1]s.POST("/create/:schema", controllers.Create%[2]s)
 	`,lowerName, tableName )
 	text := fmt.Sprintf(`
 func Create%[1]s(c *gin.Context) {
@@ -294,7 +292,7 @@ func Create%[1]s(c *gin.Context) {
 
 func patchRequestGenerate(tableName string, allColumns, encryptColumns []string) string{
 
-	routerText += fmt.Sprintf(`%[1]s.PATCH("/update", controllers.Update%[2]s)
+	routerText += fmt.Sprintf(`%[1]s.PATCH("/update/:schema", controllers.Update%[2]s)
 	`, firstLower(tableName), tableName)
 	text := fmt.Sprintf(`
 func Update%[1]s(c *gin.Context) {
@@ -330,13 +328,12 @@ func Update%[1]s(c *gin.Context) {
 
 func deleteRequestGenerate(tableName string) string{
 
-	routerText += fmt.Sprintf(`%[1]s.DELETE("/delete/:token/:id", controllers.Delete%[2]s)
+	routerText += fmt.Sprintf(`%[1]s.DELETE("/delete/:schema/:id", controllers.Delete%[2]s)
 	}`, firstLower(tableName), tableName)
 	text := fmt.Sprintf(`
 func Delete%[1]s(c *gin.Context) {
 	schema := c.Params.ByName("schema")
-	id := c.Params.ByName("id") 
-	fmt.Println(token)
+	id := c.Params.ByName("id")
 	_, err := db.Dbpool.Exec(@DELETE FROM "@+schema+@"."%[1]s" WHERE "Id"=$1@, id)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -366,7 +363,6 @@ func ControllerFileCreate(tableName string, columns ...string) error {
 package controllers
 
 import (
-	"fmt"
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
