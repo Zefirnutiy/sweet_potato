@@ -1,3 +1,4 @@
+
 package controllers
 
 import (
@@ -6,25 +7,26 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingAdmin(c gin.Context) structs.Admin {
-	var data structs.Admin
+func DataProcessingTest(c gin.Context) structs.Test {
+	var data structs.Test
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.Admin{}
+		return structs.Test{}
 	}
 	return data
 }
 
 
-func GetAdmins(c *gin.Context) {
-	var adminList []structs.Admin
-	var admin structs.Admin
+func GetTests(c *gin.Context) {
+	schema := c.Params.ByName("schema")
+	var testList []structs.Test
+	var test structs.Test
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "Admin"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Test"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -36,13 +38,13 @@ func GetAdmins(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&admin.Id, 
-		&admin.FirstName, 
-		&admin.LastName, 
-		&admin.Email, 
-		&admin.Password, 
+		&test.Id, 
+		&test.Title, 
+		&test.Text, 
+		&test.Date, 
+		&test.DateDel, 
 		)
-		adminList = append(adminList, admin)
+		testList = append(testList, test)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -53,22 +55,22 @@ func GetAdmins(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": adminList,
+		"result": testList,
 		"message": nil,
 	})
 }
 
-func GetAdminById(c *gin.Context) {
-
+func GetTestById(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
-	var admin structs.Admin
+	var test structs.Test
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Admin" WHERE "Id"=$1`, id ).Scan(
-		&admin.Id, 
-		&admin.FirstName, 
-		&admin.LastName, 
-		&admin.Email, 
-		&admin.Password, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Test" WHERE "Id"=$1`, id ).Scan(
+		&test.Id, 
+		&test.Title, 
+		&test.Text, 
+		&test.Date, 
+		&test.DateDel, 
 		
 	)
 	if err != nil {
@@ -81,7 +83,7 @@ func GetAdminById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": admin,
+		"result": test,
 		"message": nil,
 	})
 }
@@ -89,24 +91,25 @@ func GetAdminById(c *gin.Context) {
 	
 
 
-func CreateAdmin(c *gin.Context) {
-	data := DataProcessingAdmin(*c)
+func CreateTest(c *gin.Context) {
+	schema := c.Params.ByName("schema")
+	data := DataProcessingTest(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "Admin"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Test"
 		(
-		"Id", 
-		"FirstName", 
-		"LastName", 
-		"Email", 
+		"Title", 
+		"Text", 
+		"Date", 
+		"DateDel", 
 		
 		) 
 		VALUES( $1, $2, $3, $4 )`,
-		data.Id, 
-		data.FirstName, 
-		data.LastName, 
-		data.Email, 
+		data.Title, 
+		data.Text, 
+		data.Date, 
+		data.DateDel, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -121,25 +124,27 @@ func CreateAdmin(c *gin.Context) {
 }
 	
 
-func UpdateAdmin(c *gin.Context) {
+func UpdateTest(c *gin.Context) {
 
-	data := DataProcessingAdmin(*c)
+	schema := c.Params.ByName("schema")
+	id := c.Params.ByName("id")
+	data := DataProcessingTest(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "Admin" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Test" 
 		SET 
-		"FirstName"=$2,
-		"LastName"=$3,
-		"Email"=$4,
-		"Password"=$5
+		"Title"=$1,
+		"Text"=$2,
+		"Date"=$3,
+		"DateDel"=$4
 		
 		WHERE "Id"=$1`,
-		data.Id, 
-		data.FirstName, 
-		data.LastName, 
-		data.Email, 
-		data.Password, 
+		id,
+		data.Title, 
+		data.Text, 
+		data.Date, 
+		data.DateDel, 
 		
 		)
 	if err != nil {
@@ -155,9 +160,10 @@ func UpdateAdmin(c *gin.Context) {
 }	
 	
 
-func DeleteAdmin(c *gin.Context) {
-	id := c.Params.ByName("id") 
-	_, err := db.Dbpool.Exec(`DELETE FROM "Admin" WHERE "Id"=$1`, id)
+func DeleteTest(c *gin.Context) {
+	schema := c.Params.ByName("schema")
+	id := c.Params.ByName("id")
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Test" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -169,3 +175,5 @@ func DeleteAdmin(c *gin.Context) {
 		"result": "Данные удалены",
 	})
 }
+	
+	

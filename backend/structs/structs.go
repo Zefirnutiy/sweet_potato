@@ -15,7 +15,7 @@ type Level struct {
 	ViewYourResult   bool
 	ViewOtherResults bool
 }
-type ClientLevelId struct {
+type ClientLevel struct {
     Id                      int  
     Title                   string  
     CreateCourse            bool  
@@ -113,6 +113,7 @@ type Answer struct {
 type Course struct {
 	Id       int
 	Title    string
+	Text    string
 	Date     timestamp.Timestamp
 	DateDel  timestamp.Timestamp
 	ClientId int
@@ -149,14 +150,15 @@ type Group struct {
 }
 
 type File struct {
-	Id          int
-	Date        timestamp.Timestamp
-	DateDel     timestamp.Timestamp
-	FileName    string
-	FileNameTmp string
-	TestId      int8
-	QuestionId  int
-	ClientId    int8
+	Id          	int
+	Date        	timestamp.Timestamp
+	DateDel     	timestamp.Timestamp
+	FileName    	string
+	FileNameTmp 	string
+	TestId      	int8
+	QuestionId  	int
+	PublicInfoId 	int
+	ClientId    	int8
 }
 
 type ActiveTest struct {

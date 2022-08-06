@@ -13,7 +13,7 @@ import (
 
 func CreateOrganization(title, password, email, key string, emailnotifications bool) (sql.Result, error) {
 	result, err := db.Dbpool.Exec(`
-		INSERT INTO "Main"."Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
+		INSERT INTO "Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
 		VALUES ($1, $2, $3, $4, $5);`,
 		title, password, email, emailnotifications, key)
 
@@ -27,7 +27,7 @@ func CreateOrganization(title, password, email, key string, emailnotifications b
 func GetOrganization(email string) (structs.Organization, bool) {
 	var organization structs.Organization
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Main"."Organization" WHERE "Email" IN ($1)`, email).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "Organization" WHERE "Email" IN ($1)`, email).Scan(
 		&organization.Id,
 		&organization.Title,
 		&organization.Password,
