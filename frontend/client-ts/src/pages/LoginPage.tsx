@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom"
 import "../styles/css/login.css"
 
-export const LoginPage: React.FC = () => {
+export const LoginPage = () => {
     return (
         <main>
         <div className="container">

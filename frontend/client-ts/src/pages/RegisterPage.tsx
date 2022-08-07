@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom"
 import "../styles/css/registration.css"
 
-export const RegisterPage: React.FC = () => {
+export const RegisterPage = () => {
     return (
         <main>
             <div className="container">

@@ -1,17 +1,25 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { useRoutes } from './route';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { LoginPage } from './pages/LoginPage';
+import { RegisterPage } from './pages/RegisterPage';
 
 
-const App: React.FC = () => {
 
+const App = () => {
+  if(false){
+    return (
+        <h1>Ok</h1>
+    )
+}
+   
+return ( 
+   <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+    </Routes>
+   )
 
-  const routes = useRoutes(false)
-  return (
-    <BrowserRouter>
-          {routes}
-    </BrowserRouter>  
-  );
 }
 
 export default App;
