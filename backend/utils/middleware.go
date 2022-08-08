@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -23,25 +22,29 @@ func TokenCheckedFromHeader(c *gin.Context) {
 
 	if len(header) != 2 {
 		c.AbortWithStatus(http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Авторизуйтесь",
+		})
 		return
 	}
 
 	if header[0] != "Bearer" {
 		c.AbortWithStatus(http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Авторизуйтесь",
+		})
 		return
 	}
 
 	Model, err := ParseToken(header[1], []byte("woe_ifhb_o$wei_$rhb#fqol#eri@bf"))
 
 	if err != nil {
-
-		fmt.Println(err)
 		c.AbortWithStatus(http.StatusUnauthorized)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Авторизуйтесь",
+		})
 		return
 	}
 
 	c.Set("Model", Model)
-
-	//c.Set("Client", Client)
-
 }
