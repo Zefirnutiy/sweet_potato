@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { Accaunt } from './pages/Accaunt/Accaunt';
 
 
 
@@ -15,6 +16,7 @@ const App = () => {
 return ( 
    <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/test" element={<Accaunt />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<Navigate to="/login" />} />
     </Routes>

@@ -1,0 +1,27 @@
+@font-face {
+  font-family: 'zona';
+  src: url("../../fonts/ZonaPro-Light.ttf");
+}
+
+main {
+  font-family: 'zona';
+  font-weight: 500;
+  font-size: 18px;
+  color: white;
+  background-color: #483dc9;
+  background: -webkit-gradient(linear, left top, left bottom, from(#483dc9), to(#3126a4));
+  background: linear-gradient(#483dc9, #3126a4);
+  margin: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100vh;
+}
+
+main #main {
+  width: 100%;
+  min-height: 100%;
+  -webkit-box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.25);
+          box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.25);
+}
+/*# sourceMappingURL=Accaunt.css.map */
