@@ -2,24 +2,30 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
-import { Accaunt } from './pages/Accaunt/Accaunt';
+import { Account } from './pages/Account/Account';
+import { Navbar } from './components/Navbar/Navbar';
 
 
 
 const App = () => {
-  if(false){
+  if(true){
     return (
-        <h1>Ok</h1>
+    <main>
+      <Navbar />
+      <Routes>
+        <Route path="/account" element={<Account />} />
+        <Route path="*" element={<Navigate to="/account" />} />
+      </Routes>
+    </main>
     )
 }
    
 return ( 
-   <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/test" element={<Accaunt />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
+  <Routes>
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/register" element={<RegisterPage />} />
+    <Route path="*" element={<Navigate to="/login" />} />
+  </Routes>
    )
 
 }
