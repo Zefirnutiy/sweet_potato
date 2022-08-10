@@ -1,9 +1,7 @@
-import { RegisterPage } from './pages/RegisterPage';
 import { Account } from './pages/Account/Account';
 import { Navbar } from './components/Navbar/Navbar';
 import { InformationCard } from './components/InformationCard/InformationCard';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { LoginPage } from './pages/LoginPage';
 
 
 
@@ -33,11 +31,7 @@ const App = () => {
   }
 
   return ( 
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
+    <h1>asdasd</h1>
   )
 }
 
