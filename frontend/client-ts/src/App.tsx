@@ -9,6 +9,9 @@ import { InformationCard } from './components/InformationCard/InformationCard';
 
 
 const App = () => {
+
+  if(false){
+
   let links = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
@@ -20,6 +23,7 @@ const App = () => {
   ]
 
   if(true){
+
     return (
     <main>
       <Navbar links={links}>
@@ -31,15 +35,16 @@ const App = () => {
       </Routes>
     </main>
     )
-  }
-   
-  return ( 
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
-  )
+
+}
+
+return ( 
+  <Routes>
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/register" element={<RegisterPage />} />
+    <Route path="*" element={<Navigate to="/login" />} />
+  </Routes>
+   )
 }
 
 export default App;
