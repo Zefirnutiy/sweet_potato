@@ -5,7 +5,6 @@ import { Loader } from "../../components/Loader/Loader"
 export const Account = () => {
     return (
         <div id="main">
-            <Loader/>
         </div>
     )
 }
