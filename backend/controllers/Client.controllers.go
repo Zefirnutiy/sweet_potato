@@ -23,6 +23,7 @@ func DataProcessingClient(c gin.Context) structs.Client {
 }
 
 func GetClients(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	var clientList []structs.Client
 	var client structs.Client
 
@@ -67,6 +68,7 @@ func GetClients(c *gin.Context) {
 }
 
 func GetClientById(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
 	var client structs.Client
 
@@ -98,6 +100,7 @@ func GetClientById(c *gin.Context) {
 }
 
 func GetClientByGroupId(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	groupId := c.Params.ByName("groupId")
 	var client structs.Client
 
@@ -129,6 +132,7 @@ func GetClientByGroupId(c *gin.Context) {
 }
 
 func GetClientByClientLevelId(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	clientLevelId := c.Params.ByName("clientLevelId")
 	var client structs.Client
 
@@ -288,7 +292,7 @@ func LoginClient(c *gin.Context) {
 }
 
 func UpdateClient(c *gin.Context) {
-
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
 	data := DataProcessingClient(*c)
 	var err error
