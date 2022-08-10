@@ -20,7 +20,7 @@
   opacity: 1;
 }
 
-.modal .modalContent {
+.modalContent {
   z-index: 110;
   display: -ms-grid;
   display: grid;
@@ -38,7 +38,5 @@
   height: fit-content;
   padding: 10px;
   background-color: black;
-  pointer-events: none;
-  cursor: default;
 }
 /*# sourceMappingURL=Modal.css.map */
