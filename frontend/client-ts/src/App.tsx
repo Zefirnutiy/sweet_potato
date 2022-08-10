@@ -8,26 +8,30 @@ import { Navbar } from './components/Navbar/Navbar';
 
 
 const App = () => {
+  let links = [
+    {icon: "ff", title: "Something1"},
+    {icon: "cc", title: "Something2"},
+  ]
+
   if(true){
     return (
     <main>
-      <Navbar />
+      <Navbar/>
       <Routes>
         <Route path="/account" element={<Account />} />
         <Route path="*" element={<Navigate to="/account" />} />
       </Routes>
     </main>
     )
-}
+  }
    
-return ( 
-  <Routes>
-    <Route path="/login" element={<LoginPage />} />
-    <Route path="/register" element={<RegisterPage />} />
-    <Route path="*" element={<Navigate to="/login" />} />
-  </Routes>
-   )
-
+  return ( 
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="*" element={<Navigate to="/login" />} />
+    </Routes>
+  )
 }
 
 export default App;
