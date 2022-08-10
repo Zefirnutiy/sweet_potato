@@ -8,7 +8,7 @@ import { Navbar } from './components/Navbar/Navbar';
 
 
 const App = () => {
-  if(true){
+  if(false){
     return (
     <main>
       <Navbar />
@@ -19,7 +19,7 @@ const App = () => {
     </main>
     )
 }
-   
+
 return ( 
   <Routes>
     <Route path="/login" element={<LoginPage />} />
