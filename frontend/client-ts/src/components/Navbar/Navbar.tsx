@@ -1,7 +1,6 @@
 
 import { Link } from "react-router-dom"
 import "./Navbar.css"
-import "../../fonts/fontawesome-free-6.1.2-web/css/all.css"
 import { FC, useState } from "react";
 import { Modal } from "../Modal/Modal";
 

@@ -20,7 +20,6 @@ func DataProcessingActiveTest(c gin.Context) structs.ActiveTest {
 	return data
 }
 
-
 func GetActiveTests(c *gin.Context) {
 	schema := c.Params.ByName("schema")
 	var activeTestList []structs.ActiveTest
@@ -92,9 +91,7 @@ func GetActiveTestById(c *gin.Context) {
 		"result": activeTest,
 		"message": nil,
 	})
-}
-
-	
+}	
 
 func GetActiveTestByClientId(c *gin.Context) {
 	schema := c.Params.ByName("schema")
@@ -140,7 +137,6 @@ func GetActiveTestByClientId(c *gin.Context) {
 	})
 }
 
-	
 
 func CreateActiveTest(c *gin.Context) {
 	schema := c.Params.ByName("schema")
