@@ -1,8 +1,8 @@
-import "./Loader.css"
+import styles from "./Loader.module.css"
 
 export const Loader = () =>{
     return (
-        <div className="loader">
+        <div className={styles.loader}>
             <div>
             <ul>
                 <li>
