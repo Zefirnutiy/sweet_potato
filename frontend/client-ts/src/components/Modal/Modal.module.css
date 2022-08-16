@@ -20,7 +20,7 @@
   opacity: 1;
 }
 
-.modal .modalContent {
+.modalContent {
   z-index: 110;
   display: -ms-grid;
   display: grid;
