@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
+import "./fonts/fontawesome-free-6.1.2-web/css/all.css"
 
 
 const root = ReactDOM.createRoot(

@@ -1,7 +1,6 @@
 
 import { Link } from "react-router-dom"
-import "./Navbar.css"
-import "../../fonts/fontawesome-free-6.1.2-web/css/all.css"
+import styles from "./Navbar.module.css"
 import { FC, useState } from "react";
 import { Modal } from "../Modal/Modal";
 
@@ -20,17 +19,17 @@ type PropTypes = {
 export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children}) =>{
     const [openRegModal, setRegModal] = useState(false)
     return (
-        <div id="navbar">
-        <div id="logo">
+        <div id={styles.navbar}>
+        <div id={styles.logo}>
            {organizationName}
         </div>
-        <div id="nav">
+        <div id={styles.nav}>
             {links?.map(link => 
                 <Link to={link.path}><i className={link.icon}></i> {link.title}</Link> 
             )}
            
         </div>
-        <div id="navContent">
+        <div id={styles.navContent}>
             {children}
             <button onClick={() => setRegModal(true)}>Выйти</button>
             {openRegModal &&
@@ -44,4 +43,3 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
     </div>
     )
 }
-

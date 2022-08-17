@@ -1,4 +1,4 @@
-import { Account } from './pages/Account/Account';
+import { DepartmentManagement } from './pages/DepartmentManagement/DepartmentManagement';
 import { Navbar } from './components/Navbar/Navbar';
 import { InformationCard } from './components/InformationCard/InformationCard';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -23,8 +23,8 @@ const App = () => {
         <InformationCard title="ТЫ ПИДОР" message="Ты таким родился."/>
       </Navbar>
       <Routes>
-        <Route path="/account" element={<Account />} />
-        <Route path="*" element={<Navigate to="/account" />} />
+        <Route path="/DepartmentManagement" element={<DepartmentManagement/>} />
+        <Route path="*" element={<Navigate to="/DepartmentManagement" />} />
       </Routes>
     </main>
     )
