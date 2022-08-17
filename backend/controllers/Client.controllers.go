@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -132,11 +133,11 @@ func GetClientByGroupId(c *gin.Context) {
 }
 
 func GetClientByClientLevelId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	clientLevelId := c.Params.ByName("clientLevelId")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Client" WHERE "ClientLevelId"=$1`, clientLevelId).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "ClientLevelId"=$1`, clientLevelId).Scan(
 		&client.Id,
 		&client.FirstName,
 		&client.LastName,

@@ -3,12 +3,13 @@ package controllers
 import (
 	"database/sql"
 	"fmt"
+	"net/http"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
 )
 
 func CreateOrganization(title, password, email, key string, emailnotifications bool) (sql.Result, error) {
@@ -27,7 +28,7 @@ func CreateOrganization(title, password, email, key string, emailnotifications b
 func GetOrganization(email string) (structs.Organization, bool) {
 	var organization structs.Organization
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Organization" WHERE "Email" IN ($1)`, email).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM public."Organization" WHERE "Email" IN ($1)`, email).Scan(
 		&organization.Id,
 		&organization.Title,
 		&organization.Password,
