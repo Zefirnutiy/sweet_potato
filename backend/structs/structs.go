@@ -150,15 +150,15 @@ type Group struct {
 }
 
 type File struct {
-	Id          	int
-	Date        	timestamp.Timestamp
-	DateDel     	timestamp.Timestamp
-	FileName    	string
-	FileNameTmp 	string
-	TestId      	int8
-	QuestionId  	int
-	PublicInfoId 	int
-	ClientId    	int8
+	Id          	int 					`json:"id"`
+	Date        	timestamp.Timestamp 	`json:"date"`
+	DateDel     	timestamp.Timestamp  	`json:"dateDel"`
+	FileName    	string 					`json:"fileName"`
+	FileNameTmp 	string 					`json:"fileNameTmp"`
+	TestId      	int8 					`json:"testId"`
+	QuestionId  	int 					`json:"questionId"`
+	PublicInfoId 	int 					`json:"publicInfoId"`
+	ClientId    	int8 					`json:"clientId"`
 }
 
 type ActiveTest struct {

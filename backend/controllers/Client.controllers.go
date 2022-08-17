@@ -346,8 +346,9 @@ func UpdateClient(c *gin.Context) {
 }
 
 func DeleteClient(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "Client" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Client" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -359,3 +360,4 @@ func DeleteClient(c *gin.Context) {
 		"result": "Данные удалены",
 	})
 }
+	

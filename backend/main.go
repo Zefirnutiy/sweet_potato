@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/routes"
-	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
 )
 
@@ -19,6 +18,7 @@ func init() {
 
 func main() {
 
+
 	// err := db.CreateTable("./db/public.sql", "public")
 
 	// if err != nil {
@@ -32,7 +32,8 @@ func main() {
 	// 	return
 	// }
 
-	utils.Generate()
+	// utils.Generate()
+
 	routes.Routs(cfg.Port)
 
 }

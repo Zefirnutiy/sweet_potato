@@ -123,7 +123,7 @@ func getTextEncrypt(fields []string)string{
 func getRequestGenerate(tableName string, columns []string) string {
 
 	lowerName := firstLower(tableName)
-	routerText += fmt.Sprintf(`%[1]s.GET("/get%[2]ss/:token", controllers.Get%[2]ss)
+	routerText += fmt.Sprintf(`%[1]s.GET("/get%[2]ss/:schema", controllers.Get%[2]ss)
 	`, lowerName, tableName)
 	text := fmt.Sprintf(`
 func Get%[1]ss(c *gin.Context) {
@@ -210,7 +210,7 @@ func getByManyRequestGenerate(tableName string, fields, allColumns []string) str
 	text := ``
 	for _, field := range fields{
 
-	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:schema/:%[4]s", controllers.Get%[1]stBy%[3]s)
+	routerText += fmt.Sprintf(`%[2]s.GET("/get%[1]sByMany%[3]s/:schema/:%[4]s", controllers.Get%[1]sBy%[3]s)
 	`, tableName, lowerName, field, firstLower(field))
 
 	text += fmt.Sprintf(`

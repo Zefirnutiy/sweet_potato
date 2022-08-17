@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/controllers"
-	"github.com/Zefirnutiy/sweet_potato.git/utils"
+	// "github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"time"
@@ -19,42 +19,53 @@ func Routs(port string) {
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+	router.MaxMultipartMemory = 8 << 20  
+	
+	// organization := router.Group("/api/organization")
+	// {
+	// 	organization.POST("/register", controllers.RegisterOrganization)
+	// 	organization.POST("/login", controllers.LoginOrganization) 
+	// }
 
-	organization := router.Group("/api/organization")
-	{
-		organization.POST("/register", controllers.RegisterOrganization)
-		organization.POST("/login", controllers.LoginOrganization)
-	}
+	file := router.Group("/api/file")
+        {
+        file.GET("/getFiles/:schema", controllers.GetFiles)
+        file.GET("/getFileById/:schema/:id", controllers.GetFileById)
+        file.GET("/getFileByManyClientId/:schema/:clientId", controllers.GetFileByClientId)
+        file.POST("/upload", controllers.UploadFile)
+        file.PATCH("/update/:schema", controllers.UpdateFile)
+        file.DELETE("/delete/:schema/:id", controllers.DeleteFile)
+        }
 
-	admin := router.Group("/api/admin")
-	{
-		admin.GET("/", utils.TokenCheckedFromHeader, controllers.GetAdmins)
-		admin.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetAdminById)
-		admin.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateAdmin)
-		admin.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateAdmin)
-		admin.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteAdmin)
-	}
+	// admin := router.Group("/api/admin")
+	// {
+	// 	admin.GET("/", utils.TokenCheckedFromHeader, controllers.GetAdmins)
+	// 	admin.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetAdminById)
+	// 	admin.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateAdmin)
+	// 	admin.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateAdmin)
+	// 	admin.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteAdmin)
+	// }
 
-	level := router.Group("/api/level")
-	{
-		level.GET("/", utils.TokenCheckedFromHeader, controllers.GetLevels)
-		level.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetLevelById)
-		level.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateLevel)
-		level.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateLevel)
-		level.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteLevel)
-	}
+	// level := router.Group("/api/level")
+	// {
+	// 	level.GET("/", utils.TokenCheckedFromHeader, controllers.GetLevels)
+	// 	level.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetLevelById)
+	// 	level.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateLevel)
+	// 	level.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateLevel)
+	// 	level.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteLevel)
+	// }
 
-	client := router.Group("/api/client")
-	{
-		client.GET("/getClients/:schema", controllers.GetClients)
-		client.GET("/getClientById/:schema/:id", controllers.GetClientById)
-		client.GET("/getClientByGroupId/:schema/:id", controllers.GetClientByGroupId)
-		client.GET("/getClientByClientLevelId/:schema/:id", controllers.GetClientByClientLevelId)
-		client.POST("/create/:schema", controllers.CreateClient)
-		client.PATCH("/update/:schema/:id", controllers.UpdateClient)
-		client.DELETE("/delete/:schema/:id", controllers.DeleteClient)
-		client.POST("/login", controllers.LoginClient)
-	}
+	// client := router.Group("/api/client")
+	// {
+	// 	client.GET("/getClients/:schema", controllers.GetClients)
+	// 	client.GET("/getClientById/:schema/:id", controllers.GetClientById)
+	// 	client.GET("/getClientByGroupId/:schema/:id", controllers.GetClientByGroupId)
+	// 	client.GET("/getClientByClientLevelId/:schema/:id", controllers.GetClientByClientLevelId)
+	// 	client.POST("/create/:schema", controllers.CreateClient)
+	// 	client.PATCH("/update/:schema/:id", controllers.UpdateClient)
+	// 	client.DELETE("/delete/:schema/:id", controllers.DeleteClient)
+	// 	client.POST("/login", controllers.LoginClient)
+	// }
 
 	// clientLevel := router.Group("/api/clientLevel")
 	// {

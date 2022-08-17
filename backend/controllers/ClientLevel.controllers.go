@@ -92,8 +92,6 @@ func GetClientLevelById(c *gin.Context) {
 	})
 }
 
-	
-
 
 func CreateClientLevel(c *gin.Context) {
 	schema := c.Params.ByName("schema")
