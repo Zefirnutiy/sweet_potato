@@ -1,6 +1,6 @@
 import {FC} from 'react'
 import st from './InformationCard.module.css'
-
+        
 type PropTypes = {
   title: string
   message: string

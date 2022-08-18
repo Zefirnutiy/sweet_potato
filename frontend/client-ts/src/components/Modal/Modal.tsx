@@ -2,6 +2,7 @@ import React from 'react';
 import st from './Modal.module.css'
 import { FC } from "react";
 
+
 type PropTypes = {
     onClose: () => void
     headerText: string;

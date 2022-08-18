@@ -30,6 +30,7 @@ export const DepartmentManagement = () => {
                     <button className={st["button-add"]}><i className='fa fa-plus'></i></button>
                 </div>
                 <div id={st['list-groups']}>
+
                     {/* card-group-teacher Всегда создан по умолчанию */}
                     <InformationCard title={'Учителя'} message={'20 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
                     <InformationCard title={'261'} message={'30 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
