@@ -22,10 +22,11 @@ func DataProcessingDeadLine(c gin.Context) structs.DeadLine {
 
 
 func GetDeadLines(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	var deadLineList []structs.DeadLine
 	var deadLine structs.DeadLine
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "DeadLine"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."DeadLine"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -59,10 +60,11 @@ func GetDeadLines(c *gin.Context) {
 }
 
 func GetDeadLineById(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
 	var deadLine structs.DeadLine
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "DeadLine" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."DeadLine" WHERE "Id"=$1`, id ).Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
 		&deadLine.LevelId, 
@@ -86,10 +88,11 @@ func GetDeadLineById(c *gin.Context) {
 
 	
 func GetDeadLineByOrganizationId(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	organizationId := c.Params.ByName("organizationId")
 	var deadLine structs.DeadLine
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "DeadLine" WHERE "OrganizationId"=$1`, organizationId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."DeadLine" WHERE "OrganizationId"=$1`, organizationId ).Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
 		&deadLine.LevelId, 
@@ -115,11 +118,12 @@ func GetDeadLineByOrganizationId(c *gin.Context) {
 
 
 func CreateDeadLine(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	data := DataProcessingDeadLine(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "DeadLine"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."DeadLine"
 		(
 		"Date", 
 		"LevelId", 
@@ -146,12 +150,13 @@ func CreateDeadLine(c *gin.Context) {
 
 func UpdateDeadLine(c *gin.Context) {
 
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
 	data := DataProcessingDeadLine(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "DeadLine" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."DeadLine" 
 		SET 
 		"Date"=$1,
 		"LevelId"=$2,
@@ -178,8 +183,9 @@ func UpdateDeadLine(c *gin.Context) {
 	
 
 func DeleteDeadLine(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "DeadLine" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."DeadLine" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

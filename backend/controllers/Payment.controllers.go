@@ -22,10 +22,11 @@ func DataProcessingPayment(c gin.Context) structs.Payment {
 
 
 func GetPayments(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	var paymentList []structs.Payment
 	var payment structs.Payment
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "Payment"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Payment"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -61,10 +62,11 @@ func GetPayments(c *gin.Context) {
 }
 
 func GetPaymentByNumber(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	number := c.Params.ByName("number")
 	var payment structs.Payment
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Payment" WHERE "Number"=$1`, number ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
 		&payment.Number, 
 		&payment.Name, 
 		&payment.Money, 
@@ -90,10 +92,11 @@ func GetPaymentByNumber(c *gin.Context) {
 
 	
 func GetPaymentByOrganizationId(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	organizationId := c.Params.ByName("organizationId")
 	var payment structs.Payment
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Payment" WHERE "OrganizationId"=$1`, organizationId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId ).Scan(
 		&payment.Number, 
 		&payment.Name, 
 		&payment.Money, 
@@ -121,11 +124,12 @@ func GetPaymentByOrganizationId(c *gin.Context) {
 
 
 func CreatePayment(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	data := DataProcessingPayment(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "Payment"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Payment"
 		(
 		"Number", 
 		"Name", 
@@ -158,12 +162,13 @@ func CreatePayment(c *gin.Context) {
 
 func UpdatePayment(c *gin.Context) {
 
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
 	data := DataProcessingPayment(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "Payment" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Payment" 
 		SET 
 		"Name"=$1,
 		"Money"=$2,
@@ -194,8 +199,9 @@ func UpdatePayment(c *gin.Context) {
 	
 
 func DeletePayment(c *gin.Context) {
+	schema := c.Params.ByName("schema")
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "Payment" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Payment" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
