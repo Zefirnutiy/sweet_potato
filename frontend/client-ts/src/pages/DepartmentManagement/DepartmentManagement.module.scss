@@ -2,17 +2,18 @@
     display: grid;
     grid-template-columns: 300px auto;
     background-color: rgba(0, 0, 0, 0.15);
+    width: 100%;
 }
 
-#wrapper-deportations{
+#wrapper_deportations{
     padding: 15px;
     box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
     background-color: #352C9F;
-    #list-deportations{
+    #list_deportations{
         margin-top: 25px;
         display: grid;
         gap: 3px;
-        .card-deportation{
+        .card_deportation{
             background-color: #2c238c;
             padding: 6px;
             border-bottom: 2px solid #2B2480;
@@ -26,18 +27,18 @@
                 cursor: pointer;
                 text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
             }
-            .number-groups{
+            .number_groups{
                 margin-left: auto;
             }
         }
     }
 }
 
-#wrapper-groups{
+#wrapper_groups{
     padding: 45px;
     padding-top: 15px;
     box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
-    #list-groups{
+    #list_groups{
         display: grid;
         gap: 15px;
         grid-template-columns: 1fr 1fr 1fr;
@@ -53,7 +54,7 @@
     .title{
         font-size: 25px;
     }
-    .button-add{
+    .button_add{
         padding-top: 3px;
         padding-bottom: 3px;
         color: white;

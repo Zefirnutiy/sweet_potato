@@ -1,4 +1,4 @@
-.cardInformation {
+.card_information {
   font-size: 14px;
   width: 100%;
   height: -webkit-fit-content;
@@ -17,7 +17,7 @@
   transition: all 0.1s;
 }
 
-.cardInformation .cardHorizontalLine {
+.card_information .card_horizontal_line {
   background-color: white;
   height: 1px;
   width: 100%;
@@ -25,13 +25,13 @@
   margin-bottom: 20px;
 }
 
-.cardInformation .cardText {
+.card_information .card_text {
   margin-bottom: 10px;
 }
 
-.cardInformation:hover {
+.card_information:hover {
   cursor: pointer;
   -webkit-transform: scale(1.02);
           transform: scale(1.02);
 }
-/*# sourceMappingURL=InformationCard.css.map */
+/*# sourceMappingURL=InformationCard.module.css.map */

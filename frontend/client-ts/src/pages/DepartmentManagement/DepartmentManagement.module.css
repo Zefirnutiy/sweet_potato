@@ -4,6 +4,7 @@
   -ms-grid-columns: 300px auto;
       grid-template-columns: 300px auto;
   background-color: rgba(0, 0, 0, 0.15);
+  width: 100%;
 }
 
 #wrapper_deportations {
@@ -142,4 +143,4 @@
 .search i {
   color: #adadad;
 }
-/*# sourceMappingURL=DepartmentManagement.css.map */
+/*# sourceMappingURL=DepartmentManagement.module.css.map */
