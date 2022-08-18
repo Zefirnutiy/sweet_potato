@@ -1,5 +1,6 @@
 import { InformationCard } from '../../components/InformationCard/InformationCard'
 import st from './DepartmentManagement.module.scss'
+
 export const DepartmentManagement = () => {
     return (
         <div id={st["main"]}>
@@ -30,10 +31,10 @@ export const DepartmentManagement = () => {
                 </div>
                 <div id={st['list-groups']}>
                     {/* card-group-teacher Всегда создан по умолчанию */}
-                    <InformationCard title={'Учителя'} message={'20 Пользователей'}/>
-                    <InformationCard title={'261'} message={'30 Пользователей'}/>
-                    <InformationCard title={'269'} message={'28 Пользователей'}/>
-                    <InformationCard title={'361'} message={'24 Пользователей'}/>
+                    <InformationCard title={'Учителя'} message={'20 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
+                    <InformationCard title={'261'} message={'30 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
+                    <InformationCard title={'269'} message={'28 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
+                    <InformationCard title={'361'} message={'24 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
                 </div>
             </div>
         </div>

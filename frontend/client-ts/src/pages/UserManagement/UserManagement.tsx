@@ -9,13 +9,13 @@ export const UserManagement = () =>{
                     <div className={st["title"]}>Пользователи</div>
                     {/* button-add компонент */}
                     <button className={st["button-add"]}><i className="fa fa-plus"></i></button>
-                </div>
-                <div className={st["nav"]}>
                     <button className={st["button-go-back"]}><i className="fa-solid fa-circle-arrow-left"></i></button>
-                    АиВТ/261
                 </div>
                 {/* search компонент */}
                 <div className={st["search"]}><input type="seach" placeholder='Пользователь'/> <i className="fa fa-magnifying-glass"></i></div>
+                <div className={st["nav"]}>
+                    АиВТ/261
+                </div>
                 <div id={st["list-users"]}>
                     <div className={st["card-user"]}>
                         <div className={st["user-name"]}>Данилов Вячеслав В.</div>
