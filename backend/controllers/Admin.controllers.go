@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -23,6 +25,9 @@ func DataProcessingAdmin(c gin.Context) structs.Admin {
 func GetAdmins(c *gin.Context) {
 	var adminList []structs.Admin
 	var admin structs.Admin
+
+	val, _ :=c.Get("Model")
+	fmt.Println(val)
 
 	rows, err := db.Dbpool.Query(`SELECT * FROM "Admin"`)
 	if err != nil {
