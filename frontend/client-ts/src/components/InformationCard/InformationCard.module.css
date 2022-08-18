@@ -1,4 +1,4 @@
-.card_information {
+.card-information {
   font-size: 14px;
   width: 100%;
   height: -webkit-fit-content;
@@ -17,7 +17,7 @@
   transition: all 0.1s;
 }
 
-.card_information .card_horizontal_line {
+.card-information .card-horizontal-line {
   background-color: white;
   height: 1px;
   width: 100%;
@@ -25,11 +25,11 @@
   margin-bottom: 20px;
 }
 
-.card_information .card_text {
+.card-information .card-text {
   margin-bottom: 10px;
 }
 
-.card_information:hover {
+.card-information:hover {
   cursor: pointer;
   -webkit-transform: scale(1.02);
           transform: scale(1.02);

@@ -11,7 +11,7 @@ const App = () => {
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
-    {icon: "fa fa-address-book", title: "Пользователи", path: "#"},
+    {icon: "fa fa-address-book", title: "Пользователи", path: "/departmentManagement"},
     {icon: "fa fa-gear", title: "Аккаунт", path: "#"},
     {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
     {icon: "fa fa-chart-column", title: "Статистика", path: "#"},
@@ -24,9 +24,9 @@ const App = () => {
         <InformationCard title="ТЫ ПИДОР" message="Ты таким родился."/>
       </Navbar>
       <Routes>
-        <Route path="/DepartmentManagement" element={<DepartmentManagement/>} />
-        <Route path="/UserManagement" element={<UserManagement/>} />
-        <Route path="*" element={<Navigate to="/DepartmentManagement" />} />
+        <Route path="/departmentManagement" element={<DepartmentManagement/>} />
+        <Route path="/userManagement" element={<UserManagement/>} />
+        <Route path="*" element={<Navigate to="/departmentManagement" />} />
       </Routes>
     </main>
     )

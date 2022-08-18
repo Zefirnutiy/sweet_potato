@@ -7,21 +7,21 @@
   width: 100%;
 }
 
-#wrapper_users {
+#wrapper-users {
   padding: 15px;
   -webkit-box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
           box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
   background-color: #352C9F;
 }
 
-#wrapper_users #list_users {
+#wrapper-users #list-users {
   margin-top: 25px;
   display: -ms-grid;
   display: grid;
   gap: 3px;
 }
 
-#wrapper_users #list_users .card_user {
+#wrapper-users #list-users .card-user {
   background-color: #2c238c;
   padding: 6px;
   border-bottom: 2px solid #2B2480;
@@ -32,7 +32,7 @@
   transition: all 20ms;
 }
 
-#wrapper_users #list_users .card_user:hover {
+#wrapper-users #list-users .card-user:hover {
   background: -webkit-gradient(linear, left top, left bottom, from(#4337c8), to(#3b30af));
   background: linear-gradient(#4337c8, #3b30af);
   -webkit-transform: scale(1.02);
@@ -41,11 +41,11 @@
   text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
 }
 
-#wrapper_users #list_users .card_user .user_name {
+#wrapper-users #list-users .card-user .user-name {
   font-size: 16px;
 }
 
-#wrapper_users #list_users .card_user .created {
+#wrapper-users #list-users .card-user .created {
   margin-left: 5px;
   color: #b3b3b3;
   margin-top: 3px;
@@ -63,14 +63,14 @@
   gap: 10px;
   color: white;
   margin-top: 20px;
-  margin-bottom: 2px;
+  margin-bottom: 15px;
 }
 
 .container .title {
   font-size: 25px;
 }
 
-.container .button_add {
+.container .button-add {
   padding-top: 3px;
   padding-bottom: 3px;
   color: white;
@@ -83,7 +83,7 @@
   transition: all 10ms;
 }
 
-.container .button_add:hover {
+.container .button-add:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
   cursor: pointer;
@@ -93,11 +93,12 @@
 .nav {
   font-size: 14px;
   font-style: italic;
+  margin-top: 10px;
   margin-bottom: 10px;
   color: #d6d6d6;
 }
 
-.nav .button_go_back {
+.button-go-back {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
@@ -113,7 +114,7 @@
   background: none;
 }
 
-.nav .button_go_back:hover {
+.button-go-back:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
   cursor: pointer;
