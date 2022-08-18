@@ -7,6 +7,7 @@ export const DepartmentManagement = () => {
                 <div className={styles.container}>
                     <div className={styles.title}>Отделения</div>
                     {/* button-add компонент */}
+<<<<<<< HEAD
                 </div>
                 {/* search компонент */}
                 <div className={styles.search}><input type="seach" placeholder='Пользователь или группа'/> <i className={styles.fa +' '+ styles['fa-magnifying-glass']}></i></div>
@@ -14,6 +15,16 @@ export const DepartmentManagement = () => {
                     <div className={styles['card-deportation']}>
                         <div className={styles['title-deportation']}>АиВТ</div>
                         <div className={styles['number-groups']}>40 групп</div>
+=======
+                    <button className={cs.button_add}><i className='fa fa-plus'></i></button>
+                </div>
+                {/* search компонент */}
+                <div className={cs.search}><input type="seach" placeholder='Пользователь или группа'/> <i className='fa fa-magnifying-glass'></i></div>
+                <div id={cs.list_deportations}>
+                    <div className={cs.card_deportation}>
+                        <div className={cs.title_deportation}>АиВТ</div>
+                        <div className={cs.number_groups}>40 групп</div>
+>>>>>>> 9059103f366f48ad18d61169c9c7ef12c9b63b01
                     </div>
                     <div className={styles['card-deportation']}>
                         <div className={styles['title-deportation']}>Не АиВТ</div>
@@ -25,7 +36,11 @@ export const DepartmentManagement = () => {
             <div className={styles.container}>
                 <div className={styles.title}>Группы</div>
                     {/* button-add компонент */}
+<<<<<<< HEAD
                     <button className={styles['button-add']}><i className={styles.fa + ' ' + styles.fa_plus}></i></button>
+=======
+                    <button className={cs.button_add}><i className='fa fa-plus'></i></button>
+>>>>>>> 9059103f366f48ad18d61169c9c7ef12c9b63b01
                 </div>
                 <div id={styles['list-groups']}>
                     {/* card-group-teacher Всегда создан по умолчанию */}

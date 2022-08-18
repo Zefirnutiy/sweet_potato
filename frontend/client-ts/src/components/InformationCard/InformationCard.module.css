@@ -1,0 +1,37 @@
+.card_information {
+  font-size: 14px;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  background: linear-gradient(86.25deg, #F2994A 9.35%, #F2C94C 99.11%);
+  -webkit-box-shadow: -18px 9px 19px rgba(243, 156, 75, 0.13);
+          box-shadow: -18px 9px 19px rgba(243, 156, 75, 0.13);
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 5px;
+  -webkit-transition: all 0.1s;
+  transition: all 0.1s;
+}
+
+.card_information .card_horizontal_line {
+  background-color: white;
+  height: 1px;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.card_information .card_text {
+  margin-bottom: 10px;
+}
+
+.card_information:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
+}
+/*# sourceMappingURL=InformationCard.module.css.map */
