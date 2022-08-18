@@ -20,7 +20,7 @@
   opacity: 1;
 }
 
-.modalContent {
+.modal .modalContent {
   z-index: 110;
   display: -ms-grid;
   display: grid;
@@ -41,4 +41,4 @@
   pointer-events: none;
   cursor: default;
 }
-/*# sourceMappingURL=Modal.css.map */
+/*# sourceMappingURL=Modal.module.css.map */

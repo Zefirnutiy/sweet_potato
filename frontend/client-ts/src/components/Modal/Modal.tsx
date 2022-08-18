@@ -1,5 +1,5 @@
 import React from 'react';
-import './Modal.css'
+import './Modal.module.css'
 type PropTypes = {
     onClose: () => void
     headerText: string;
