@@ -1,26 +1,20 @@
 @font-face {
-  font-family: 'zona';
+  font-family: "zona";
   src: url("./fonts/ZonaPro-Light.ttf");
 }
-
 main {
   margin: 0;
-  font-family: 'zona';
+  font-family: "zona";
   font-weight: 500;
   font-size: 18px;
   color: white;
-  background-color: #483dc9;
-  background: -webkit-gradient(linear, left top, left bottom, from(#483dc9), to(#3126a4));
-  background: linear-gradient(#483dc9, #3126a4);
+  background-color: rgb(72, 61, 201);
+  background: linear-gradient(rgb(72, 61, 201), rgb(49, 38, 164));
   margin: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   min-height: 100vh;
 }
-
 main #main {
   width: 100%;
   min-height: 100%;
-}
-/*# sourceMappingURL=index.css.map */
+}/*# sourceMappingURL=index.css.map */

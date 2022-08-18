@@ -1,0 +1,74 @@
+#main{
+    display: grid;
+    grid-template-columns: 300px auto;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+#wrapper-deportations{
+    padding: 15px;
+    box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
+    background-color: #352C9F;
+    // #list-deportations{
+    //     margin-top: 25px;
+    //     display: grid;
+    //     gap: 8px;
+    //     .card-deportation{
+    //         background-color: #2c238c;
+    //         padding: 6px;
+    //         border-bottom: 2px solid #2B2480;
+    //         border-radius: 6px;
+    //         display: grid;
+    //         grid-template-columns: 1fr 1fr;
+    //         transition: all 20ms;
+    //         &:hover{
+    //             background: linear-gradient(rgb(67, 55, 200), rgb(59, 48, 175));
+    //             transform: scale(1.02);
+    //             cursor: pointer;
+    //             text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
+    //         }
+    //         .number-groups{
+    //             margin-left: auto;
+    //         }
+    //     }
+    // }
+}
+
+#wrapper-groups{
+    padding: 45px;
+    padding-top: 15px;
+    box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
+    #list-groups{
+        display: grid;
+        gap: 15px;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+.container{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    color: white;
+    margin-bottom: 15px;
+    .title{
+        font-size: 25px;
+    }
+    .button-add{
+        padding-top: 3px;
+        padding-bottom: 3px;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: bolder;
+        background-color: #211B62;
+        transition: all 10ms;
+        &:hover{
+            transform: scale(1.1);
+            cursor: pointer;
+            text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
+        }
+    }
+    
+}
+
+
