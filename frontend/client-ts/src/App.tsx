@@ -8,7 +8,7 @@ import { UserManagement } from './pages/UserManagement/UserManagement';
 
 const App = () => {
   let links = [
-    {icon: "fa fa-cubes", title: "Курс", path: "#"},
+    {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
     {icon: "fa fa-address-book", title: "Пользователи", path: "#"},

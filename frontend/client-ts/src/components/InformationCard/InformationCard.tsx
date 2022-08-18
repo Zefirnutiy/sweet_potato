@@ -1,9 +1,5 @@
 import React from 'react'
-<<<<<<< HEAD
-import styles from './InformationCard.module.scss'
-=======
 import st from './InformationCard.module.css'
->>>>>>> 9059103f366f48ad18d61169c9c7ef12c9b63b01
 type PropTypes = {
   title: string
   message: string
