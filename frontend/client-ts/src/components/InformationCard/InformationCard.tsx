@@ -1,5 +1,5 @@
 import {FC} from 'react'
-import st from './InformationCard.module.css'
+import st from './InformationCard.module.scss'
         
 type PropTypes = {
   title: string

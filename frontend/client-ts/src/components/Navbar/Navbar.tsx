@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom"
-import st from "./Navbar.module.css"
+import st from "./Navbar.module.scss"
 import { FC, useState } from "react";
 import { Modal } from "../Modal/Modal";
 

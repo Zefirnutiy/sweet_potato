@@ -1,5 +1,7 @@
 import { InformationCard } from '../../components/InformationCard/InformationCard'
 import st from './DepartmentManagement.module.scss'
+import { Search } from '../../components/Search/Search'
+import { PlusButton } from '../../components/StupidButton/PlusButton'
 
 export const DepartmentManagement = () => {
     return (
@@ -8,10 +10,10 @@ export const DepartmentManagement = () => {
                 <div className={st["container"]}>
                     <div className={st["title"]}>Отделения</div>
                     {/* button-add компонент */}
-                    <button className={st["button-add"]}><i className='fa fa-plus'></i></button>
+                    <PlusButton />
                 </div>
                 {/* search компонент */}
-                <div className={st["search"]}><input type="seach" placeholder='Пользователь или группа'/> <i className='fa fa-magnifying-glass'></i></div>
+                <Search placehold='Пользователь или группа'/>
                 <div id={st["list-deportations"]}>
                     <div className={st["card-deportation"]}>
                         <div className={st["title-deportation"]}>АиВТ</div>
@@ -27,7 +29,7 @@ export const DepartmentManagement = () => {
             <div className={st["container"]}>
                 <div className={st["title"]}>Группы</div>
                     {/* button-add компонент */}
-                    <button className={st["button-add"]}><i className='fa fa-plus'></i></button>
+                    <PlusButton />
                 </div>
                 <div id={st['list-groups']}>
 

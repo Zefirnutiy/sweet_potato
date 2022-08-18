@@ -1,5 +1,5 @@
 import React from 'react';
-import st from './Modal.module.css'
+import st from './Modal.module.scss'
 import { FC } from "react";
 
 
