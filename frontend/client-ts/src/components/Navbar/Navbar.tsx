@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom"
-import styles from "./Navbar.module.scss"
+import st from "./Navbar.module.scss"
 import { FC, useState } from "react";
 import { Modal } from "../Modal/Modal";
 
@@ -19,16 +19,16 @@ interface PropTypes{
 export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children}) =>{
     const [openRegModal, setRegModal] = useState(false)
     return (
-        <div id={styles.navbar}>
-        <div id={styles.logo}>
+        <div id={st["navbar"]}>
+        <div id={st["logo"]}>
            {organizationName}
         </div>
-        <div id={styles.nav}>
+        <div id={st["nav"]}>
             {links?.map(link => 
                 <Link to={link.path}><i className={link.icon}></i> {link.title}</Link> 
             )}
         </div>
-        <div id={styles.navContent}>
+        <div id={st["nav-content"]}>
             {children}
             <button onClick={() => setRegModal(true)}>Выйти</button>
             {openRegModal &&

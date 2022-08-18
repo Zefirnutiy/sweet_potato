@@ -7,39 +7,12 @@
     right: 0;
     backdrop-filter: blur(15px);
     background-color: rgba(0, 0, 0, 0.1);
-<<<<<<< HEAD
     display: none;
     opacity: 0;
     align-items: center;
-    &.open{
-        display: block;
-        opacity: 1;
-    }
-<<<<<<< HEAD:frontend/client-ts/src/components/Modal/Modal.scss
-=======
-    .modalContent{
-        z-index: 110;
-        display: grid;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-        width: fit-content;
-        height: fit-content;
-        padding: 10px;
-        background-color: rgb(0, 0, 0);
-        pointer-events: none;
-        cursor: default;
-    }
-=======
-    align-items: center;
->>>>>>> 9059103f366f48ad18d61169c9c7ef12c9b63b01
->>>>>>> 27b8e6a59e65ca2c3bb0285b191123890c4ff4cc:frontend/client-ts/src/components/Modal/Modal.module.scss
 }
 
-.modalContent{
+.modal-content{
     z-index: 110;
     display: grid;
     position: absolute;
@@ -52,9 +25,4 @@
     height: fit-content;
     padding: 10px;
     background-color: rgb(0, 0, 0);
-<<<<<<< HEAD
-    pointer-events: none;
-    cursor: default;
-=======
->>>>>>> 9059103f366f48ad18d61169c9c7ef12c9b63b01
 }

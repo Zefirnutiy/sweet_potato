@@ -7,21 +7,21 @@
   width: 100%;
 }
 
-#wrapper_deportations {
+#wrapper-deportations {
   padding: 15px;
   -webkit-box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
           box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
   background-color: #352C9F;
 }
 
-#wrapper_deportations #list_deportations {
+#wrapper-deportations #list-deportations {
   margin-top: 25px;
   display: -ms-grid;
   display: grid;
   gap: 3px;
 }
 
-#wrapper_deportations #list_deportations .card_deportation {
+#wrapper-deportations #list-deportations .card-deportation {
   background-color: #2c238c;
   padding: 6px;
   border-bottom: 2px solid #2B2480;
@@ -34,7 +34,7 @@
   transition: all 20ms;
 }
 
-#wrapper_deportations #list_deportations .card_deportation:hover {
+#wrapper-deportations #list-deportations .card-deportation:hover {
   background: -webkit-gradient(linear, left top, left bottom, from(#4337c8), to(#3b30af));
   background: linear-gradient(#4337c8, #3b30af);
   -webkit-transform: scale(1.02);
@@ -43,18 +43,18 @@
   text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
 }
 
-#wrapper_deportations #list_deportations .card_deportation .number_groups {
+#wrapper-deportations #list-deportations .card-deportation .number-groups {
   margin-left: auto;
 }
 
-#wrapper_groups {
+#wrapper-groups {
   padding: 45px;
   padding-top: 15px;
   -webkit-box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
           box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
 }
 
-#wrapper_groups #list_groups {
+#wrapper-groups #list-groups {
   display: -ms-grid;
   display: grid;
   gap: 15px;
@@ -79,7 +79,7 @@
   font-size: 25px;
 }
 
-.container .button_add {
+.container .button-add {
   padding-top: 3px;
   padding-bottom: 3px;
   color: white;
@@ -92,7 +92,7 @@
   transition: all 10ms;
 }
 
-.container .button_add:hover {
+.container .button-add:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
   cursor: pointer;
