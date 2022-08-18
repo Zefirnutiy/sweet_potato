@@ -4,17 +4,17 @@ import styles from "./Navbar.module.css"
 import { FC, useState } from "react";
 import { Modal } from "../Modal/Modal";
 
-type ILink = {
+interface ILink {
     icon: string
     title: string
     path: string
 }
 
-type PropTypes = {
+interface PropTypes{
     links: ILink[]
     organizationName?: string
     children?: React.ReactNode
-  };
+};
 
 export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children}) =>{
     const [openRegModal, setRegModal] = useState(false)
@@ -27,7 +27,6 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
             {links?.map(link => 
                 <Link to={link.path}><i className={link.icon}></i> {link.title}</Link> 
             )}
-           
         </div>
         <div id={styles.navContent}>
             {children}

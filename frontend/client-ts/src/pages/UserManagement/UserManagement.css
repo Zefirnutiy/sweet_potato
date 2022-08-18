@@ -1,39 +1,29 @@
-#main {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 300px auto;
-      grid-template-columns: 300px auto;
-  background-color: rgba(0, 0, 0, 0.15);
-}
-
-#wrapper_deportations {
+#wrapper-users {
   padding: 15px;
   -webkit-box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
           box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
   background-color: #352C9F;
 }
 
-#wrapper_deportations #list_deportations {
+#wrapper-users #list-users {
   margin-top: 25px;
   display: -ms-grid;
   display: grid;
   gap: 3px;
 }
 
-#wrapper_deportations #list_deportations .card_deportation {
+#wrapper-users #list-users .card-user {
   background-color: #2c238c;
   padding: 6px;
   border-bottom: 2px solid #2B2480;
   border-radius: 6px;
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
   -webkit-transition: all 20ms;
   transition: all 20ms;
 }
 
-#wrapper_deportations #list_deportations .card_deportation:hover {
+#wrapper-users #list-users .card-user:hover {
   background: -webkit-gradient(linear, left top, left bottom, from(#4337c8), to(#3b30af));
   background: linear-gradient(#4337c8, #3b30af);
   -webkit-transform: scale(1.02);
@@ -42,23 +32,16 @@
   text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
 }
 
-#wrapper_deportations #list_deportations .card_deportation .number_groups {
-  margin-left: auto;
+#wrapper-users #list-users .card-user .user-name {
+  font-size: 16px;
 }
 
-#wrapper_groups {
-  padding: 45px;
-  padding-top: 15px;
-  -webkit-box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
-          box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
-}
-
-#wrapper_groups #list_groups {
-  display: -ms-grid;
-  display: grid;
-  gap: 15px;
-  -ms-grid-columns: 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr;
+#wrapper-users #list-users .card-user .created {
+  margin-left: 5px;
+  color: #b3b3b3;
+  margin-top: 3px;
+  font-size: 10px;
+  font-style: italic;
 }
 
 .container {
@@ -71,14 +54,14 @@
   gap: 10px;
   color: white;
   margin-top: 20px;
-  margin-bottom: 15px;
+  margin-bottom: 2px;
 }
 
 .container .title {
   font-size: 25px;
 }
 
-.container .button_add {
+.container .button-add {
   padding-top: 3px;
   padding-bottom: 3px;
   color: white;
@@ -91,7 +74,37 @@
   transition: all 10ms;
 }
 
-.container .button_add:hover {
+.container .button-add:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+  cursor: pointer;
+  text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
+}
+
+.nav {
+  font-size: 14px;
+  font-style: italic;
+  margin-bottom: 10px;
+  color: #d6d6d6;
+}
+
+.nav .button-go-back {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  border: none;
+  color: white;
+  font-size: 22px;
+  font-weight: bolder;
+  -webkit-transition: all 10ms;
+  transition: all 10ms;
+  background: none;
+}
+
+.nav .button-go-back:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
   cursor: pointer;
@@ -142,4 +155,4 @@
 .search i {
   color: #adadad;
 }
-/*# sourceMappingURL=DepartmentManagement.css.map */
+/*# sourceMappingURL=UserManagement.css.map */
