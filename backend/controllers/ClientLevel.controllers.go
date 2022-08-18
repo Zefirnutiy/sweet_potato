@@ -22,11 +22,11 @@ func DataProcessingClientLevel(c gin.Context) structs.ClientLevel {
 
 
 func GetClientLevels(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var clientLevelList []structs.ClientLevel
 	var clientLevel structs.ClientLevel
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."ClientLevel"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."ClientLevel"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -63,11 +63,11 @@ func GetClientLevels(c *gin.Context) {
 }
 
 func GetClientLevelById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var clientLevel structs.ClientLevel
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."ClientLevel" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."ClientLevel" WHERE "Id"=$1`, id ).Scan(
 		&clientLevel.Id, 
 		&clientLevel.Title, 
 		&clientLevel.CreateCourse, 
@@ -92,14 +92,16 @@ func GetClientLevelById(c *gin.Context) {
 	})
 }
 
+	
+
 
 func CreateClientLevel(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingClientLevel(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."ClientLevel"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."ClientLevel"
 		(
 		"Title", 
 		"CreateCourse", 
@@ -132,13 +134,13 @@ func CreateClientLevel(c *gin.Context) {
 
 func UpdateClientLevel(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingClientLevel(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."ClientLevel" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."ClientLevel" 
 		SET 
 		"Title"=$1,
 		"CreateCourse"=$2,
@@ -171,9 +173,9 @@ func UpdateClientLevel(c *gin.Context) {
 	
 
 func DeleteClientLevel(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."ClientLevel" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."ClientLevel" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

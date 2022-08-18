@@ -22,11 +22,11 @@ func DataProcessingGroup(c gin.Context) structs.Group {
 
 
 func GetGroups(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var groupList []structs.Group
 	var group structs.Group
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Group"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Group"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -59,11 +59,11 @@ func GetGroups(c *gin.Context) {
 }
 
 func GetGroupById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var group structs.Group
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Group" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Group" WHERE "Id"=$1`, id ).Scan(
 		&group.Id, 
 		&group.Title, 
 		&group.DepartmentId, 
@@ -87,12 +87,12 @@ func GetGroupById(c *gin.Context) {
 	
 
 func GetGroupByDepartmentId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	departmentId := c.Params.ByName("departmentId")
 	var groupList []structs.Group
 	var group structs.Group
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Group" WHERE "DepartmentId"=$1`, departmentId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Group" WHERE "DepartmentId"=$1`, departmentId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -128,12 +128,12 @@ func GetGroupByDepartmentId(c *gin.Context) {
 	
 
 func CreateGroup(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingGroup(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Group"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Group"
 		(
 		"Title", 
 		"DepartmentId", 
@@ -158,13 +158,13 @@ func CreateGroup(c *gin.Context) {
 
 func UpdateGroup(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingGroup(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Group" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Group" 
 		SET 
 		"Title"=$1,
 		"DepartmentId"=$2
@@ -189,9 +189,9 @@ func UpdateGroup(c *gin.Context) {
 	
 
 func DeleteGroup(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Group" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Group" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

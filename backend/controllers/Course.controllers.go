@@ -22,11 +22,11 @@ func DataProcessingCourse(c gin.Context) structs.Course {
 
 
 func GetCourses(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var courseList []structs.Course
 	var course structs.Course
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Course"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Course"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -61,11 +61,11 @@ func GetCourses(c *gin.Context) {
 }
 
 func GetCourseById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var course structs.Course
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Course" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "Id"=$1`, id ).Scan(
 		&course.Id, 
 		&course.Text, 
 		&course.Date, 
@@ -91,12 +91,12 @@ func GetCourseById(c *gin.Context) {
 	
 
 func GetCourseByClientId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	clientId := c.Params.ByName("clientId")
 	var courseList []structs.Course
 	var course structs.Course
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Course" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -134,12 +134,12 @@ func GetCourseByClientId(c *gin.Context) {
 	
 
 func CreateCourse(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingCourse(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Course"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Course"
 		(
 		"Text", 
 		"Date", 
@@ -168,13 +168,13 @@ func CreateCourse(c *gin.Context) {
 
 func UpdateCourse(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingCourse(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Course" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Course" 
 		SET 
 		"Text"=$1,
 		"Date"=$2,
@@ -203,9 +203,9 @@ func UpdateCourse(c *gin.Context) {
 	
 
 func DeleteCourse(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Course" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Course" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

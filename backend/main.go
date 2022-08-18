@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/db"
-	"github.com/Zefirnutiy/sweet_potato.git/routes"
+	"github.com/Zefirnutiy/sweet_potato.git/routes" 
 	_ "github.com/lib/pq"
 )
 

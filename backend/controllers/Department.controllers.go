@@ -22,11 +22,11 @@ func DataProcessingDepartment(c gin.Context) structs.Department {
 
 
 func GetDepartments(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var departmentList []structs.Department
 	var department structs.Department
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Department"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Department"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -58,11 +58,11 @@ func GetDepartments(c *gin.Context) {
 }
 
 func GetDepartmentById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var department structs.Department
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Department" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Department" WHERE "Id"=$1`, id ).Scan(
 		&department.Id, 
 		&department.Title, 
 		
@@ -86,12 +86,12 @@ func GetDepartmentById(c *gin.Context) {
 
 
 func CreateDepartment(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingDepartment(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Department"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Department"
 		(
 		"Title", 
 		
@@ -114,13 +114,13 @@ func CreateDepartment(c *gin.Context) {
 
 func UpdateDepartment(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingDepartment(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Department" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Department" 
 		SET 
 		"Title"=$1
 		
@@ -143,9 +143,9 @@ func UpdateDepartment(c *gin.Context) {
 	
 
 func DeleteDepartment(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Department" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Department" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

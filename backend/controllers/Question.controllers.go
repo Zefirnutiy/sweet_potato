@@ -22,11 +22,11 @@ func DataProcessingQuestion(c gin.Context) structs.Question {
 
 
 func GetQuestions(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var questionList []structs.Question
 	var question structs.Question
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Question"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Question"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -63,11 +63,11 @@ func GetQuestions(c *gin.Context) {
 }
 
 func GetQuestionById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var question structs.Question
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Question" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Question" WHERE "Id"=$1`, id ).Scan(
 		&question.Id, 
 		&question.Text, 
 		&question.Date, 
@@ -95,12 +95,12 @@ func GetQuestionById(c *gin.Context) {
 	
 
 func GetQuestionByTestId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	testId := c.Params.ByName("testId")
 	var questionList []structs.Question
 	var question structs.Question
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Question" WHERE "TestId"=$1`, testId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Question" WHERE "TestId"=$1`, testId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -139,12 +139,12 @@ func GetQuestionByTestId(c *gin.Context) {
 
 	
 func GetQuestionByQuestionTypeId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	questionTypeId := c.Params.ByName("questionTypeId")
 	var questionList []structs.Question
 	var question structs.Question
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Question" WHERE "QuestionTypeId"=$1`, questionTypeId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Question" WHERE "QuestionTypeId"=$1`, questionTypeId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -184,12 +184,12 @@ func GetQuestionByQuestionTypeId(c *gin.Context) {
 	
 
 func CreateQuestion(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingQuestion(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Question"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Question"
 		(
 		"Text", 
 		"Date", 
@@ -222,13 +222,13 @@ func CreateQuestion(c *gin.Context) {
 
 func UpdateQuestion(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingQuestion(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Question" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Question" 
 		SET 
 		"Text"=$1,
 		"Date"=$2,
@@ -261,9 +261,9 @@ func UpdateQuestion(c *gin.Context) {
 	
 
 func DeleteQuestion(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Question" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Question" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

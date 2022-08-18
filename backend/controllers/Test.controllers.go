@@ -22,11 +22,11 @@ func DataProcessingTest(c gin.Context) structs.Test {
 
 
 func GetTests(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var testList []structs.Test
 	var test structs.Test
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Test"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Test"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -61,11 +61,11 @@ func GetTests(c *gin.Context) {
 }
 
 func GetTestById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var test structs.Test
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Test" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Test" WHERE "Id"=$1`, id ).Scan(
 		&test.Id, 
 		&test.Title, 
 		&test.Text, 
@@ -92,12 +92,12 @@ func GetTestById(c *gin.Context) {
 
 
 func CreateTest(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingTest(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Test"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Test"
 		(
 		"Title", 
 		"Text", 
@@ -126,13 +126,13 @@ func CreateTest(c *gin.Context) {
 
 func UpdateTest(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingTest(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Test" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Test" 
 		SET 
 		"Title"=$1,
 		"Text"=$2,
@@ -161,9 +161,9 @@ func UpdateTest(c *gin.Context) {
 	
 
 func DeleteTest(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Test" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Test" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

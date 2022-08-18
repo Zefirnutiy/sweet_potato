@@ -24,11 +24,11 @@ func DataProcessingClient(c gin.Context) structs.Client {
 }
 
 func GetClients(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var clientList []structs.Client
 	var client structs.Client
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "` + schema + `"."Client"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client"`)
 
 	if err != nil {
 		utils.Logger.Println(err)
@@ -69,11 +69,11 @@ func GetClients(c *gin.Context) {
 }
 
 func GetClientById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Client" WHERE "Id"=$1`, id).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "Id"=$1`, id).Scan(
 		&client.Id,
 		&client.FirstName,
 		&client.LastName,
@@ -101,11 +101,11 @@ func GetClientById(c *gin.Context) {
 }
 
 func GetClientByGroupId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	groupId := c.Params.ByName("groupId")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Client" WHERE "GroupId"=$1`, groupId).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "GroupId"=$1`, groupId).Scan(
 		&client.Id,
 		&client.FirstName,
 		&client.LastName,
@@ -166,6 +166,7 @@ func GetClientByClientLevelId(c *gin.Context) {
 
 func CreateClient(c *gin.Context) {
 	data := DataProcessingClient(*c)
+	model := c.Value("Model").(structs.Claims)
 	var err error
 
 	data.Password, err = utils.Encrypt(data.Password)
@@ -177,7 +178,7 @@ func CreateClient(c *gin.Context) {
 		return
 	}
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "Client"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Client"
 		(
 		"FirstName", 
 		"LastName", 
@@ -293,7 +294,7 @@ func LoginClient(c *gin.Context) {
 }
 
 func UpdateClient(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingClient(*c)
 	var err error
@@ -307,7 +308,7 @@ func UpdateClient(c *gin.Context) {
 		return
 	}
 
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Client" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Client" 
 
 
 		SET 
@@ -347,9 +348,9 @@ func UpdateClient(c *gin.Context) {
 }
 
 func DeleteClient(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Client" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Client" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
