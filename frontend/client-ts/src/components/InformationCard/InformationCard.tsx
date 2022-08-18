@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './InformationCard.module.css'
+import styles from './InformationCard.module.scss'
 type PropTypes = {
   title: string
   message: string
