@@ -1,5 +1,5 @@
 import React from 'react';
-import './Modal.module.css'
+import st from './Modal.module.css'
 type PropTypes = {
     onClose: () => void
     headerText: string;
@@ -9,13 +9,11 @@ type PropTypes = {
 export const Modal: React.FC<PropTypes> = ({onClose, headerText, children}) =>{
     return (
         <>
-        <div className="modalContent">
+        <div className={st.modal} onClick={onClose} />
+        <div className={st.modalContent}>
             <strong>{headerText}</strong>
             {children}
         </div>
-        <div className="modal open" onClick={onClose} />
         </>     
-      
-        
     )
 }

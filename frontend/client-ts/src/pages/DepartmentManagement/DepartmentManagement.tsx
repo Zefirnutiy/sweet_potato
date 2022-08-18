@@ -7,7 +7,7 @@ export const DepartmentManagement = () => {
                 <div className={cs.container}>
                     <div className={cs.title}>Отделения</div>
                     {/* button-add компонент */}
-                    <button className={cs.button_add}><i className={cs.fa + ' ' + cs.fa_plus}></i></button>
+                    <button className={cs.button_add}><i className='fa fa-plus'></i></button>
                 </div>
                 {/* search компонент */}
                 <div className={cs.search}><input type="seach" placeholder='Пользователь или группа'/> <i className={cs.fa +' '+ cs.fa_magnifying_glass}></i></div>
@@ -26,7 +26,7 @@ export const DepartmentManagement = () => {
             <div className={cs.container}>
                 <div className={cs.title}>Группы</div>
                     {/* button-add компонент */}
-                    <button className={cs.button_add}><i className={cs.fa + ' ' + cs.fa_plus}></i></button>
+                    <button className={cs.button_add}><i className='fa fa-plus'></i></button>
                 </div>
                 <div id={cs.list_groups}>
                     {/* card-group-teacher Всегда создан по умолчанию */}

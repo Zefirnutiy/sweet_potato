@@ -2,6 +2,7 @@ import { DepartmentManagement } from './pages/DepartmentManagement/DepartmentMan
 import { Navbar } from './components/Navbar/Navbar';
 import { InformationCard } from './components/InformationCard/InformationCard';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { UserManagement } from './pages/UserManagement/UserManagement';
 
 
 
@@ -24,6 +25,7 @@ const App = () => {
       </Navbar>
       <Routes>
         <Route path="/DepartmentManagement" element={<DepartmentManagement/>} />
+        <Route path="/UserManagement" element={<UserManagement/>} />
         <Route path="*" element={<Navigate to="/DepartmentManagement" />} />
       </Routes>
     </main>

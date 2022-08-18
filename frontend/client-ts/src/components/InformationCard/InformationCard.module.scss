@@ -1,4 +1,4 @@
-.cardInformation{
+.card_information{
     font-size: 14px;
     width: 100%;
     height: fit-content;
@@ -10,14 +10,14 @@
     text-align: center;
     margin-bottom: 5px;
     transition: all 0.1s;
-    .cardHorizontalLine{
+    .card_horizontal_line{
         background-color: white;
         height: 1px;
         width: 100%;
         margin-top: 5px;
         margin-bottom: 20px;
     }
-    .cardText{
+    .card_text{
         margin-bottom: 10px;
     }
     &:hover{
