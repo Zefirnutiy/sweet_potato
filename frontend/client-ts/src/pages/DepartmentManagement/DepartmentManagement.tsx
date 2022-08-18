@@ -10,7 +10,7 @@ export const DepartmentManagement = () => {
                     <button className={cs.button_add}><i className='fa fa-plus'></i></button>
                 </div>
                 {/* search компонент */}
-                <div className={cs.search}><input type="seach" placeholder='Пользователь или группа'/> <i className={cs.fa +' '+ cs.fa_magnifying_glass}></i></div>
+                <div className={cs.search}><input type="seach" placeholder='Пользователь или группа'/> <i className='fa fa-magnifying-glass'></i></div>
                 <div id={cs.list_deportations}>
                     <div className={cs.card_deportation}>
                         <div className={cs.title_deportation}>АиВТ</div>
