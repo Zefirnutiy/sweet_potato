@@ -2,6 +2,9 @@ package controllers
 
 import (
 	"fmt"
+	"mime/multipart"
+	"net/http"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -143,53 +146,26 @@ func GetFileByClientId(c *gin.Context) {
 	})
 }
 
-
+type ProfileForm struct {
+	File *multipart.FileHeader `form:"file" binding:"required"`
+	MetaData structs.File
+}
+  
 func UploadFile(c *gin.Context) {
-	schema := c.Params.ByName("schema")
-	data := DataProcessingFile(*c)
-	var err error
-	
-
-	form, _ := c.MultipartForm()
-    files := form.File["upload[]"]
-
-    for _, file := range files {
-      fmt.Println(file.Filename)
-    }
-	if err != nil {
+	var form ProfileForm
+    if err := c.ShouldBind(&form); err != nil {
 		fmt.Println(err)
-		return
-	}
+      c.String(http.StatusBadRequest, "bad request")
+      return
+    }
 
+    err := c.SaveUploadedFile(form.File, form.File.Filename)
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."File"
-		(
-		"Date", 
-		"DateDel", 
-		"FileName", 
-		"FileNameTmp", 
-		"PublicInfoId", 
-		"TestId", 
-		"QuestionId", 
-		"ClientId", 
-		
-		) 
-		VALUES( $1, $2, $3, $4, $5, $6, $7, $8 )`,
-		data.Date, 
-		data.DateDel, 
-		data.FileNameTmp, 
-		data.PublicInfoId, 
-		data.TestId, 
-		data.QuestionId, 
-		data.ClientId, 
-		)
-	if err != nil {
-		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
-			"message": "Не получилось записать данные",
-		})
-		return
-	}
+    if err != nil {
+      c.String(http.StatusInternalServerError, "unknown error")
+      return
+    }
+
 	c.JSON(200, gin.H{
 		"message": "Запись создана",
 	})
