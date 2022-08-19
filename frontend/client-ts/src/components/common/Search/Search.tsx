@@ -3,7 +3,7 @@ import React from "react";
 import st from './Search.module.scss';
 
 type PropsType = {
-    placehold: string
+    placehold: any
     event?: () => void
 
 }

@@ -2,6 +2,7 @@ import { InformationCard } from '../../components/cards/InformationCard/Informat
 import st from './DepartmentManagement.module.scss'
 import { Search } from '../../components/common/Search/Search'
 import { PlusButton } from '../../components/buttons/PlusButton/PlusButton'
+import { DepartManage } from '../../components/DepartManageComponoent/DepartManageComponoent'
 
 const testData = [
     {
@@ -29,25 +30,7 @@ const testData = [
 export const DepartmentManagement = () => {
     return (
         <div id={st["main"]}>
-            <div id={st['wrapper-deportations']}>
-                <div className={st["container"]}>
-                    <div className={st["title"]}>Отделения</div>
-                    {/* button-add компонент */}
-                    <PlusButton />
-                </div>
-                {/* search компонент */}
-                <Search placehold='Пользователь или группа'/>
-                <div id={st["list-deportations"]}>
-                    <div className={st["card-deportation"]}>
-                        <div className={st["title-deportation"]}>АиВТ</div>
-                        <div className={st["number-groups"]}>40 групп</div>
-                    </div>
-                    <div className={st['card-deportation']}>
-                        <div className={st['title-deportation']}>Не АиВТ</div>
-                        <div className={st['number-groups']}>40000 групп</div>
-                    </div>
-                </div>
-            </div>
+            <DepartManage placeholder='Пользователь или группа' title='Отделение'/>
             <div id={st['wrapper-groups']}>
             <div className={st["container"]}>
                 <div className={st["title"]}>Группы</div>
