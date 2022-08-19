@@ -1,8 +1,9 @@
 import "./UserManagement.module.scss"
 import st from './UserManagement.module.scss'
-import { Search } from '../../components/Search/Search'
-import { PlusButton } from "../../components/StupidButton/PlusButton"
-import { CardUsers } from "../../components/CardUsers/CardUsers"
+import { Search } from '../../components/common/Search/Search'
+import { PlusButton } from "../../components/buttons/PlusButton/PlusButton"
+import { CardUsers } from "../../components/cards/CardUsers/CardUsers"
+import { GoBackButton } from "../../components/buttons/GoBackButton/GoBackButton"
 
 export const UserManagement = () =>{
     return (
@@ -12,7 +13,7 @@ export const UserManagement = () =>{
                     <div className={st["title"]}>Пользователи</div>
                     {/* button-add компонент */}
                     <PlusButton />
-                    <button className={st["button-go-back"]}><i className="fa-solid fa-circle-arrow-left"></i></button>
+                    <GoBackButton path="/departmentManagement"/>
                 </div>
                 {/* search компонент */}
                 <Search placehold='Пользователь'/>
@@ -20,8 +21,8 @@ export const UserManagement = () =>{
                     АиВТ/261
                 </div>
                 <div id={st["list-users"]}>
-                <CardUsers userName='Данилов Вячеслав В.' autorCreate='Гордеева Ульяна М.' dateCreate='16.08.2022' />
-                <CardUsers userName='Данилов Вячеслав В.' autorCreate='Гордеева Ульяна М.' dateCreate='16.08.2022' />
+                    <CardUsers userName='Данилов Вячеслав В.' autorCreate='Гордеева Ульяна М.' dateCreate='16.08.2022' />
+                    <CardUsers userName='Данилов Вячеслав В.' autorCreate='Гордеева Ульяна М.' dateCreate='16.08.2022' />
                 </div>
             </div>
             <div id={st["wrapper-user-controller"]}>

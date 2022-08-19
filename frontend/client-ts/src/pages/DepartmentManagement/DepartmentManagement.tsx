@@ -1,7 +1,30 @@
-import { InformationCard } from '../../components/InformationCard/InformationCard'
+import { InformationCard } from '../../components/cards/InformationCard/InformationCard'
 import st from './DepartmentManagement.module.scss'
-import { Search } from '../../components/Search/Search'
-import { PlusButton } from '../../components/StupidButton/PlusButton'
+import { Search } from '../../components/common/Search/Search'
+import { PlusButton } from '../../components/buttons/PlusButton/PlusButton'
+
+const testData = [
+    {
+        "title": "Учителя",
+        "message": "30 Пользователей",
+        "path": "/userManagement"
+    },
+    {
+        "title": "261",
+        "message": "20 Пользователей",
+        "path": "/userManagement"
+    },
+    {
+        "title": "369",
+        "message": "33 Пользователя",
+        "path": "/userManagement"
+    },
+    {
+        "title": "362",
+        "message": "6 Пользователей",
+        "path": "/userManagement"
+    }
+]
 
 export const DepartmentManagement = () => {
     return (
@@ -34,10 +57,9 @@ export const DepartmentManagement = () => {
                 <div id={st['list-groups']}>
 
                     {/* card-group-teacher Всегда создан по умолчанию */}
-                    <InformationCard title={'Учителя'} message={'20 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
-                    <InformationCard title={'261'} message={'30 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
-                    <InformationCard title={'269'} message={'28 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
-                    <InformationCard title={'361'} message={'24 Пользователей'} event={() =>{window.location.replace("/userManagement")}}/>
+                    {testData.map(data => 
+                        <InformationCard title={data.title} message={data.message} path={data.path}/>
+                    )}
                 </div>
             </div>
         </div>

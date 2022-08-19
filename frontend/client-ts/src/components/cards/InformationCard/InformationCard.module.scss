@@ -1,5 +1,6 @@
 .card-information{
     font-size: 14px;
+    font-weight: 800;
     width: 100%;
     height: fit-content;
     box-sizing: border-box;
@@ -12,7 +13,7 @@
     transition: all 0.1s;
     .card-horizontal-line{
         background-color: white;
-        height: 1px;
+        height: 2px;
         width: 100%;
         margin-top: 5px;
         margin-bottom: 20px;
@@ -24,4 +25,9 @@
         cursor: pointer;
         transform: scale(1.02);
     }
+}
+
+a{
+    text-decoration: none;
+    color: white;
 }
