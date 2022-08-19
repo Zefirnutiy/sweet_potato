@@ -54,50 +54,10 @@
     .title{
         font-size: 25px;
     }
-    .button-add{
-        padding-top: 3px;
-        padding-bottom: 3px;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        font-size: 18px;
-        font-weight: bolder;
-        background-color: #211B62;
-        transition: all 10ms;
-        &:hover{
-            transform: scale(1.1);
-            cursor: pointer;
-            text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
-        }
-    }
+   
     
 }
 
-.search{
-    border: 2px solid #2B2480;
-    border-radius: 8px;
-    padding: 3px;
-    display: grid;
-    grid-template-columns: auto 20px;
-    gap: 10px;
-    align-items: center;
-    overflow: hidden;
-    input{
-        all: unset;
-        text-decoration: none;
-        background: none;
-        border: none;
-        height: 22px;
-        font-size: 12px;
-        padding: 4px;
-        &::placeholder{
-            color: #adadad;
-        }
-    }
-    i{
-        color: #adadad;
-        
-    }
-}
+
 
 
