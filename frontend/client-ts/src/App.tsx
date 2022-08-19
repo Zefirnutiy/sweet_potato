@@ -1,6 +1,6 @@
 import { DepartmentManagement } from './pages/DepartmentManagement/DepartmentManagement';
-import { Navbar } from './components/Navbar/Navbar';
-import { InformationCard } from './components/InformationCard/InformationCard';
+import { Navbar } from './components/common/Navbar/Navbar';
+import { InformationCard } from './components/cards/InformationCard/InformationCard';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { UserManagement } from './pages/UserManagement/UserManagement';
 
