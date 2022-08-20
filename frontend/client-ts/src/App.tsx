@@ -3,10 +3,12 @@ import { Navbar } from './components/common/Navbar/Navbar';
 import { InformationCard } from './components/cards/Cards';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { UserManagement } from './pages/UserManagement/UserManagement';
+import { mirage } from './middleware/mirage';
 
 
 
 const App = () => {
+  mirage()
   let links = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
