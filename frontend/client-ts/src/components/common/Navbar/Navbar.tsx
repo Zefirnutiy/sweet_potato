@@ -21,7 +21,7 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
     return (
         <div id={st["navbar"]}>
         <div id={st["logo"]}>
-           {organizationName}
+           <Link to="/departament">{organizationName}</Link>
         </div>
         <div id={st["nav"]}>
             {links?.map(link => 

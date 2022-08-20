@@ -1,53 +1,37 @@
-import { InformationCard } from '../../components/cards/InformationCard/InformationCard'
+import { DeportationCard, InformationCard } from '../../components/cards/Cards'
 import st from './DepartmentManagement.module.scss'
-import { Search } from '../../components/common/Search/Search'
-import { PlusButton } from '../../components/buttons/PlusButton/PlusButton'
+import { DepartManage } from '../../components/common/List/List'
+import { PlusButton } from '../../components/buttons/Buttons'
 
 const testData = [
     {
         "title": "Учителя",
         "message": "30 Пользователей",
-        "path": "/userManagement"
+        "path": "/users"
     },
     {
         "title": "261",
         "message": "20 Пользователей",
-        "path": "/userManagement"
+        "path": "/users"
     },
     {
         "title": "369",
         "message": "33 Пользователя",
-        "path": "/userManagement"
+        "path": "/users"
     },
     {
         "title": "362",
         "message": "6 Пользователей",
-        "path": "/userManagement"
+        "path": "/users"
     }
 ]
 
 export const DepartmentManagement = () => {
     return (
         <div id={st["main"]}>
-            <div id={st['wrapper-deportations']}>
-                <div className={st["container"]}>
-                    <div className={st["title"]}>Отделения</div>
-                    {/* button-add компонент */}
-                    <PlusButton />
-                </div>
-                {/* search компонент */}
-                <Search placehold='Пользователь или группа'/>
-                <div id={st["list-deportations"]}>
-                    <div className={st["card-deportation"]}>
-                        <div className={st["title-deportation"]}>АиВТ</div>
-                        <div className={st["number-groups"]}>40 групп</div>
-                    </div>
-                    <div className={st['card-deportation']}>
-                        <div className={st['title-deportation']}>Не АиВТ</div>
-                        <div className={st['number-groups']}>40000 групп</div>
-                    </div>
-                </div>
-            </div>
+            <DepartManage placeholder='Пользователь или группа' title='Отделение'>
+                <DeportationCard title='АИВТ' number={12}/>
+            </DepartManage>
             <div id={st['wrapper-groups']}>
             <div className={st["container"]}>
                 <div className={st["title"]}>Группы</div>

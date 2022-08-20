@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import st from './GoBackButton.module.scss';
+import st from './Buttons.module.scss';
 
 type PropTypes = {
     path?: string
@@ -11,5 +11,18 @@ export const GoBackButton: FC<PropTypes> = ({path = '#'}) => {
         <Link to={path}>
             <button className={st["button-go-back"]}><i className='fa-solid fa-circle-arrow-left'></i></button>
         </Link>
+    )
+}
+
+
+
+type PropTypesPlus = {
+    event?: () => void
+}
+
+
+export const PlusButton: FC<PropTypesPlus> = ({event = () => {console.log("Кнопка '+' была нажата")}}) => {
+    return(
+        <button className={st["button-add"]} onClick={event}><i className='fa fa-plus'></i></button>
     )
 }

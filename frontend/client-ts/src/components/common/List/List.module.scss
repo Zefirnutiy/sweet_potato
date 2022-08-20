@@ -1,0 +1,23 @@
+#wrapper-deportations{
+    padding: 15px;
+    box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
+    background-color: #352C9F;
+    #list-deportations{
+        margin-top: 25px;
+        display: grid;
+        gap: 3px;
+    }
+}
+.container{
+    align-items: center;
+    display: flex;
+    gap: 10px;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    .title{
+        font-size: 25px;
+    }
+   
+    
+}
