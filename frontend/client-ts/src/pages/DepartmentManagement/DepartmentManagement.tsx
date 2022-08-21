@@ -56,11 +56,6 @@ export const DepartmentManagement = () => {
         getDepartaments()
     }, [getDepartaments])
 
-
-
-
-
-
     return (
         <div id={st["main"]}>
             <DepartManage placeholder='Пользователь или группа' title='Отделение'>
