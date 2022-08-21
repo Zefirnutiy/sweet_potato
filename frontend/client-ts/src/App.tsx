@@ -4,14 +4,12 @@ import { InformationCard } from './components/cards/Cards';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { UserManagement } from './pages/UserManagement/UserManagement';
 
-
-
 const App = () => {
   let links = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
-    {icon: "fa fa-address-book", title: "Пользователи", path: "/users"},
+    {icon: "fa fa-address-book", title: "Управление", path: "/department"},
     {icon: "fa fa-gear", title: "Аккаунт", path: "#"},
     {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
     {icon: "fa fa-chart-column", title: "Статистика", path: "#"},

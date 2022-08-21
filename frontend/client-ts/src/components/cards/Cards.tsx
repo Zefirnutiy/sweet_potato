@@ -31,9 +31,6 @@ export const CardUsers: React.FC<PropsTypesCardsUsers> = ({userName, autorCreate
 )
 
 
-
-
-
 export const InformationCard: React.FC<PropsTypesCardsInformation> = ({title, message, path = "#"}) => (
     <Link to={path}>
      <div className={st["card-information"]}>
