@@ -32,7 +32,6 @@
     box-sizing: border-box;
     padding: 10px;
     background: linear-gradient(86.25deg, #F2994A 9.35%, #F2C94C 99.11%);
-    box-shadow: -18px 9px 19px rgba(243, 156, 75, 0.13);
     border-radius: 10px;
     text-align: center;
     margin-bottom: 5px;
@@ -50,6 +49,7 @@
     &:hover{
         cursor: pointer;
         transform: scale(1.02);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
     }
 }
 
@@ -71,7 +71,7 @@ a{
         background: linear-gradient(rgb(67, 55, 200), rgb(59, 48, 175));
         transform: scale(1.02);
         cursor: pointer;
-        text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
+        box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.35);
     }
     .number-groups{
         margin-left: auto;
