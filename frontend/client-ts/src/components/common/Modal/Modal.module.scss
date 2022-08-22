@@ -22,4 +22,19 @@
     width: fit-content;
     height: fit-content;
     padding: 10px;
+    .cross{
+        z-index: 121;
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        width: fit-content;
+        height: fit-content;
+        background: none;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+        i{
+            color: white;
+        }
+    }
 }

@@ -20,8 +20,8 @@ export function mirage(){
           this.get("/api/depataments/", () => ({
             groups: [
                 { id: 1, title: "АИВТ", number: 12 },
-                { id: 2, title: "Автосервис", number: 12 },
-                { id: 3, title: "Технология и дизайн", number: 12 }
+                { id: 2, title: "Автосервис", number: 14 },
+                { id: 3, title: "Технология и дизайн", number: 15 },
             ],
           }))
         },

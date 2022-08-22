@@ -43,7 +43,7 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
                 <button id={st["button-registration"]} onClick={() => setRegModal(true)}>Регистрация</button>
             </div>
             {openRegModal &&
-            <Modal>
+            <Modal cross={true}>
                 <div className={st["wrapper-registration"]}>
                     <div className={st["welcome"]}>
                     </div>
@@ -65,7 +65,7 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
                 </div>
             </Modal>}
             {openLoginModal &&
-            <Modal>
+            <Modal cross={true}>
                 <div className={st["wrapper-login"]}>
                     <div className={st["welcome"]}>ffffffffffffffff</div>
                     <div className={st["registration-form"]}>
