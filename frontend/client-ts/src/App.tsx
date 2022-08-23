@@ -21,7 +21,7 @@ const App = () => {
     return (
     <main>
       <Navbar links={links}>
-        <InformationCard title="ТЫ ПИДОР" message="Ты таким родился."/>
+        <InformationCard title="ТЫ ХОРОШИЙ ЧЕЛОВЕК" message="Хрони тебя бог"/>
       </Navbar>
       <Routes>
         <Route path="/department" element={<DepartmentManagement/>} />

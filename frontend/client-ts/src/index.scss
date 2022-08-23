@@ -18,3 +18,11 @@ main{
         min-height:100%;
     }
 }
+
+button, a {
+    transition: all 10ms;
+    cursor: pointer;
+    &:hover{
+        transform: scale(1.05);
+    }
+}
