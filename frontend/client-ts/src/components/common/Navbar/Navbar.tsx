@@ -29,21 +29,22 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
                 <Link to={link.path}><i className={link.icon}></i> {link.title}</Link> 
             )}
         </div>
+        <div id={st["login-buttons"]}>
+            <button id={st["button-login"]} onClick={() => setLoginModal(true)}>Войти</button>
+            <button id={st["button-registration"]} onClick={() => setRegModal(true)}>Регистрация</button>
+        </div>
         <div id={st["nav-content"]}>
-            {/* <button onClick={() => setRegModal(true)}>Выйти</button>
-            {openRegModal &&
-            <Modal headerText={"Вы точно хотите выйти?"} onClose={() => setRegModal(false)}>
-                
-                <button>Точно</button>
-                <button onClick={() => setRegModal(false)}>Нет</button>
-
-            </Modal>} */}
-            <div id={st["login-buttons"]}>
-                <button id={st["button-login"]} onClick={() => setLoginModal(true)}>Войти</button>
-                <button id={st["button-registration"]} onClick={() => setRegModal(true)}>Регистрация</button>
+            {children}
+        </div>
+        <div id={st["card-user-account"]}>
+            <Link to={"#"} id={st["card-user-avatar"]}></Link>
+            <div id={st["card-user-info"]}>
+                <Link to={"#"} id={st["card-user-name"]}>Ульяна Романова</Link>
+                <div id={st["card-user-group"]}>АиВТ/261</div>
             </div>
-            {openRegModal &&
-            <Modal>
+        </div>
+        {openRegModal &&
+            <Modal cross={true} onClose={() => setRegModal(false)}>
                 <div className={st["wrapper-registration"]}>
                     <div className={st["welcome"]}>
                     </div>
@@ -58,27 +59,30 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
                             <input type="text"/>
                             <div>Повтор пароля</div>
                             <input type="text"/>
-                            <button onClick={()=> setRegModal(false)}>Готово</button>
-                            <p>У вас уже есть аккаунт? <button onClick={()=> setLoginModal(true)}>Войти</button></p>
+                            <button className={st["button-done"]} onClick={()=> setRegModal(false)}>Готово</button>
+                            <p>У вас уже есть аккаунт? <button className={st["button-link-login"]} onClick={()=> setLoginModal(true)}>Войти</button></p>
                         </div>
                     </div>
                 </div>
             </Modal>}
             {openLoginModal &&
-            <Modal>
-                <div className={st["wrapper-login"]}>
-                    <div className={st["welcome"]}>ffffffffffffffff</div>
-                    <div className={st["registration-form"]}>
-                        <label>Эл. почта</label>
-                        <input type="text"/>
-                        <label>Пароль</label>
-                        <input type="text"/>
+            <Modal cross={true} onClose={() => setLoginModal(false)}>
+                <div className={st["wrapper-registration"]}>
+                    <div className={st["welcome"]}>
                     </div>
-                    <button onClick={()=> setLoginModal(false)}>Готово</button>
+                    <div className={st["registration"]}>
+                        <h3>Вход</h3>
+                        <div className={st["registration-form"]}>
+                            <div>Эл. почта</div>
+                            <input type="text"/>
+                            <div>Пароль</div>
+                            <input type="text"/>
+                            <button className={st["button-done"]} onClick={()=> setLoginModal(false)}>Войти</button>
+                            <p>У вас нет аккаунта? <button className={st["button-link-login"]} onClick={()=> setRegModal(true)}>Регистрация</button></p>
+                        </div>
+                    </div>
                 </div>
             </Modal>}
-            {children}
-        </div>
     </div>
     )
 }

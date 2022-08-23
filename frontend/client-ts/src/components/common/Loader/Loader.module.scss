@@ -1,4 +1,12 @@
 .loader {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0; 
+    margin: auto;
+    margin-left: auto;
+    margin-top: auto;
     --background: linear-gradient(135deg, #23C4F8, #275EFE);
     --shadow: #{rgba(#275EFE, .28)};
     --text: #6C7486;
@@ -7,7 +15,6 @@
     --duration: 3s;
     width: 200px;
     height: 140px;
-    position: relative;
     &:before,
     &:after {
         --r: -6deg;

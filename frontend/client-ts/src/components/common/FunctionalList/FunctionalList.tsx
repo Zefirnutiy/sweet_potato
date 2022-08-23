@@ -1,7 +1,7 @@
 import React from "react";
 import { PlusButton } from "../../buttons/Buttons";
 import { Search } from "../Search/Search";
-import st from './List.module.scss'
+import st from './FunctionalList.module.scss'
 
 type PropsType = {
     placeholder?: string;
@@ -9,15 +9,13 @@ type PropsType = {
     children: React.ReactNode
 }
 
-export const DepartManage: React.FC<PropsType> = ({placeholder, title, children }) => {
+export const FunctionalList: React.FC<PropsType> = ({placeholder, title, children }) => {
     return(
             <div id={st['wrapper-deportations']}>
                 <div className={st["container"]}>
                     <div className={st["title"]}>{title}</div>
-                    {/* button-add компонент */}
                     <PlusButton />
                 </div>
-                {/* search компонент */}
                 <Search placehold={placeholder}/>
                 <div id={st["list-deportations"]}>
                     {children}

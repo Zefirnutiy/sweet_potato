@@ -8,13 +8,14 @@
 
 
 #wrapper-groups{
-    padding: 45px;
+    position: relative;
+    padding: 15px;
     padding-top: 15px;
     box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.05);
     #list-groups{
         display: grid;
-        gap: 15px;
-        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
 }
 .container{

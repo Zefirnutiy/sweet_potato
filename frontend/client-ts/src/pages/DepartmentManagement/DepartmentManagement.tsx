@@ -1,6 +1,6 @@
 import { DeportationCard, InformationCard } from '../../components/cards/Cards'
 import st from './DepartmentManagement.module.scss'
-import { DepartManage } from '../../components/common/List/List'
+import { FunctionalList } from '../../components/common/FunctionalList/FunctionalList'
 import { PlusButton } from '../../components/buttons/Buttons'
 import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
@@ -58,7 +58,7 @@ export const DepartmentManagement = () => {
 
     return (
         <div id={st["main"]}>
-            <DepartManage placeholder='Пользователь или группа' title='Отделение'>
+            <FunctionalList placeholder='Пользователь или группа' title='Отделение'>
                 {departamentsData.map(data => 
                     <div onClick={e => getGroups(data.id)}>
                         <DeportationCard 
@@ -68,23 +68,18 @@ export const DepartmentManagement = () => {
                         />
                     </div>
                 )}
-            </DepartManage>
+            </FunctionalList>
             <div id={st['wrapper-groups']}>
-            <div className={st["container"]}>
-                <div className={st["title"]}>Группы</div>
-                    {/* button-add компонент */}
+                <div className={st["container"]}>
+                    <div className={st["title"]}>Группы</div>
                     <PlusButton />
                 </div>
                 <div id={st['list-groups']}>
-
-                    {/* card-group-teacher Всегда создан по умолчанию */}
                     {loading ? <Loader/> 
-                    : groupsData.map(data => 
-                        <InformationCard title={data.title} key={data.id} message={data.message} path={"#"}/>
-                    )}
+                    : groupsData.map(data => <InformationCard title={data.title} key={data.id} message={data.message} path={"#"}/>)
+                    }
                 </div>
             </div>
         </div>
     )
 }
-
