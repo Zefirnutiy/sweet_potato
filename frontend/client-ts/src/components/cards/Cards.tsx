@@ -2,28 +2,28 @@ import React from "react";
 import { Link } from "react-router-dom";
 import st from './CardUsers.module.scss';
 
-type PropsTypesCardsUsers = {
+type PropsTypesUsersCard = {
     userName: string;
     autorCreate: string;
     dateCreate: string;
 
 }
 
-type PropsTypesCardsInformation = {
+type PropsTypesInformationCard = {
     title: string
     message: string
     path?: string
 }
 
 
-type PropsTypesCardsDeportation = {
+type PropsTypesTwoCellsCard = {
     title: string
-    number: number
+    message: string
 }
 
 
 
-export const CardUsers: React.FC<PropsTypesCardsUsers> = ({userName, autorCreate, dateCreate}) => (
+export const UserCard: React.FC<PropsTypesUsersCard> = ({userName, autorCreate, dateCreate}) => (
         <div className={st["card-user"]}>
             <div className={st["user-name"]}>{userName}</div>
             <div className={st["created"]}>Создал: {autorCreate}<br/> Создан: {dateCreate}</div>
@@ -31,7 +31,7 @@ export const CardUsers: React.FC<PropsTypesCardsUsers> = ({userName, autorCreate
 )
 
 
-export const InformationCard: React.FC<PropsTypesCardsInformation> = ({title, message, path = "#"}) => (
+export const InformationCard: React.FC<PropsTypesInformationCard> = ({title, message, path = "#"}) => (
     <Link to={path}>
      <div className={st["card-information"]}>
         <div className={st["card-title"]}><strong>{title}</strong></div>
@@ -42,10 +42,10 @@ export const InformationCard: React.FC<PropsTypesCardsInformation> = ({title, me
   )
 
 
-export const DeportationCard: React.FC<PropsTypesCardsDeportation> = ({title, number}) => (
+export const TwoCellsCard: React.FC<PropsTypesTwoCellsCard> = ({title, message}) => (
     <div className={st['card-deportation']}>
             <div className={st['title-deportation']}>{title}</div>
-            <div className={st['number-groups']}>{number} групп</div>
+            <div className={st['number-groups']}>{message}</div>
     </div>
 )
 

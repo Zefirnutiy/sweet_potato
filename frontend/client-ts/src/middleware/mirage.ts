@@ -5,23 +5,40 @@ import { createServer } from "miragejs";
 export function mirage(){
     createServer({
         routes() {
-          this.get("/api/groups/:departamentId", (_, request) => {
-            const departamentId = +request.params.departamentId
+          this.get("/api/groups/:DepartamentId", (_, request) => {
+            const DepartamentId = +request.params.DepartamentId
             return { groups: [
-              { id: 1, title: "Учителя", message: "T.", departamentId: 1},
-              { id: 2, title: "267", message: "B.", departamentId: 2},
-              { id: 3, title: "265", message: "Crain",  departamentId: 3},
-              { id: 4, title: "129", message: "T.", departamentId: 1},
-              { id: 5, title: "340", message: "B.", departamentId: 2},
-              { id: 6, title: "450", message: "Crain",  departamentId: 3}
-          ].filter(group => group.departamentId === departamentId)}
+              { Id: 1, Title: "Учителя", Message: "T.", DepartamentId: 1},
+              { Id: 2, Title: "267", Message: "B.", DepartamentId: 2},
+              { Id: 3, Title: "265", Message: "Crain",  DepartamentId: 3},
+              { Id: 4, Title: "129", Message: "T.", DepartamentId: 1},
+              { Id: 5, Title: "340", Message: "B.", DepartamentId: 2},
+              { Id: 6, Title: "450", Message: "Crain",  DepartamentId: 3}
+          ].filter(group => group.DepartamentId === DepartamentId)}
+          })
+
+          this.get("/api/users/:GroupId", (_, request) => {
+            const GroupId = +request.params.GroupId
+            return { users: [
+              { Id: 1, FirstName: "Сергей Орлов", Message: "T.", GroupId: 1},
+              { Id: 1, FirstName: "Сергей Орлов", Message: "T.", GroupId: 1},
+              { Id: 1, FirstName: "Сергей Орлов", Message: "T.", GroupId: 1},
+              { Id: 2, FirstName: "Василий Попов", Message: "B.", GroupId: 2},
+              { Id: 2, FirstName: "Василий Попов", Message: "B.", GroupId: 2},
+              { Id: 2, FirstName: "Василий Попов", Message: "B.", GroupId: 2},
+              { Id: 2, FirstName: "Алексей Попов", Message: "B.", GroupId: 3},
+              { Id: 2, FirstName: "Алексей Попов", Message: "B.", GroupId: 3},
+              { Id: 2, FirstName: "Максим Попов", Message: "B.", GroupId: 4},
+              { Id: 2, FirstName: "Илья Попов", Message: "B.", GroupId: 5},
+              { Id: 2, FirstName: "Мария Попова", Message: "B.", GroupId: 6},
+          ].filter(user => user.GroupId === GroupId)}
           })
 
           this.get("/api/depataments/", () => ({
             groups: [
-                { id: 1, title: "АИВТ", number: 12 },
-                { id: 2, title: "Автосервис", number: 14 },
-                { id: 3, title: "Технология и дизайн", number: 15 },
+                { Id: 1, Title: "АИВТ", Message: "12 групп" },
+                { Id: 2, Title: "Автосервис", Message: "14 групп" },
+                { Id: 3, Title: "Технология и дизайн", Message: "15 групп" },
             ],
           }))
         },

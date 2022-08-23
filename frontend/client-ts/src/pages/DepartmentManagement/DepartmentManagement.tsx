@@ -1,31 +1,45 @@
-import { DeportationCard, InformationCard } from '../../components/cards/Cards'
+import { TwoCellsCard, UserCard} from '../../components/cards/Cards'
 import st from './DepartmentManagement.module.scss'
 import { FunctionalList } from '../../components/common/FunctionalList/FunctionalList'
-import { PlusButton } from '../../components/buttons/Buttons'
 import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 import { Loader } from '../../components/common/Loader/Loader'
+import { Search } from '../../components/common/Search/Search'
 
 
-type GroupsList = {
-    id: number
-    title: string
-    message: string
+type List = {
+    Id: number
+    Title: string
+    Message: string
 }
 
-type DepartamentsList = {
-    id: number
-    title: string
-    number: number
-}
+type userData = {
+    Id: number
+    FirstName: string
+    dateCreate: string
+    autorCreate: string
 
+
+}
 export const DepartmentManagement = () => {
 
 
-    const [groupsData, setGroupsData] = useState<GroupsList[] | never[]>([])
-    const [departamentsData, setDepartamentsData] = useState<DepartamentsList[] | never[]>([])
+    const [groupsData, setGroupsData] = useState<List[] | never[]>([])
+    const [departamentsData, setDepartamentsData] = useState<List[] | never[]>([])
+    const [usersData, setUsersData] = useState<userData[] | never[]>([])
     const [loading, setLoading] = useState(false)
 
+    const getUsers = useCallback(async (GroupId: number) => {
+        setLoading(true)
+        await axios.get(
+            `/api/users/${GroupId}`, 
+            ).then((response) => {
+                setLoading(false)
+                console.log(response.data.users)
+                setUsersData(response.data.users)
+            })  
+            .catch(e => console.log(e))
+    }, [])
 
     const getGroups = useCallback(async (idDepartament: number) => {
         
@@ -58,26 +72,34 @@ export const DepartmentManagement = () => {
 
     return (
         <div id={st["main"]}>
-            <FunctionalList placeholder='Пользователь или группа' title='Отделение'>
-                {departamentsData.map(data => 
-                    <div onClick={e => getGroups(data.id)}>
-                        <DeportationCard 
-                            title={data.title} 
-                            number={data.number} 
-                            key={data.id} 
-                        />
-                    </div>
-                )}
-            </FunctionalList>
-            <div id={st['wrapper-groups']}>
-                <div className={st["container"]}>
-                    <div className={st["title"]}>Группы</div>
-                    <PlusButton />
-                </div>
-                <div id={st['list-groups']}>
-                    {loading ? <Loader/> 
-                    : groupsData.map(data => <InformationCard title={data.title} key={data.id} message={data.message} path={"#"}/>)
-                    }
+            <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
+            <div id={st['control']}>
+                <FunctionalList placeholder='Пользователь или группа' title='Отделение'>
+                    {departamentsData.map(data => 
+                        <div onClick={e => getGroups(data.Id)}>
+                            <TwoCellsCard 
+                                title={data.Title} 
+                                message={data.Message} 
+                                key={data.Id} 
+                            />
+                        </div>
+                    )}
+                </FunctionalList>
+                <FunctionalList title='Группы'>
+                {loading ? <Loader/> 
+                        : groupsData.map(data => 
+                            <div onClick={e => getUsers(data.Id)}>
+                                <TwoCellsCard title={data.Title} key={data.Id} message={data.Message}/>
+                            </div>)
+                        }
+                </FunctionalList>
+                <FunctionalList title='Пользователи'>
+                {loading ? <Loader/> 
+                        : usersData.map(data => <UserCard userName={data.FirstName} key={data.Id} dateCreate={"2022.04.14"} autorCreate="Учитель"/>)
+                        }
+                </FunctionalList>
+                <div>
+                    Тут будет инфа о пользователе 
                 </div>
             </div>
         </div>
