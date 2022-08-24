@@ -7,32 +7,35 @@ import { Loader } from '../../components/common/Loader/Loader'
 import { Search } from '../../components/common/Search/Search'
 
 
-type List = {
+interface List {
     id: number
     title: string
     message: string
 }
 
-type userData = {
+interface userData {
     id: number
     firstName: string
     dateCreate: string
     autorCreate: string
-
-
 }
+
+interface groupList extends List{
+    departamentId: number
+}
+
 export const DepartmentManagement = () => {
 
 
-    const [groupsData, setGroupsData] = useState<List[] | never[]>([])
+    const [groupsData, setGroupsData] = useState<groupList[] | never[]>([])
     const [departamentsData, setDepartamentsData] = useState<List[] | never[]>([])
     const [usersData, setUsersData] = useState<userData[] | never[]>([])
     const [loading, setLoading] = useState(false)
 
-    const getUsers = useCallback(async (GroupId: number) => {
+    const getUsers = useCallback(async (groupId: number) => {
         setLoading(true)
         await axios.get(
-            `/api/users/${GroupId}`, 
+            `/api/users/${groupId}`, 
             ).then((response) => {
                 setLoading(false)
                 console.log(response.data.users)
