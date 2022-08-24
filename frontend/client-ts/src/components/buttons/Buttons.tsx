@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import st from './Buttons.module.scss';
 
-type PropTypes = {
+interface PropTypes {
     path?: string
   }
 
@@ -16,7 +16,7 @@ export const GoBackButton: FC<PropTypes> = ({path = '#'}) => {
 
 
 
-type PropTypesPlus = {
+interface PropTypesPlus {
     event?: () => void
 }
 
