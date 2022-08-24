@@ -7,16 +7,17 @@ type PropsType = {
     placeholder?: string;
     title?: string;
     children: React.ReactNode
+    search?: boolean
 }
 
-export const FunctionalList: React.FC<PropsType> = ({placeholder, title, children }) => {
+export const FunctionalList: React.FC<PropsType> = ({placeholder, title, children, search}) => {
     return(
             <div id={st['wrapper-deportations']}>
                 <div className={st["container"]}>
                     <div className={st["title"]}>{title}</div>
                     <PlusButton />
                 </div>
-                <Search placehold={placeholder}/>
+                {search && <Search placehold={placeholder}/> }
                 <div id={st["list-deportations"]}>
                     {children}
                 </div>

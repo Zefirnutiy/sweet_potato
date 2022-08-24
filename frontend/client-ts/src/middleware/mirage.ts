@@ -17,11 +17,28 @@ export function mirage(){
           ].filter(group => group.departamentId === departamentId)}
           })
 
+          this.get("/api/users/:groupId", (_, request) => {
+            const groupId = +request.params.groupId
+            return { users: [
+              { id: 1, firstName: "Сергей Орлов", message: "T.", groupId: 1},
+              { id: 1, firstName: "Сергей Орлов", message: "T.", groupId: 1},
+              { id: 1, firstName: "Сергей Орлов", message: "T.", groupId: 1},
+              { id: 2, firstName: "Василий Попов", message: "B.", groupId: 2},
+              { id: 2, firstName: "Василий Попов", message: "B.", groupId: 2},
+              { id: 2, firstName: "Василий Попов", message: "B.", groupId: 2},
+              { id: 2, firstName: "Алексей Попов", message: "B.", groupId: 3},
+              { id: 2, firstName: "Алексей Попов", message: "B.", groupId: 3},
+              { id: 2, firstName: "Максим Попов", message: "B.", groupId: 4},
+              { id: 2, firstName: "Илья Попов", message: "B.", groupId: 5},
+              { id: 2, firstName: "Мария Попова", message: "B.", groupId: 6},
+          ].filter(user => user.groupId === groupId)}
+          })
+
           this.get("/api/depataments/", () => ({
             groups: [
-                { id: 1, title: "АИВТ", number: 12 },
-                { id: 2, title: "Автосервис", number: 14 },
-                { id: 3, title: "Технология и дизайн", number: 15 },
+                { id: 1, title: "АИВТ", message: "12 групп" },
+                { id: 2, title: "Автосервис", message: "14 групп" },
+                { id: 3, title: "Технология и дизайн", message: "15 групп" },
             ],
           }))
         },
