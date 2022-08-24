@@ -8,14 +8,14 @@ import { Search } from '../../components/common/Search/Search'
 
 
 type List = {
-    Id: number
-    Title: string
-    Message: string
+    id: number
+    title: string
+    message: string
 }
 
 type userData = {
-    Id: number
-    FirstName: string
+    id: number
+    firstName: string
     dateCreate: string
     autorCreate: string
 
@@ -76,11 +76,11 @@ export const DepartmentManagement = () => {
             <div id={st['control']}>
                 <FunctionalList placeholder='Пользователь или группа' title='Отделение'>
                     {departamentsData.map(data => 
-                        <div onClick={e => getGroups(data.Id)}>
+                        <div onClick={e => getGroups(data.id)}>
                             <TwoCellsCard 
-                                title={data.Title} 
-                                message={data.Message} 
-                                key={data.Id} 
+                                title={data.title} 
+                                message={data.message} 
+                                key={data.id} 
                             />
                         </div>
                     )}
@@ -88,14 +88,14 @@ export const DepartmentManagement = () => {
                 <FunctionalList title='Группы'>
                 {loading ? <Loader/> 
                         : groupsData.map(data => 
-                            <div onClick={e => getUsers(data.Id)}>
-                                <TwoCellsCard title={data.Title} key={data.Id} message={data.Message}/>
+                            <div onClick={e => getUsers(data.id)}>
+                                <TwoCellsCard title={data.title} key={data.id} message={data.message}/>
                             </div>)
                         }
                 </FunctionalList>
                 <FunctionalList title='Пользователи'>
                 {loading ? <Loader/> 
-                        : usersData.map(data => <UserCard userName={data.FirstName} key={data.Id} dateCreate={"2022.04.14"} autorCreate="Учитель"/>)
+                        : usersData.map(data => <UserCard userName={data.firstName} key={data.id} dateCreate={"2022.04.14"} autorCreate="Учитель"/>)
                         }
                 </FunctionalList>
                 <div>
