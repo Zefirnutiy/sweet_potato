@@ -7,6 +7,7 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func DataProcessingClient(c gin.Context) structs.Client {
@@ -169,7 +170,7 @@ func CreateClient(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	var err error
 
-	data.Password, err = utils.Encrypt(data.Password)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -198,7 +199,7 @@ func CreateClient(c *gin.Context) {
 		data.EmailNotifications,
 		data.GroupId,
 		data.ClientLevelId,
-		data.Password,
+		hashedPassword,
 	)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -251,21 +252,15 @@ func LoginClient(c *gin.Context) {
 		return
 	}
 
-	encryptPass, err := utils.Encrypt(loginData.Password)
+	inputPas := []byte(loginData.Password)
+	clientPas := []byte(client.Password)
+	err = bcrypt.CompareHashAndPassword(inputPas, clientPas)
 
 	if err != nil {
 		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
-			"message": "проблема с хэшированием пароля",
-		})
-		return
-	}
-
-	if encryptPass != client.Password {
-		utils.Logger.Println(err)
 		c.JSON(400, gin.H{
 			"error":   err,
-			"message": "Неверные данные",
+			"message": "Вы ввели неправильные данные",
 		})
 		return
 	}
@@ -299,7 +294,7 @@ func UpdateClient(c *gin.Context) {
 	data := DataProcessingClient(*c)
 	var err error
 
-	data.Password, err = utils.Encrypt(data.Password)
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -327,7 +322,7 @@ func UpdateClient(c *gin.Context) {
 		data.FirstName,
 		data.LastName,
 		data.Patronymic,
-		data.Password,
+		hashedPassword,
 		data.Email,
 		data.Telephone,
 		data.EmailNotifications,
