@@ -1,39 +1,108 @@
-import { InformationCard } from '../../components/InformationCard/InformationCard'
-import cs from './DepartmentManagement.module.css'
+import { TwoCellsCard, UserCard} from '../../components/cards/Cards'
+import st from './DepartmentManagement.module.scss'
+import { FunctionalList } from '../../components/common/FunctionalList/FunctionalList'
+import axios from 'axios'
+import { useCallback, useEffect, useState } from 'react'
+import { Loader } from '../../components/common/Loader/Loader'
+import { Search } from '../../components/common/Search/Search'
+
+
+interface List {
+    id: number
+    title: string
+    message: string
+}
+
+interface userData {
+    id: number
+    firstName: string
+    dateCreate: string
+    autorCreate: string
+}
+
+interface groupList extends List{
+    departamentId: number
+}
+
 export const DepartmentManagement = () => {
+
+
+    const [groupsData, setGroupsData] = useState<groupList[] | never[]>([])
+    const [departamentsData, setDepartamentsData] = useState<List[] | never[]>([])
+    const [usersData, setUsersData] = useState<userData[] | never[]>([])
+    const [loading, setLoading] = useState(false)
+
+    const getUsers = useCallback(async (groupId: number) => {
+        setLoading(true)
+        await axios.get(
+            `/api/users/${groupId}`, 
+            ).then((response) => {
+                setLoading(false)
+                console.log(response.data.users)
+                setUsersData(response.data.users)
+            })  
+            .catch(e => console.log(e))
+    }, [])
+
+    const getGroups = useCallback(async (idDepartament: number) => {
+        
+        setLoading(true)
+        await axios.get(
+            `/api/groups/${idDepartament}`, 
+            ).then((response) => {
+                setLoading(false)
+                console.log(response.data.groups)
+                setGroupsData(response.data.groups)
+            })  
+            .catch(e => console.log(e))
+    }, [])
+
+    const getDepartaments = useCallback(async () => {
+        
+        setLoading(true)
+        await axios.get(
+            `/api/depataments/`, 
+            ).then((response) => {
+                setLoading(false)
+                setDepartamentsData(response.data.groups)
+            })  
+            .catch(e => console.log(e))
+    }, [])
+
+    useEffect(() => {
+        getDepartaments()
+    }, [getDepartaments])
+
     return (
-        <div id={cs.main}>
-            <div id={cs.wrapper_deportations}>
-                <div className={cs.container}>
-                    <div className={cs.title}>Отделения</div>
-                    {/* button-add компонент */}
-                    <button className={cs.button_add}><i className={cs.fa + ' ' + cs.fa_plus}></i></button>
-                </div>
-                {/* search компонент */}
-                <div className={cs.search}><input type="seach" placeholder='Пользователь или группа'/> <i className={cs.fa +' '+ cs.fa_magnifying_glass}></i></div>
-                <div id={cs.list_deportations}>
-                    <div className={cs.card_deportation}>
-                        <div className={cs.title_deportation}>АиВТ</div>
-                        <div className={cs.number_groups}>40 групп</div>
-                    </div>
-                    <div className={cs.card_deportation}>
-                        <div className={cs.title_deportation}>Не АиВТ</div>
-                        <div className={cs.number_groups}>40000 групп</div>
-                    </div>
-                </div>
-            </div>
-            <div id={cs.wrapper_groups}>
-            <div className={cs.container}>
-                <div className={cs.title}>Группы</div>
-                    {/* button-add компонент */}
-                    <button className={cs.button_add}><i className={cs.fa + ' ' + cs.fa_plus}></i></button>
-                </div>
-                <div id={cs.list_groups}>
-                    {/* card-group-teacher Всегда создан по умолчанию */}
-                    <InformationCard title={'Учителя'} message={'20 Пользователей'}/>
-                    <InformationCard title={'261'} message={'30 Пользователей'}/>
-                    <InformationCard title={'269'} message={'28 Пользователей'}/>
-                    <InformationCard title={'361'} message={'24 Пользователей'}/>
+        <div id={st["main"]}>
+            <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
+            <div id={st['control']}>
+                <FunctionalList placeholder='Пользователь или группа' title='Отделение'>
+                    {departamentsData.map(data => 
+                        <div onClick={e => getGroups(data.id)}>
+                            <TwoCellsCard 
+                                title={data.title} 
+                                message={data.message} 
+                                key={data.id} 
+                            />
+                        </div>
+                    )}
+                </FunctionalList>
+                <FunctionalList title='Группы'>
+                {loading ? <Loader/> 
+                        : groupsData.map(data => 
+                            <div onClick={e => getUsers(data.id)}>
+                                <TwoCellsCard title={data.title} key={data.id} message={data.message}/>
+                            </div>)
+                        }
+                </FunctionalList>
+                <FunctionalList title='Пользователи'>
+                {loading ? <Loader/> 
+                        : usersData.map(data => <UserCard userName={data.firstName} key={data.id} dateCreate={"2022.04.14"} autorCreate="Учитель"/>)
+                        }
+                </FunctionalList>
+                <div>
+                    Тут будет инфа о пользователе 
                 </div>
             </div>
         </div>

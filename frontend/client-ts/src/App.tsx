@@ -1,16 +1,17 @@
 import { DepartmentManagement } from './pages/DepartmentManagement/DepartmentManagement';
-import { Navbar } from './components/Navbar/Navbar';
-import { InformationCard } from './components/InformationCard/InformationCard';
+import { Navbar } from './components/common/Navbar/Navbar';
+import { InformationCard } from './components/cards/Cards';
 import { Navigate, Route, Routes } from 'react-router-dom';
-
-
+import { UserManagement } from './pages/UserManagement/UserManagement';
+import { mirage } from './middleware/mirage';
 
 const App = () => {
+  mirage()
   let links = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
-    {icon: "fa fa-address-book", title: "Пользователи", path: "#"},
+    {icon: "fa fa-address-book", title: "Управление", path: "/department"},
     {icon: "fa fa-gear", title: "Аккаунт", path: "#"},
     {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
     {icon: "fa fa-chart-column", title: "Статистика", path: "#"},
@@ -20,11 +21,12 @@ const App = () => {
     return (
     <main>
       <Navbar links={links}>
-        <InformationCard title="ТЫ ПИДОР" message="Ты таким родился."/>
+        <InformationCard title="ТЫ ХОРОШИЙ ЧЕЛОВЕК" message="Храни тебя бог"/>
       </Navbar>
       <Routes>
-        <Route path="/DepartmentManagement" element={<DepartmentManagement/>} />
-        <Route path="*" element={<Navigate to="/DepartmentManagement" />} />
+        <Route path="/department" element={<DepartmentManagement/>} />
+        <Route path="/users" element={<UserManagement/>} />
+        <Route path="*" element={<Navigate to="/department" />} />
       </Routes>
     </main>
     )
