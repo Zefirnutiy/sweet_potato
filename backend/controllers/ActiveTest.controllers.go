@@ -22,11 +22,11 @@ func DataProcessingActiveTest(c gin.Context) structs.ActiveTest {
 
 
 func GetActiveTests(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var activeTestList []structs.ActiveTest
 	var activeTest structs.ActiveTest
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."ActiveTest"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."ActiveTest"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -64,11 +64,11 @@ func GetActiveTests(c *gin.Context) {
 }
 
 func GetActiveTestById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var activeTest structs.ActiveTest
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."ActiveTest" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "Id"=$1`, id ).Scan(
 		&activeTest.Id, 
 		&activeTest.Start, 
 		&activeTest.End, 
@@ -97,12 +97,12 @@ func GetActiveTestById(c *gin.Context) {
 	
 
 func GetActiveTestByClientId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	clientId := c.Params.ByName("clientId")
 	var activeTestList []structs.ActiveTest
 	var activeTest structs.ActiveTest
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."ActiveTest" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -143,12 +143,12 @@ func GetActiveTestByClientId(c *gin.Context) {
 	
 
 func CreateActiveTest(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingActiveTest(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."ActiveTest"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."ActiveTest"
 		(
 		"Start", 
 		"End", 
@@ -183,13 +183,13 @@ func CreateActiveTest(c *gin.Context) {
 
 func UpdateActiveTest(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingActiveTest(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."ActiveTest" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."ActiveTest" 
 		SET 
 		"Start"=$1,
 		"End"=$2,
@@ -224,9 +224,9 @@ func UpdateActiveTest(c *gin.Context) {
 	
 
 func DeleteActiveTest(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."ActiveTest" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."ActiveTest" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

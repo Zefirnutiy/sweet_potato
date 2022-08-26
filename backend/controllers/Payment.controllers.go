@@ -22,11 +22,11 @@ func DataProcessingPayment(c gin.Context) structs.Payment {
 
 
 func GetPayments(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var paymentList []structs.Payment
 	var payment structs.Payment
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."Payment"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Payment"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -62,11 +62,11 @@ func GetPayments(c *gin.Context) {
 }
 
 func GetPaymentByNumber(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	number := c.Params.ByName("number")
 	var payment structs.Payment
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
 		&payment.Number, 
 		&payment.Name, 
 		&payment.Money, 
@@ -92,11 +92,11 @@ func GetPaymentByNumber(c *gin.Context) {
 
 	
 func GetPaymentByOrganizationId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	organizationId := c.Params.ByName("organizationId")
 	var payment structs.Payment
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId ).Scan(
 		&payment.Number, 
 		&payment.Name, 
 		&payment.Money, 
@@ -124,12 +124,12 @@ func GetPaymentByOrganizationId(c *gin.Context) {
 
 
 func CreatePayment(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingPayment(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."Payment"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Payment"
 		(
 		"Number", 
 		"Name", 
@@ -162,13 +162,13 @@ func CreatePayment(c *gin.Context) {
 
 func UpdatePayment(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingPayment(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."Payment" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Payment" 
 		SET 
 		"Name"=$1,
 		"Money"=$2,
@@ -199,9 +199,9 @@ func UpdatePayment(c *gin.Context) {
 	
 
 func DeletePayment(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."Payment" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Payment" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

@@ -22,11 +22,11 @@ func DataProcessingPublicInfo(c gin.Context) structs.PublicInfo {
 
 
 func GetPublicInfos(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var publicInfoList []structs.PublicInfo
 	var publicInfo structs.PublicInfo
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."PublicInfo"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."PublicInfo"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -62,11 +62,11 @@ func GetPublicInfos(c *gin.Context) {
 }
 
 func GetPublicInfoById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var publicInfo structs.PublicInfo
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."PublicInfo" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."PublicInfo" WHERE "Id"=$1`, id ).Scan(
 		&publicInfo.Id, 
 		&publicInfo.Title, 
 		&publicInfo.Text, 
@@ -93,12 +93,12 @@ func GetPublicInfoById(c *gin.Context) {
 	
 
 func GetPublicInfoByClientId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	clientId := c.Params.ByName("clientId")
 	var publicInfoList []structs.PublicInfo
 	var publicInfo structs.PublicInfo
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."PublicInfo" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."PublicInfo" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -137,12 +137,12 @@ func GetPublicInfoByClientId(c *gin.Context) {
 	
 
 func CreatePublicInfo(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingPublicInfo(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."PublicInfo"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."PublicInfo"
 		(
 		"Title", 
 		"Text", 
@@ -173,13 +173,13 @@ func CreatePublicInfo(c *gin.Context) {
 
 func UpdatePublicInfo(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingPublicInfo(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."PublicInfo" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."PublicInfo" 
 		SET 
 		"Title"=$1,
 		"Text"=$2,
@@ -210,9 +210,9 @@ func UpdatePublicInfo(c *gin.Context) {
 	
 
 func DeletePublicInfo(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."PublicInfo" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."PublicInfo" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

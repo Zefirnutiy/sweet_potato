@@ -22,11 +22,11 @@ func DataProcessingQuestionResult(c gin.Context) structs.QuestionResult {
 
 
 func GetQuestionResults(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var questionResultList []structs.QuestionResult
 	var questionResult structs.QuestionResult
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."QuestionResult"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionResult"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -61,11 +61,11 @@ func GetQuestionResults(c *gin.Context) {
 }
 
 func GetQuestionResultById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var questionResult structs.QuestionResult
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."QuestionResult" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "Id"=$1`, id ).Scan(
 		&questionResult.Id, 
 		&questionResult.Date, 
 		&questionResult.QuestionId, 
@@ -91,12 +91,12 @@ func GetQuestionResultById(c *gin.Context) {
 	
 
 func GetQuestionResultByQuestionId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	questionId := c.Params.ByName("questionId")
 	var questionResultList []structs.QuestionResult
 	var questionResult structs.QuestionResult
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."QuestionResult" WHERE "QuestionId"=$1`, questionId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "QuestionId"=$1`, questionId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -133,12 +133,12 @@ func GetQuestionResultByQuestionId(c *gin.Context) {
 
 	
 func GetQuestionResultByClientId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	clientId := c.Params.ByName("clientId")
 	var questionResultList []structs.QuestionResult
 	var questionResult structs.QuestionResult
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."QuestionResult" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -176,12 +176,12 @@ func GetQuestionResultByClientId(c *gin.Context) {
 	
 
 func CreateQuestionResult(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingQuestionResult(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."QuestionResult"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."QuestionResult"
 		(
 		"Date", 
 		"QuestionId", 
@@ -210,13 +210,13 @@ func CreateQuestionResult(c *gin.Context) {
 
 func UpdateQuestionResult(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingQuestionResult(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."QuestionResult" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."QuestionResult" 
 		SET 
 		"Date"=$1,
 		"QuestionId"=$2,
@@ -245,9 +245,9 @@ func UpdateQuestionResult(c *gin.Context) {
 	
 
 func DeleteQuestionResult(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."QuestionResult" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."QuestionResult" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

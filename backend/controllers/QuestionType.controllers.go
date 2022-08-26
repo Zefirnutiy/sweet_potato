@@ -22,11 +22,11 @@ func DataProcessingQuestionType(c gin.Context) structs.QuestionType {
 
 
 func GetQuestionTypes(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var questionTypeList []structs.QuestionType
 	var questionType structs.QuestionType
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."QuestionType"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionType"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -58,11 +58,11 @@ func GetQuestionTypes(c *gin.Context) {
 }
 
 func GetQuestionTypeById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var questionType structs.QuestionType
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."QuestionType" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionType" WHERE "Id"=$1`, id ).Scan(
 		&questionType.Id, 
 		&questionType.Type, 
 		
@@ -86,12 +86,12 @@ func GetQuestionTypeById(c *gin.Context) {
 
 
 func CreateQuestionType(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	data := DataProcessingQuestionType(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+schema+`"."QuestionType"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."QuestionType"
 		(
 		"Type", 
 		
@@ -114,13 +114,13 @@ func CreateQuestionType(c *gin.Context) {
 
 func UpdateQuestionType(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingQuestionType(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."QuestionType" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."QuestionType" 
 		SET 
 		"Type"=$1
 		
@@ -143,9 +143,9 @@ func UpdateQuestionType(c *gin.Context) {
 	
 
 func DeleteQuestionType(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."QuestionType" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."QuestionType" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

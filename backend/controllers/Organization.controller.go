@@ -14,7 +14,7 @@ import (
 
 func CreateOrganization(title, password, email, key string, emailnotifications bool) (sql.Result, error) {
 	result, err := db.Dbpool.Exec(`
-		INSERT INTO "Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
+		INSERT INTO "public"."Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
 		VALUES ($1, $2, $3, $4, $5);`,
 		title, password, email, emailnotifications, key)
 
