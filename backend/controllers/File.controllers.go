@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"net/http"
+	"time"
 
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
@@ -25,11 +26,11 @@ func DataProcessingFile(c gin.Context) structs.File {
 
 
 func GetFiles(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	var fileList []structs.File
 	var file structs.File
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."File"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."File"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -68,11 +69,11 @@ func GetFiles(c *gin.Context) {
 }
 
 func GetFileById(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	var file structs.File
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+schema+`"."File" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."File" WHERE "Id"=$1`, id ).Scan(
 		&file.Id, 
 		&file.Date, 
 		&file.DateDel, 
@@ -102,12 +103,12 @@ func GetFileById(c *gin.Context) {
 	
 
 func GetFileByClientId(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	clientId := c.Params.ByName("clientId")
 	var fileList []structs.File
 	var file structs.File
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+schema+`"."File" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."File" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -152,19 +153,58 @@ type ProfileForm struct {
 }
   
 func UploadFile(c *gin.Context) {
+
 	var form ProfileForm
+	model := c.Value("Model").(structs.Claims)
     if err := c.ShouldBind(&form); err != nil {
 		fmt.Println(err)
-      c.String(http.StatusBadRequest, "bad request")
+      c.JSON(http.StatusBadRequest, gin.H{
+		"message":"bad request",
+	})
       return
     }
 
-    err := c.SaveUploadedFile(form.File, form.File.Filename)
+	serverName := fmt.Sprintf(`%[1]s_%[2]s`, time.Now(), form.File.Filename)
+
+	_, err := db.Dbpool.Exec(`INSERT INTO"`+model.Schema+`"."File"
+	(
+		"Date",
+		"DateDel",
+			"FileName",
+			"FileNameTmp",
+			"TestId",
+			"QuestionId",
+			"PublicInfoId",
+			"ClientId"
+		)
+
+		VALUES($1, $2, $3, $4, $5, $6, $7, $8 )`,form.MetaData.Date,
+		form.MetaData.DateDel,
+		form.MetaData.FileName,
+		serverName,
+		form.MetaData.TestId,
+		form.MetaData.QuestionId,
+		form.MetaData.PublicInfoId,
+		form.MetaData.ClientId,
+	)
 
     if err != nil {
-      c.String(http.StatusInternalServerError, "unknown error")
-      return
+		fmt.Println(err)
+        c.JSON(500, gin.H{
+			"message":"ошибка сохранения файла в базу данных",
+		})
+		return
     }
+	
+	err = c.SaveUploadedFile(form.File, serverName)
+	if err != nil{
+		c.JSON(500, gin.H{
+			"message":"не удалось сохранить файл",
+		})
+		utils.Logger.Println(err)
+		return
+	}
+	
 
 	c.JSON(200, gin.H{
 		"message": "Запись создана",
@@ -174,13 +214,13 @@ func UploadFile(c *gin.Context) {
 
 func UpdateFile(c *gin.Context) {
 
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingFile(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+schema+`"."File" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."File" 
 		SET 
 		"Date"=$1,
 		"DateDel"=$2,
@@ -217,9 +257,9 @@ func UpdateFile(c *gin.Context) {
 	
 
 func DeleteFile(c *gin.Context) {
-	schema := c.Params.ByName("schema")
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+schema+`"."File" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."File" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

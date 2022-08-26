@@ -1,8 +1,10 @@
 package routes
 
 import (
-	"github.com/Zefirnutiy/sweet_potato.git/controllers"
 	"time"
+
+	"github.com/Zefirnutiy/sweet_potato.git/controllers"
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -20,18 +22,18 @@ func Routs(port string) {
 	}))
 	router.MaxMultipartMemory = 8 << 20  
 	
-	// organization := router.Group("/api/organization")
-	// {
-	// 	organization.POST("/register", controllers.RegisterOrganization)
-	// 	organization.POST("/login", controllers.LoginOrganization) 
-	// }
+	organization := router.Group("/api/organization")
+	{
+		go organization.POST("/register", controllers.RegisterOrganization)
+		go organization.POST("/login", controllers.LoginOrganization) 
+	}
 
 	file := router.Group("/api/file")
         {
         file.GET("/getFilesg", controllers.GetFiles)
         file.GET("/getFileById/:id", controllers.GetFileById)
         file.GET("/getFileByManyClientId/:clientId", controllers.GetFileByClientId)
-        file.POST("/upload", controllers.UploadFile)
+        file.POST("/upload", utils.TokenCheckedFromHeader, controllers.UploadFile)
         file.PATCH("/update", controllers.UpdateFile)
         file.DELETE("/delete/:id", controllers.DeleteFile)
         }

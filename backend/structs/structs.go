@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"time"
 	"github.com/golang/protobuf/ptypes/timestamp"
 )
 
@@ -151,8 +152,8 @@ type Group struct {
 
 type File struct {
 	Id          	int 				`json:"id"` 
-	Date        	timestamp.Timestamp	`json:"date"` 	
-	DateDel     	timestamp.Timestamp	`json:"dateDel"`  
+	Date        	time.Time			`json:"date"` 	
+	DateDel     	time.Time			`json:"dateDel"`  
 	FileName    	string 				`json:"fileName"`
 	FileNameTmp 	string 				`json:"fileNameTmp"`
 	TestId      	int8				`json:"testId"` 	
