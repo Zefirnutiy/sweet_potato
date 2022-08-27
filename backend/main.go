@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/db"
-	"github.com/Zefirnutiy/sweet_potato.git/routes" 
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
 )
 
@@ -33,7 +33,7 @@ func main() {
 	// }
 
 	// utils.Generate()
-
-	routes.Routs(cfg.Port)
+	utils.SortQuestion	("./text.txt")
+	// routes.Routs(cfg.Port)
 
 }
