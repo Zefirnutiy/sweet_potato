@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Loader } from '../../components/common/Loader/Loader'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
+import { List } from '../../components/list/List'
 
 
 interface List {
@@ -31,15 +32,23 @@ export const DepartmentManagement = () => {
     const [departamentsData, setDepartamentsData] = useState<List[] | never[]>([])
     const [usersData, setUsersData] = useState<userData[] | never[]>([])
     const [loading, setLoading] = useState(false)
+    const [showDepartament, setShowDepartament] = useState(true)
+    const [showGroup, setShowGroup] = useState(false)
+    const [showUser, setShowUser] = useState(false)
+
 
 
     const getUsers = useCallback(async (groupId: number) => {
         getUsersAPI({groupId, setLoading, setUsersData})
+        setShowGroup(false) 
+        setShowUser(true)
     }, [])
 
 
     const getGroups = useCallback(async (departamentId: number) => {
         getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData})
+        setShowDepartament(false) 
+        setShowGroup(true)
     }, [])
 
 
@@ -57,30 +66,17 @@ export const DepartmentManagement = () => {
         <div id={st["main"]}>
             <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
             <div id={st['control']}>
-                <FunctionalList placeholder='Пользователь или группа' title='Отделение'>
-                    {departamentsData.map(data => 
-                        <div onClick={e => getGroups(data.id)}>
-                            <TwoCellsCard 
-                                title={data.title} 
-                                message={data.message} 
-                                key={data.id} 
-                            />
-                        </div>
-                    )}
-                </FunctionalList>
-                <FunctionalList title='Группы'>
-                {loading ? <Loader/> 
-                        : groupsData.map(data => 
-                            <div onClick={e => getUsers(data.id)}>
-                                <TwoCellsCard title={data.title} key={data.id} message={data.message}/>
-                            </div>)
-                        }
-                </FunctionalList>
-                <FunctionalList title='Пользователи'>
-                {loading ? <Loader/> 
-                        : usersData.map(data => <UserCard userName={data.firstName} key={data.id} dateCreate={"2022.04.14"} autorCreate="Учитель"/>)
-                        }
-                </FunctionalList>
+                <List 
+                    showDepartament={showDepartament}
+                    departamentsData={departamentsData}
+                    getGroups={getGroups}
+                    showGroup={showGroup}
+                    groupsData={groupsData}
+                    getUsers={getUsers}
+                    showUser={showUser}
+                    usersData={usersData}
+                    loading={loading}
+                />
                 <div>
                     Тут будет инфа о пользователе 
                 </div>
