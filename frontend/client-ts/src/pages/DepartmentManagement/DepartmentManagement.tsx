@@ -73,7 +73,9 @@ export const DepartmentManagement = () => {
                     showUser={showUser}
                     usersData={usersData}
                     loading={loading}
-                />
+                >
+                    <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
+                </ListInfo>
                 <div>
                     Тут будет инфа о пользователе 
                 </div>

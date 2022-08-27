@@ -1,6 +1,6 @@
 import { TwoCellsCard } from "../cards/Cards";
 import { FunctionalList } from "../common/FunctionalList/FunctionalList";
-import { Search } from "../common/Search/Search";
+
 
 
 interface PropsTypesList{
@@ -13,6 +13,7 @@ interface PropsTypesList{
     showUser: boolean
     usersData: any[]
     loading: boolean
+    children: React.ReactNode
 }
 
 
@@ -25,12 +26,12 @@ export const ListInfo: React.FC<PropsTypesList> = ({
     getUsers,
     showUser,
     usersData,
-    loading
+    loading,
+    children
 }) => (
     <>
         { showDepartament ? <FunctionalList placeholder='Пользователь или группа' title='Отделение' load={loading}>
-                    <div><Search placehold={"Поиск"} width={"160px"}/></div>
-                    
+                    {children}
                       { departamentsData.map(data => 
                         <div onClick={e => getGroups(data.id)}>
                             <TwoCellsCard 
@@ -43,7 +44,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                 </FunctionalList> : null}
 
                 { showGroup ? <FunctionalList placeholder='Пользователь или группа' title='Группы' load={loading}>
-                <div><Search placehold={"Поиск"} width={"160px"}/></div>
+                    {children}
                       { groupsData.map(data => 
                         <div onClick={e => getUsers(data.id)}>
                             <TwoCellsCard 
@@ -56,7 +57,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                 </FunctionalList> : null}
 
                 {showUser ? <FunctionalList placeholder='Пользователь или группа' title='Пользователи' load={loading}>
-                <div><Search placehold={"Поиск"} width={"160px"}/></div>
+                    {children}
                       { usersData.map(data => 
                         <div>
                             <TwoCellsCard 
