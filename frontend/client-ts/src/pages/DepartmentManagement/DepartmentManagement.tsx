@@ -62,7 +62,6 @@ export const DepartmentManagement = () => {
 
     return (
         <div id={st["main"]}>
-            <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
             <div id={st['control']}>
                 <ListInfo 
                     showDepartament={showDepartament}
