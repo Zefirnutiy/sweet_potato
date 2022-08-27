@@ -3,7 +3,7 @@ import { PlusButton } from "../../buttons/Buttons";
 import { Search } from "../Search/Search";
 import st from './FunctionalList.module.scss'
 
-type PropsType = {
+interface PropsType {
     placeholder?: string;
     title?: string;
     children: React.ReactNode

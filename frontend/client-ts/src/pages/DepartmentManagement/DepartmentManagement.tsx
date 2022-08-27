@@ -1,10 +1,10 @@
 import { TwoCellsCard, UserCard} from '../../components/cards/Cards'
 import st from './DepartmentManagement.module.scss'
 import { FunctionalList } from '../../components/common/FunctionalList/FunctionalList'
-import axios from 'axios'
 import { useCallback, useEffect, useState } from 'react'
 import { Loader } from '../../components/common/Loader/Loader'
 import { Search } from '../../components/common/Search/Search'
+import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 
 
 interface List {
@@ -32,46 +32,26 @@ export const DepartmentManagement = () => {
     const [usersData, setUsersData] = useState<userData[] | never[]>([])
     const [loading, setLoading] = useState(false)
 
+
     const getUsers = useCallback(async (groupId: number) => {
-        setLoading(true)
-        await axios.get(
-            `/api/users/${groupId}`, 
-            ).then((response) => {
-                setLoading(false)
-                console.log(response.data.users)
-                setUsersData(response.data.users)
-            })  
-            .catch(e => console.log(e))
+        getUsersAPI({groupId, setLoading, setUsersData})
     }, [])
 
-    const getGroups = useCallback(async (idDepartament: number) => {
-        
-        setLoading(true)
-        await axios.get(
-            `/api/groups/${idDepartament}`, 
-            ).then((response) => {
-                setLoading(false)
-                console.log(response.data.groups)
-                setGroupsData(response.data.groups)
-            })  
-            .catch(e => console.log(e))
+
+    const getGroups = useCallback(async (departamentId: number) => {
+        getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData})
     }, [])
+
 
     const getDepartaments = useCallback(async () => {
-        
-        setLoading(true)
-        await axios.get(
-            `/api/depataments/`, 
-            ).then((response) => {
-                setLoading(false)
-                setDepartamentsData(response.data.groups)
-            })  
-            .catch(e => console.log(e))
+        getDepartamentsAPI({setLoading, setDepartamentsData})
     }, [])
 
     useEffect(() => {
         getDepartaments()
     }, [getDepartaments])
+
+
 
     return (
         <div id={st["main"]}>

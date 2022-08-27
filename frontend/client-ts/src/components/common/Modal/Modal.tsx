@@ -22,7 +22,7 @@ import { FC } from "react";
 // }
 
 
-type PropTypes = {
+interface PropTypes {
     onClose?: () => void
     cross?: boolean
     closingBackground?: boolean
