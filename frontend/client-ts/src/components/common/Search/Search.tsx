@@ -2,7 +2,7 @@
 import React from "react";
 import st from './Search.module.scss';
 
-type PropsType = {
+interface PropsType  {
     placehold: any
     event?: () => void
     height?: string

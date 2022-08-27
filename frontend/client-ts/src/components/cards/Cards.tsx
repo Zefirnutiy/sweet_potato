@@ -2,21 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import st from './CardUsers.module.scss';
 
-type PropsTypesUsersCard = {
+interface PropsTypesUsersCard {
     userName: string;
     autorCreate: string;
     dateCreate: string;
 
 }
 
-type PropsTypesInformationCard = {
+interface PropsTypesInformationCard {
     title: string
     message: string
     path?: string
 }
 
 
-type PropsTypesTwoCellsCard = {
+interface PropsTypesTwoCellsCard {
     title: string
     message: string
 }

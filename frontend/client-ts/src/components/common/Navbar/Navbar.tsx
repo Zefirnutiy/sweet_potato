@@ -19,6 +19,12 @@ interface PropTypes{
 export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children}) =>{
     const [openRegModal, setRegModal] = useState(false)
     const [openLoginModal, setLoginModal] = useState(false)
+
+    function openLoginAndReg(){
+        setRegModal(!openRegModal)
+        setLoginModal(!openLoginModal)
+    }
+
     return (
         <div id={st["navbar"]}>
         <div id={st["logo"]}>
@@ -61,7 +67,7 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
                             <div>Повтор пароля</div>
                             <input type="text"/>
                             <button className={st["button-done"]} onClick={()=> setRegModal(false)}>Готово</button>
-                            <p>У вас уже есть аккаунт? <button className={st["button-link-login"]} onClick={()=> setLoginModal(true)}>Войти</button></p>
+                            <p>У вас уже есть аккаунт? <button className={st["button-link-login"]} onClick={()=> openLoginAndReg()}>Войти</button></p>
                         </div>
                     </div>
                 </div>
@@ -79,7 +85,7 @@ export const Navbar: FC<PropTypes> = ({links, organizationName='Wains', children
                             <div>Пароль</div>
                             <input type="text"/>
                             <button className={st["button-done"]} onClick={()=> setLoginModal(false)}>Войти</button>
-                            <p>У вас нет аккаунта? <button className={st["button-link-login"]} onClick={()=> setRegModal(true)}>Регистрация</button></p>
+                            <p>У вас нет аккаунта? <button className={st["button-link-login"]} onClick={(e)=> openLoginAndReg()}>Регистрация</button></p>
                         </div>
                     </div>
                 </div>
