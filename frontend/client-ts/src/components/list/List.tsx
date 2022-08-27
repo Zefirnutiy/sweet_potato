@@ -15,7 +15,7 @@ interface PropsTypesList{
 }
 
 
-export const List: React.FC<PropsTypesList> = ({
+export const ListInfo: React.FC<PropsTypesList> = ({
     showDepartament,
     departamentsData,
     getGroups,

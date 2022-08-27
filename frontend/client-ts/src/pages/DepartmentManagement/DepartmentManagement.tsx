@@ -1,11 +1,9 @@
-import { TwoCellsCard, UserCard} from '../../components/cards/Cards'
+
 import st from './DepartmentManagement.module.scss'
-import { FunctionalList } from '../../components/common/FunctionalList/FunctionalList'
 import { useCallback, useEffect, useState } from 'react'
-import { Loader } from '../../components/common/Loader/Loader'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
-import { List } from '../../components/list/List'
+import { ListInfo } from '../../components/list/List'
 
 
 interface List {
@@ -66,7 +64,7 @@ export const DepartmentManagement = () => {
         <div id={st["main"]}>
             <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
             <div id={st['control']}>
-                <List 
+                <ListInfo 
                     showDepartament={showDepartament}
                     departamentsData={departamentsData}
                     getGroups={getGroups}
