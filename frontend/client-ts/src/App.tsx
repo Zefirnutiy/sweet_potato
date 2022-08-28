@@ -4,7 +4,8 @@ import { InformationCard } from './components/cards/Cards';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { UserManagement } from './pages/UserManagement/UserManagement';
 import { mirage } from './middleware/mirage';
-import { changeSchema } from './middleware/changeSchema';
+import { changePages, changeSchema } from './middleware/change';
+import { useState } from 'react';
 
 const App = () => {
   mirage()
@@ -18,25 +19,32 @@ const App = () => {
     {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
     {icon: "fa fa-chart-column", title: "Статистика", path: "#"},
   ]
+  const [page, setPage] = useState("admin")
+    changePages(setPage)
+    
+    if(page === "admin"){
+      return (
+      <main>
+        <Navbar links={links}>
+          <InformationCard title="ТЫ ХОРОШИЙ ЧЕЛОВЕК" message="Храни тебя бог"/>
+        </Navbar>
+        <Routes>
+          <Route path="/department" element={<DepartmentManagement/>} />
+          <Route path="/users" element={<UserManagement/>} />
+          <Route path="*" element={<Navigate to="/department" />} />
+        </Routes>
+      </main>
+      )
+    }
+  
+    if(page === "register"){
+      return <h1>Register</h1>
+    }
 
-  if(true){
-    return (
-    <main>
-      <Navbar links={links}>
-        <InformationCard title="ТЫ ХОРОШИЙ ЧЕЛОВЕК" message="Храни тебя бог"/>
-      </Navbar>
-      <Routes>
-        <Route path="/department" element={<DepartmentManagement/>} />
-        <Route path="/users" element={<UserManagement/>} />
-        <Route path="*" element={<Navigate to="/department" />} />
-      </Routes>
-    </main>
-    )
-  }
-
-  return ( 
-    <h1>asdasd</h1>
-  )
+    if(page === "user"){
+      return <h1>User</h1>
+    }
+    return null
 }
 
 export default App;

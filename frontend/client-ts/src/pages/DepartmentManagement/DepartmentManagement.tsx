@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
-import { Path } from '../../components/single/path/path'
+import { Path } from '../../components/single/Path/Path'
 
 
 interface List {
@@ -34,20 +34,35 @@ export const DepartmentManagement = () => {
     const [showDepartament, setShowDepartament] = useState(true)
     const [showGroup, setShowGroup] = useState(false)
     const [showUser, setShowUser] = useState(false)
+    const [pathDepartament, setPathDepartament] = useState("")
+    const [pathGroup, setPathGroup] = useState("")
 
+    const showForPath = (isDepartament: boolean) => {
+        setShowUser(false)
+        setPathGroup("")
+        
+        if(isDepartament){
+            setPathDepartament("")
+            setShowGroup(false)
+            setShowDepartament(true)
+            return
+        }
+        setShowGroup(true)    
+    }
 
-
-    const getUsers = useCallback(async (groupId: number) => {
+    const getUsers = useCallback(async (groupId: number, groupTitle: string) => {
         getUsersAPI({groupId, setLoading, setUsersData})
         setShowGroup(false) 
         setShowUser(true)
+        setPathGroup(groupTitle)
     }, [])
 
 
-    const getGroups = useCallback(async (departamentId: number) => {
+    const getGroups = useCallback(async (departamentId: number, departamentTitle: string) => {
         getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData})
         setShowDepartament(false) 
         setShowGroup(true)
+        setPathDepartament(departamentTitle)
     }, [])
 
 
@@ -58,8 +73,6 @@ export const DepartmentManagement = () => {
     useEffect(() => {
         getDepartaments()
     }, [getDepartaments])
-
-
 
     return (
         <div id={st["main"]}>
@@ -75,7 +88,11 @@ export const DepartmentManagement = () => {
                     usersData={usersData}
                     loading={loading}
                 >   
-                    <Path/>
+                    <Path 
+                    pathDepartament={pathDepartament} 
+                    pathGroup={pathGroup}
+                    showForPath={showForPath}
+                    />
                     <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
                 </ListInfo>
                 <div>
