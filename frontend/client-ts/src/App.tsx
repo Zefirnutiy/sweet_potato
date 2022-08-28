@@ -6,6 +6,9 @@ import { UserManagement } from './pages/UserManagement/UserManagement';
 import { mirage } from './middleware/mirage';
 import { changePages, changeSchema } from './middleware/change';
 import { useState } from 'react';
+import { UserPage } from './pages/UserPage/UserPage';
+import { Login } from './pages/Login/Login';
+import { Register } from './pages/Register/Register';
 
 const App = () => {
   mirage()
@@ -21,7 +24,7 @@ const App = () => {
   ]
   const [page, setPage] = useState("admin")
     changePages(setPage)
-    
+
     if(page === "admin"){
       return (
       <main>
@@ -38,11 +41,22 @@ const App = () => {
     }
   
     if(page === "register"){
-      return <h1>Register</h1>
+      return (
+        <Routes>
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Register/>} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      )
     }
 
     if(page === "user"){
-      return <h1>User</h1>
+      return (
+        <Routes>
+          <Route path="/user" element={<UserPage/>} />
+          <Route path="*" element={<Navigate to="/user" />} />
+        </Routes>
+      )
     }
     return null
 }
