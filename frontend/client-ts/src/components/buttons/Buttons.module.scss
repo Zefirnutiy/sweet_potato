@@ -6,11 +6,11 @@
     border-radius: 5px;
     font-size: 18px;
     font-weight: bolder;
-    background-color: var(--main-color-d-3);
+    background-color: var(--main-color-4);
     transition: all 10ms;
     &:hover{
         transform: scale(1.1);
         cursor: pointer;
-        text-shadow: 0px 8px 14px rgba(0, 0, 0, 0.35);
+        box-shadow: 0.5px 0.5px 0px 1px rgba(0, 0, 0, 0.25);
     }
 }
