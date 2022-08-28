@@ -37,3 +37,20 @@ export function changeSchema(){
       }
     });
   }
+
+export function changePages(setPage: any){
+   document.addEventListener('keydown', function(event) {
+    if(event.code === 'Digit1'){
+      setPage("admin")
+      return
+    }
+
+    if(event.code === 'Digit2'){
+      setPage("user")
+      return 
+    }
+    
+    if(event.code === 'Digit3')
+      setPage("register") 
+  })
+}

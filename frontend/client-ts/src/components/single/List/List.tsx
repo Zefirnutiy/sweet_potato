@@ -1,4 +1,4 @@
-import { TwoCellsCard } from "../../cards/Cards";
+import { TwoCellsCard, UserCard } from "../../cards/Cards";
 import { FunctionalList } from "../../common/FunctionalList/FunctionalList";
 
 
@@ -6,10 +6,10 @@ import { FunctionalList } from "../../common/FunctionalList/FunctionalList";
 interface PropsTypesList{
     showDepartament: boolean
     departamentsData: any[]
-    getGroups: (departamentId: number) => Promise<void>
+    getGroups: (departamentId: number, departamentTitle: string) => Promise<void>
     showGroup: boolean
     groupsData: any[]
-    getUsers: (groupId: number) => Promise<void>
+    getUsers: (groupId: number, groupTitle: string) => Promise<void>
     showUser: boolean
     usersData: any[]
     loading: boolean
@@ -33,7 +33,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
         { showDepartament ? <FunctionalList placeholder='Пользователь или группа' title='Отделения' load={loading}>
                     {children}
                       { departamentsData.map(data => 
-                        <div onClick={e => getGroups(data.id)}>
+                        <div onClick={e => getGroups(data.id, data.title)}>
                             <TwoCellsCard 
                                 title={data.title} 
                                 message={data.message} 
@@ -46,7 +46,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                 { showGroup ? <FunctionalList placeholder='Пользователь или группа' title='Группы' load={loading}>
                     {children}
                       { groupsData.map(data => 
-                        <div onClick={e => getUsers(data.id)}>
+                        <div onClick={e => getUsers(data.id, data.title)}>
                             <TwoCellsCard 
                                 title={data.title} 
                                 message={data.message} 
@@ -60,9 +60,10 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                     {children}
                       { usersData.map(data => 
                         <div>
-                            <TwoCellsCard 
-                                title={data.firstName} 
-                                message={data.dateCreate} 
+                            <UserCard 
+                                userName={data.firstName} 
+                                dateCreate={data.message} 
+                                autorCreate={data.autorCreate}
                                 key={data.id} 
                             />
                         </div>
