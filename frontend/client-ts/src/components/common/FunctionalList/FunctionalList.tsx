@@ -18,6 +18,7 @@ export const FunctionalList: React.FC<PropsType> = ({placeholder, title, childre
                 <div className={st["container"]}>
                     <div className={st["title"]}>{title}</div>
                     <AddButton/>
+                    <AddButton/>
                 </div>
                 {search && <Search placehold={placeholder}/> }
                 <div id={st["list"]}>

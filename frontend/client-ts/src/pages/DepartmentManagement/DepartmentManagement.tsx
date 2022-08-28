@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
+import { Path } from '../../components/single/path/path'
 
 
 interface List {
@@ -73,7 +74,8 @@ export const DepartmentManagement = () => {
                     showUser={showUser}
                     usersData={usersData}
                     loading={loading}
-                >
+                >   
+                    <Path/>
                     <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
                 </ListInfo>
                 <div>
