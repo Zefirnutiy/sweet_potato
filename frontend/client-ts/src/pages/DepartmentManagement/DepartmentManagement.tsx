@@ -3,7 +3,7 @@ import st from './DepartmentManagement.module.scss'
 import { useCallback, useEffect, useState } from 'react'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
-import { ListInfo } from '../../components/list/List'
+import { ListInfo } from '../../components/single/List/List'
 
 
 interface List {

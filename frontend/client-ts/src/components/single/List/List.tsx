@@ -1,5 +1,5 @@
-import { TwoCellsCard } from "../cards/Cards";
-import { FunctionalList } from "../common/FunctionalList/FunctionalList";
+import { TwoCellsCard } from "../../cards/Cards";
+import { FunctionalList } from "../../common/FunctionalList/FunctionalList";
 
 
 
@@ -30,7 +30,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
     children
 }) => (
     <>
-        { showDepartament ? <FunctionalList placeholder='Пользователь или группа' title='Отделение' load={loading}>
+        { showDepartament ? <FunctionalList placeholder='Пользователь или группа' title='Отделения' load={loading}>
                     {children}
                       { departamentsData.map(data => 
                         <div onClick={e => getGroups(data.id)}>

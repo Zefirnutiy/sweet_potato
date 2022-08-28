@@ -7,6 +7,7 @@ import { mirage } from './middleware/mirage';
 
 const App = () => {
   mirage()
+  changeSchema()
   let links = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
@@ -38,3 +39,22 @@ const App = () => {
 }
 
 export default App;
+
+
+function changeSchema(){
+  document.addEventListener('keydown', function(event) {
+    if (event.code === 'KeyZ') {
+      document.documentElement.style.setProperty("--main-hue", "250" )
+      document.documentElement.style.setProperty("--accent-hue", "40" )
+    }else if (event.code === 'KeyX') {
+      document.documentElement.style.setProperty("--main-hue", "50" )
+      document.documentElement.style.setProperty("--accent-hue", "160" )
+    }else if (event.code === 'KeyC') {
+      document.documentElement.style.setProperty("--main-hue", "150" )
+      document.documentElement.style.setProperty("--accent-hue", "240" )
+    }else if (event.code === 'KeyV') {
+      document.documentElement.style.setProperty("--main-hue", "200" )
+      document.documentElement.style.setProperty("--accent-hue", "300" )
+    }
+  });
+}

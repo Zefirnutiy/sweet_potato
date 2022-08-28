@@ -16,7 +16,7 @@
     }
     .created{
         margin-left: 5px;
-        color: rgb(179, 179, 179);
+        color: --font-color;
         margin-top: 3px;
         font-size: 10px;
         font-style: italic;
@@ -31,13 +31,13 @@
     height: fit-content;
     box-sizing: border-box;
     padding: 10px;
-    background: linear-gradient(86.25deg, #F2994A 9.35%, #F2C94C 99.11%);
+    background: linear-gradient(86.25deg, var(--accent-color-d-2) 9.35%, var(--accent-color-d-1) 99.11%);
     border-radius: 10px;
     text-align: center;
     margin-bottom: 5px;
     transition: all 0.1s;
     .card-horizontal-line{
-        background-color: white;
+        background-color: var(--font-color);
         height: 2px;
         width: 100%;
         margin-top: 5px;
@@ -55,23 +55,24 @@
 
 a{
     text-decoration: none;
-    color: white;
+    color: var(--font-color);
 }
 
 
 .card-deportation{
-    background-color: #2c238c;
+    background-color: var(--main-color-d-3);
     padding: 6px;
-    border-bottom: 2px solid #2B2480;
+    border-bottom: 2px solid var(--main-color-d-4);
     border-radius: 6px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     transition: all 20ms;
     &:hover{
-        background: linear-gradient(rgb(76, 63, 218), rgb(59, 48, 175));
+        background: linear-gradient(var(--main-color-d-2), var(--main-color-d-3));
+        border: 1px solid var(--main-color-d-3);
+        border-bottom: 3px solid var(--main-color-d-4);
         transform: scale(1.02);
         cursor: pointer;
-        box-shadow: 0px 10px 25px 0px rgba(0, 0, 0, 0.15);
     }
     .number-groups{
         margin-left: auto;

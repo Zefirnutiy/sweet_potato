@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import st from './CardUsers.module.scss';
+import st from './Cards.module.scss';
 
 interface PropsTypesUsersCard {
     userName: string;
