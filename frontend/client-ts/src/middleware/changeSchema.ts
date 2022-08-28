@@ -7,20 +7,32 @@ export function changeSchema(){
       } 
   
       if (event.code === 'KeyX') {
-        document.documentElement.style.setProperty("--main-hue", "50" )
-        document.documentElement.style.setProperty("--accent-hue", "160" )
+        document.documentElement.style.setProperty("--main-hue", "280" )
+        document.documentElement.style.setProperty("--accent-hue", "40" )
         return
       } 
   
       if (event.code === 'KeyC') {
-        document.documentElement.style.setProperty("--main-hue", "150" )
-        document.documentElement.style.setProperty("--accent-hue", "240" )
+        document.documentElement.style.setProperty("--main-hue", "310" )
+        document.documentElement.style.setProperty("--accent-hue", "40" )
         return
       } 
   
       if (event.code === 'KeyV') {
-        document.documentElement.style.setProperty("--main-hue", "200" )
-        document.documentElement.style.setProperty("--accent-hue", "300" )
+        document.documentElement.style.setProperty("--main-hue", "340" )
+        document.documentElement.style.setProperty("--accent-hue", "40" )
+        return
+      }
+
+      if (event.code === 'KeyB') {
+        document.documentElement.style.setProperty("--main-hue", "370" )
+        document.documentElement.style.setProperty("--accent-hue", "40" )
+        return
+      }
+
+      if (event.code === 'KeyN') {
+        document.documentElement.style.setProperty("--main-hue", "0" )
+        document.documentElement.style.setProperty("--accent-hue", "40" )
         return
       }
     });

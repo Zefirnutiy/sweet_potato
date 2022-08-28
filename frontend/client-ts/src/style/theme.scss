@@ -1,27 +1,38 @@
 :root{
     --main-hue: 245;
+    --main-saturation: 55%;
+    --main-lightness: 50%;
+
+    --main-dark-hue: 245;
+    --main-dark-saturation: 55%;
+    --main-dark-lightness: 45%;
+
     --accent-hue: 30;
+    --accent-saturation: 30%;
+    --accent-lightness: 30%;
+
+    --accent-dark-hue: 30;
+    --accent-dark-saturation: 30;
+    --accent-dark-lightness: 30;
+
     --font-hue: 0;
+    --font-saturation: 0%;
+    --font-lightness: 100%;
 
-    // --main-hue: 450;
-    // --accent-hue: 350;
-    // --font-hue: 0;
+    ///////////////////////////////////////////////////
+    
+    --main-color: hsl(var(--main-hue), var(--main-saturation), var(--main-lightness));
+    --main-color-dark-1: hsl(var(--main-hue), var(--main-saturation), calc(var(--main-lightness) - 5%));
+    --main-color-dark-2: hsl(var(--main-hue), var(--main-saturation), calc(var(--main-lightness) - 10%));
+    --main-color-dark-3: hsl(var(--main-hue), var(--main-saturation), calc(var(--main-lightness) - 15%));
 
-    --main-color: hsl(var(--main-hue), 60%, 50%);
-    --main-color-d-1: hsl(var(--main-hue), 60%, 45%);
-    --main-color-d-2: hsl(var(--main-hue), 60%, 40%);
-    --main-color-d-3: hsl(var(--main-hue), 60%, 35%);
-    --main-color-d-4: hsl(var(--main-hue), 60%, 30%);
-    --main-color-l: hsl(var(--main-hue), 85%, 80%);
+
   
     --accent-color: hsl(var(--accent-hue), 85%, 65%);
     --accent-color-d-1: hsl(var(--accent-hue), 85%, 60%);
-    --accent-color-d-2: hsl(var(--accent-hue), 85%, 55%);
-    --accent-color-d-3: hsl(var(--accent-hue), 85%, 50%);
-    --accent-color-d-4: hsl(var(--accent-hue), 85%, 45%);
-    --accent-color-l: hsl(var(--accent-hue), 100%, 80%);
 
 
-    --font-color: hsl(var(--font-hue), 0%, 100%);
+    --font-color: hsl(var(--font-hue), var(--font-saturation), var(--font-lightness));
+    --font-dark-color: hsl(var(--font-dark-hue), var(--font-dark-saturation), var(--font-dark-lightness));
  
 }
