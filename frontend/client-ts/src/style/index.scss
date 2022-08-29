@@ -3,7 +3,8 @@
     font-family: 'zona';
     src: url('../fonts/ZonaPro-Light.ttf');
 }
-main{
+
+#root{
     margin: 0;
     font-family: 'zona' ;
     font-weight: 500;
@@ -13,10 +14,6 @@ main{
     margin: 0;
     display: flex;
     min-height:100vh;
-    #main{
-        width: 100%;
-        min-height:100%;
-    }
 }
 
 button, a {

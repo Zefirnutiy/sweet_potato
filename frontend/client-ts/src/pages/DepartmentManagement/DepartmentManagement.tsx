@@ -25,8 +25,6 @@ interface groupList extends List{
 }
 
 export const DepartmentManagement = () => {
-
-
     const [groupsData, setGroupsData] = useState<groupList[] | never[]>([])
     const [departamentsData, setDepartamentsData] = useState<List[] | never[]>([])
     const [usersData, setUsersData] = useState<userData[] | never[]>([])

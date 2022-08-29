@@ -2,18 +2,14 @@ import { DepartmentManagement } from './pages/DepartmentManagement/DepartmentMan
 import { Navbar } from './components/common/Navbar/Navbar';
 import { InformationCard } from './components/cards/Cards';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { UserManagement } from './pages/UserManagement/UserManagement';
 import { mirage } from './middleware/mirage';
 import { changePages, changeSchema } from './middleware/change';
 import { useState } from 'react';
-import { UserPage } from './pages/UserPage/UserPage';
-import { Login } from './pages/Login/Login';
-import { Register } from './pages/Register/Register';
 
 const App = () => {
   mirage()
   changeSchema()
-  let links = [
+  let organizationLinks = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
@@ -22,40 +18,63 @@ const App = () => {
     {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
     {icon: "fa fa-chart-column", title: "Статистика", path: "#"},
   ]
-  const [page, setPage] = useState("admin")
+
+  let clientLinks = [
+    {icon: "fa fa-cubes", title: "Курсы", path: "#"},
+    {icon: "fa fa-brain", title: "Тесты", path: "#"},
+    {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
+    {icon: "fa fa-gear", title: "Аккаунт", path: "#"},
+    {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
+  ]
+
+  let guestLinks = [
+    {icon: "fa fa-cubes", title: "Главная", path: "#"},
+    {icon: "fa fa-brain", title: "Отзывы", path: "#"},
+    {icon: "fa fa-square-poll-horizontal", title: "Документация API", path: "#"},
+    {icon: "fa fa-address-book", title: "Скриншоты", path: "#"},
+  ]
+  const [page, setPage] = useState("organization")
     changePages(setPage)
 
-    if(page === "admin"){
+    if(page === "organization"){
       return (
-      <main>
-        <Navbar links={links}>
-          <InformationCard title="ТЫ ХОРОШИЙ ЧЕЛОВЕК" message="Храни тебя бог"/>
+      <>
+        <Navbar links={organizationLinks} authorized={true}>
+          <InformationCard title="ТЫ ОРГАНИЗАЦИЯ" message="Храни тебя бог"/>
         </Navbar>
         <Routes>
-          <Route path="/department" element={<DepartmentManagement/>} />
-          <Route path="/users" element={<UserManagement/>} />
-          <Route path="*" element={<Navigate to="/department" />} />
+          <Route path="/" element={<DepartmentManagement/>} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </main>
+      </>
       )
     }
   
-    if(page === "register"){
+    if(page === "user"){
       return (
-        <Routes>
-          <Route path="/login" element={<Login/>} />
-          <Route path="/register" element={<Register/>} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
+        <>
+          <Navbar links={clientLinks} authorized={true}>
+          <InformationCard title="ТЫ ПОЛЬЗОВАТЕЛЬ" message="Храни тебя бог"/>
+          </Navbar>
+          <Routes>
+            <Route path="/" element={<div></div>} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </>
       )
     }
 
-    if(page === "user"){
+    if(page === "guest"){
       return (
-        <Routes>
-          <Route path="/user" element={<UserPage/>} />
-          <Route path="*" element={<Navigate to="/user" />} />
-        </Routes>
+        <>
+          <Navbar links={guestLinks} authorized={false}>
+          <InformationCard title="ТЫ ГОСТЬ" message="Храни тебя бог"/>
+          </Navbar>
+          <Routes>
+            <Route path="/" element={<div></div>} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </>
       )
     }
     return null

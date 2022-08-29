@@ -70,15 +70,15 @@ export function changeSchema(){
       } 
   
       if (event.code === 'KeyV') {
-        document.documentElement.style.setProperty("--main-color-1", "#FF8E31" )
-        document.documentElement.style.setProperty("--main-color-2", "#ff8018" )
-        document.documentElement.style.setProperty("--main-color-3", "#fd7200" )
-        document.documentElement.style.setProperty("--main-color-4", "#e46700" )
+        document.documentElement.style.setProperty("--main-color-1", "#f69d17" )
+        document.documentElement.style.setProperty("--main-color-2", "#ea9009" )
+        document.documentElement.style.setProperty("--main-color-3", "#d28108" )
+        document.documentElement.style.setProperty("--main-color-4", "#b97207" )
 
-        document.documentElement.style.setProperty("--main-dark-color-1", "#A65410" )
-        document.documentElement.style.setProperty("--main-dark-color-2", "#8f480e" )
-        document.documentElement.style.setProperty("--main-dark-color-3", "#773c0c" )
-        document.documentElement.style.setProperty("--main-dark-color-4", "#603109" )
+        document.documentElement.style.setProperty("--main-dark-color-1", "#A06307" )
+        document.documentElement.style.setProperty("--main-dark-color-2", "#885406" )
+        document.documentElement.style.setProperty("--main-dark-color-3", "#6f4505" )
+        document.documentElement.style.setProperty("--main-dark-color-4", "#573604" )
 
         document.documentElement.style.setProperty("--accent-color-1", "" )
         document.documentElement.style.setProperty("--accent-color-2", "" )
@@ -143,7 +143,7 @@ export function changeSchema(){
 export function changePages(setPage: any){
    document.addEventListener('keydown', function(event) {
     if(event.code === 'Digit1'){
-      setPage("admin")
+      setPage("organization")
       return
     }
 
@@ -153,6 +153,6 @@ export function changePages(setPage: any){
     }
     
     if(event.code === 'Digit3')
-      setPage("register") 
+      setPage("guest") 
   })
 }
