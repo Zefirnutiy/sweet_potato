@@ -22,12 +22,21 @@ type InputText struct {
 	Id			int
 	Question	string
 	Answer		string
+	Type		string
 }
 
 type InpuntConstraint struct{
-	Id 			int
-	Question	string
-	Answers		map[string]string
+	Id 				int
+	Question		string
+	LeftAnswers		[]string
+	RightAnswers	[]string
+	Type			string
+}
+
+type InputSort struct {
+	Id		int
+	Question string
+	Answers 	map[string]int
 }
 
 func SortQuestion(path string){
@@ -38,20 +47,51 @@ func SortQuestion(path string){
 		switch typeAns{
 		
 		case "*":
-			fmt.Println(oneChoise(value, typeAns))
+			fmt.Println(inputButton(value, typeAns))
 		case "#":
-			fmt.Println(oneChoise(value, typeAns))
+			fmt.Println(inputButton(value, typeAns))
+		case "[]":
+			fmt.Println(inputText(value))
+		case "==":
+			fmt.Println(inputConstraint(value))
+		case "empty":
+			fmt.Println(inputSort(value))
 		}
 		
 	}
 }
-func oneChoise(str, simbol string) InputButton {
+
+func inputSort(str string) InputSort {
+	mapAns := make(map[string]int)
+	strMas := strings.Split(str, "\n")
+	for index, val := range strMas[1:] {
+		mapAns[val] = index
+	}
+	globalId += 1
+
+	return InputSort{globalId, strMas[0], mapAns}
+}
+
+func inputConstraint(str string) InpuntConstraint {
+	strMas := strings.Split(str, "\n")
+	leftAns := ""
+	rightAns := ""
+	for _, val := range strMas[1:]{
+		mas := strings.Split(val, "==")
+
+		leftAns += mas[0] + globalStr
+		rightAns += mas[len(mas)-1] + globalStr
+	}
+	globalId += 1
+	return InpuntConstraint{globalId, strMas[0], strings.Split(leftAns, globalStr), strings.Split(rightAns, globalStr), "=="}
+}
+
+func inputButton(str, simbol string) InputButton {
 	trueAns := ""
 	otherAns := ""
 	hint := ""
 	strMas := strings.Split(str, "\n")
-	for index, val := range strMas{
-		if index != 0 {
+	for _, val := range strMas[1:]{
 			if strings.Contains(val, simbol){
 				val = strings.ReplaceAll(val, simbol, "")
 				trueAns += val 
@@ -61,12 +101,18 @@ func oneChoise(str, simbol string) InputButton {
 			}else{
 				otherAns += val + globalStr
 			}
-		}
 	}
 	globalId += 1
 	return InputButton{globalId, strMas[0], strings.Split(otherAns, globalStr), strings.Split(trueAns, globalStr), hint, simbol}
 }
 
+func inputText(str string) InputText{
+	mas := strings.Split(str, "\n")
+	clearStr := strings.ReplaceAll(str, "[", "")
+	clearStr = strings.ReplaceAll(clearStr, "]", "")
+	globalId += 1
+	return InputText{globalId, mas[0], clearStr, "[]"}
+}
 
 func getType(str string) string{
 	
@@ -82,8 +128,8 @@ func getType(str string) string{
 		return "[]"
 	}
 
-	if strings.Contains(str, "=") {
-		return "="
+	if strings.Contains(str, "==") {
+		return "=="
 	}
 
 	if strings.Contains(str, "1. ") {
