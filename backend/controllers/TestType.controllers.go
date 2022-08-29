@@ -1,3 +1,4 @@
+
 package controllers
 
 import (
@@ -6,25 +7,26 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingAdmin(c gin.Context) structs.Admin {
-	var data structs.Admin
+func DataProcessingTestType(c gin.Context) structs.TestType {
+	var data structs.TestType
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
+		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.Admin{}
+		return structs.TestType{}
 	}
 	return data
 }
 
 
-func GetAdmins(c *gin.Context) {
-	var adminList []structs.Admin
-	var admin structs.Admin
+func GetTestTypes(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	var testTypeList []structs.TestType
+	var testType structs.TestType
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "Admin"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."TestType"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -36,13 +38,10 @@ func GetAdmins(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&admin.Id, 
-		&admin.FirstName, 
-		&admin.LastName, 
-		&admin.Email, 
-		&admin.Password, 
+		&testType.Id, 
+		&testType.Title, 
 		)
-		adminList = append(adminList, admin)
+		testTypeList = append(testTypeList, testType)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -53,22 +52,19 @@ func GetAdmins(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": adminList,
+		"result": testTypeList,
 		"message": nil,
 	})
 }
 
-func GetAdminById(c *gin.Context) {
-
+func GetTestTypeById(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	var admin structs.Admin
+	var testType structs.TestType
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "Admin" WHERE "Id"=$1`, id ).Scan(
-		&admin.Id, 
-		&admin.FirstName, 
-		&admin.LastName, 
-		&admin.Email, 
-		&admin.Password, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."TestType" WHERE "Id"=$1`, id ).Scan(
+		&testType.Id, 
+		&testType.Title, 
 		
 	)
 	if err != nil {
@@ -81,7 +77,7 @@ func GetAdminById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": admin,
+		"result": testType,
 		"message": nil,
 	})
 }
@@ -89,24 +85,19 @@ func GetAdminById(c *gin.Context) {
 	
 
 
-func CreateAdmin(c *gin.Context) {
-	data := DataProcessingAdmin(*c)
+func CreateTestType(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	data := DataProcessingTestType(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "Admin"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."TestType"
 		(
-		"Id", 
-		"FirstName", 
-		"LastName", 
-		"Email", 
+		"Title", 
 		
 		) 
-		VALUES( $1, $2, $3, $4 )`,
-		data.Id, 
-		data.FirstName, 
-		data.LastName, 
-		data.Email, 
+		VALUES( $1 )`,
+		data.Title, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -121,25 +112,21 @@ func CreateAdmin(c *gin.Context) {
 }
 	
 
-func UpdateAdmin(c *gin.Context) {
+func UpdateTestType(c *gin.Context) {
 
-	data := DataProcessingAdmin(*c)
+	model := c.Value("Model").(structs.Claims)
+	id := c.Params.ByName("id")
+	data := DataProcessingTestType(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "Admin" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."TestType" 
 		SET 
-		"FirstName"=$2,
-		"LastName"=$3,
-		"Email"=$4,
-		"Password"=$5
+		"Title"=$1
 		
 		WHERE "Id"=$1`,
-		data.Id, 
-		data.FirstName, 
-		data.LastName, 
-		data.Email, 
-		data.Password, 
+		id,
+		data.Title, 
 		
 		)
 	if err != nil {
@@ -155,9 +142,10 @@ func UpdateAdmin(c *gin.Context) {
 }	
 	
 
-func DeleteAdmin(c *gin.Context) {
-	id := c.Params.ByName("id") 
-	_, err := db.Dbpool.Exec(`DELETE FROM "Admin" WHERE "Id"=$1`, id)
+func DeleteTestType(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	id := c.Params.ByName("id")
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."TestType" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -169,3 +157,5 @@ func DeleteAdmin(c *gin.Context) {
 		"result": "Данные удалены",
 	})
 }
+	
+	

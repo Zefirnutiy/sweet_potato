@@ -39,9 +39,13 @@ func GetCourses(c *gin.Context) {
 	for rows.Next() {
 		err = rows.Scan(
 		&course.Id, 
+		&course.Title, 
 		&course.Text, 
+		&course.Files, 
 		&course.Date, 
+		&course.Time, 
 		&course.DateDel, 
+		&course.TimeDel, 
 		&course.ClientId, 
 		)
 		courseList = append(courseList, course)
@@ -67,9 +71,46 @@ func GetCourseById(c *gin.Context) {
 
 	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "Id"=$1`, id ).Scan(
 		&course.Id, 
+		&course.Title, 
 		&course.Text, 
+		&course.Files, 
 		&course.Date, 
+		&course.Time, 
 		&course.DateDel, 
+		&course.TimeDel, 
+		&course.ClientId, 
+		
+	)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"result": course,
+		"message": nil,
+	})
+}
+
+	
+func GetCourseByClientId(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	clientId := c.Params.ByName("clientId")
+	var course structs.Course
+
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "ClientId"=$1`, clientId ).Scan(
+		&course.Id, 
+		&course.Title, 
+		&course.Text, 
+		&course.Files, 
+		&course.Date, 
+		&course.Time, 
+		&course.DateDel, 
+		&course.TimeDel, 
 		&course.ClientId, 
 		
 	)
@@ -90,48 +131,6 @@ func GetCourseById(c *gin.Context) {
 
 	
 
-func GetCourseByClientId(c *gin.Context) {
-	model := c.Value("Model").(structs.Claims)
-	clientId := c.Params.ByName("clientId")
-	var courseList []structs.Course
-	var course structs.Course
-
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "ClientId"=$1`, clientId )
-	if err != nil {
-		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
-			"result": nil,
-			"message": "Ничего не найдено",
-		})
-		return
-	}
-
-	for rows.Next() {
-		err = rows.Scan(
-		&course.Id, 
-		&course.Text, 
-		&course.Date, 
-		&course.DateDel, 
-		&course.ClientId, 
-		)
-		courseList = append(courseList, course)
-		if err != nil {
-			utils.Logger.Println(err)
-			c.JSON(500, gin.H{
-				"result": nil,
-				"message": "Ошибка сервера",
-			})
-			return
-		}
-	}
-
-	c.JSON(200, gin.H{
-		"result": courseList,
-		"message": nil,
-	})
-}
-
-	
 
 func CreateCourse(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
@@ -141,16 +140,20 @@ func CreateCourse(c *gin.Context) {
 
 	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Course"
 		(
+		"Title", 
 		"Text", 
+		"Files", 
 		"Date", 
-		"DateDel", 
+		"Time", 
 		"ClientId", 
 		
 		) 
-		VALUES( $1, $2, $3, $4 )`,
+		VALUES( $1, $2, $3, $4, $5, $6 )`,
+		data.Title, 
 		data.Text, 
+		data.Files, 
 		data.Date, 
-		data.DateDel, 
+		data.Time, 
 		data.ClientId, 
 		)
 	if err != nil {
@@ -176,16 +179,24 @@ func UpdateCourse(c *gin.Context) {
 	
 	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Course" 
 		SET 
-		"Text"=$1,
-		"Date"=$2,
-		"DateDel"=$3,
-		"ClientId"=$4
+		"Title"=$1,
+		"Text"=$2,
+		"Files"=$3,
+		"Date"=$4,
+		"Time"=$5,
+		"DateDel"=$6,
+		"TimeDel"=$7,
+		"ClientId"=$8
 		
 		WHERE "Id"=$1`,
 		id,
+		data.Title, 
 		data.Text, 
+		data.Files, 
 		data.Date, 
+		data.Time, 
 		data.DateDel, 
+		data.TimeDel, 
 		data.ClientId, 
 		
 		)

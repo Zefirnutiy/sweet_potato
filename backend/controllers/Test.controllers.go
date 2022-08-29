@@ -41,8 +41,11 @@ func GetTests(c *gin.Context) {
 		&test.Id, 
 		&test.Title, 
 		&test.Text, 
+		&test.Files, 
 		&test.Date, 
+		&test.Time, 
 		&test.DateDel, 
+		&test.TimeDel, 
 		)
 		testList = append(testList, test)
 		if err != nil {
@@ -69,8 +72,11 @@ func GetTestById(c *gin.Context) {
 		&test.Id, 
 		&test.Title, 
 		&test.Text, 
+		&test.Files, 
 		&test.Date, 
+		&test.Time, 
 		&test.DateDel, 
+		&test.TimeDel, 
 		
 	)
 	if err != nil {
@@ -101,15 +107,17 @@ func CreateTest(c *gin.Context) {
 		(
 		"Title", 
 		"Text", 
+		"Files", 
 		"Date", 
-		"DateDel", 
+		"Time", 
 		
 		) 
-		VALUES( $1, $2, $3, $4 )`,
+		VALUES( $1, $2, $3, $4, $5 )`,
 		data.Title, 
 		data.Text, 
+		data.Files, 
 		data.Date, 
-		data.DateDel, 
+		data.Time, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -136,15 +144,21 @@ func UpdateTest(c *gin.Context) {
 		SET 
 		"Title"=$1,
 		"Text"=$2,
-		"Date"=$3,
-		"DateDel"=$4
+		"Files"=$3,
+		"Date"=$4,
+		"Time"=$5,
+		"DateDel"=$6,
+		"TimeDel"=$7
 		
 		WHERE "Id"=$1`,
 		id,
 		data.Title, 
 		data.Text, 
+		data.Files, 
 		data.Date, 
+		data.Time, 
 		data.DateDel, 
+		data.TimeDel, 
 		
 		)
 	if err != nil {

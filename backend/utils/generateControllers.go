@@ -2,68 +2,80 @@ package utils
 
 
 func Generate(){
-	// ControllerFileCreate("Level",
-	// 	"*Id", "#Title", "#Price", "#Paid", "#CreateCourse", "#TakeCourse",
-	// 	"#AploadFile", "#ViewYourResult", "#ViewOtherResults")
-
-	ControllerFileCreate("ClientLevel",
-		"*Id", "#Title", "#CreateCourse", "#TakeCourse", 
-		"#AploadFile", "#ViewYourResult", "#ViewOtherResults")	
-		
-	ControllerFileCreate("DeadLine",
-		"*Id", "#Date", "#LevelId", "*#OrganizationId")
-
-	ControllerFileCreate("Payment",
-		"*#Number", "#Name", "#Money", "#Date", "#LevelId", "*#OrganizationId")
 	
-	// ControllerFileCreate("Client",
-	// 	"*Id", "#FirstName", "#LastName", "#Patronymic", "$#Password", "#Email",
-	// 	"#Telephone", "#EmailNotifications", "*%#GroupId", "*%#ClientLevelId")
-
-	ControllerFileCreate("Test",
-		"*Id", "#Title", "#Text", "#Date", "#DateDel")
-
-	// ControllerFileCreate("Admin",
-	// 	"*Id", "#FirstName", "#LastName", "$Password", "#Email")
-
-	ControllerFileCreate("Question",
-		"*Id", "#Text", "#Date", "#DateDel", "%%#TestId", 
-		"%#QuestionTypeId","#Hint")
-
-	ControllerFileCreate("QuestionResult",
-		"*Id", "#Date", "%#QuestionId", "%#ClientId", "#Scores")
-
-	ControllerFileCreate("QuestionType",
-		"*Id", "#Type")
-
-	ControllerFileCreate("Answer",
-		"*Id", "#Text", "#Correct", "%#QuestionId")
+	ControllerFileCreate("Client",
+		"*Id", "#FirstName", "#LastName", "#Patronymic", "#Password", 
+		"#Email", "#Telephone", "#EmailNotifications", "#ManageCourses", 
+		"#ManageUsers", "#AploadFiles", "#ViewYourResults", "#ViewOtherResults",
+		"%#DepartmentId", "%%#GroupId", "%#CreatorId")
 
 	ControllerFileCreate("Course",
-		"*Id", "#Text", "#Date", "#DateDel", "%#ClientId")
-	
-	ControllerFileCreate("PublicInfo",
-		"*Id", "#Title", "#Text", "#Date", "#DateDel", "%#ClientId")
-	
+		"*Id", "#Title", "#Text", "#Files", "#Date", "#Time",
+		"DateDel", "TimeDel", "#*ClientId")
+
 	ControllerFileCreate("CourseResults",
-		"*Id", "#Time", "#Date", "#Assessment", "#Scores", "%#ClientId")
-	
+		"*Id", "#Assessment", "#Scores", "#NumberTests", "#PassageTime",
+		"#Date", "#Time", "%#ClientId",	"#*CourseId")
+
+	ControllerFileCreate("ActiveCourse",
+		"*Id", "#Date", "#Time", "DateClose", "TimeClose", "*CourseId",
+		"%#ClientId")
+
 	ControllerFileCreate("Department",
-		"*Id", "#Title")
+		"*Id", "#Title")	
 
 	ControllerFileCreate("Group",
-		"*Id", "#Title", "%#DepartmentId")
+		"*Id", "#Title", "#TitleSingular", "*#DepartmentId")	
 
-	// ControllerFileCreate("File",
-	// 	"*Id", "#Date", "#DateDel", "#FileName", "#FileNameTmp", "#PublicInfoId",
-	// 	"#TestId", "#QuestionId", "%#ClientId")
+	ControllerFileCreate("FileInformation",
+		"%#ClientId", "*#FileId", "%#PublicInfoId", "%%#*TestId", "*#QuestionId")
 
-	ControllerFileCreate("ActiveTest",
-		"*Id", "#Start", "#End", "#Time", "#Attempts", "#TestId",
-		"%#ClientId", "#TrainingTest")
+	ControllerFileCreate("PublicInfo",
+		"*Id", "#Title", "#Text", "#Files", "#Date", "#Time", "DateDel", 
+		"TimeDel", "%#ClientId",)	
+
+	ControllerFileCreate("Test",
+		"*Id", "#Title", "#Text", "#Files", "#Date", "#Time",
+		"DateDel", "TimeDel")
 
 	ControllerFileCreate("TestResults",
-		"*Id", "#Time", "#Date", "%#ClientId", "#TestId", "#Assessment",
-		"#PassageTime", "#Scores", "%#CourseId")
-	
+		"*Id", "#PassageTime", "#Assessment", "#Scores", "#Attempts", "#Date", 
+		"#Time", "%#CourseId", "*#TestId", "%#ClientId")
+
+	ControllerFileCreate("ActiveTest",
+		"*Id", "#Date", "#Time", "DateClose", "TimeClose", "#Attempts",
+		"%%#TestTypeId", "*#TestId", "*#ClientId")
+
+	ControllerFileCreate("TestType",
+		"*Id", "#Title")
+
+	ControllerFileCreate("Question",
+		"*Id", "#Text", "#Date", "#Time", "DateDel", "TimeDel", "#Hint",
+		"#AnswerVariant", "#AnswerCorrect", "#Files", "%%#TestId", "#QuestionTypeId")
+
+	ControllerFileCreate("QuestionResult",
+		"*Id", "#Date", "#Time", "#Scores", "*#QuestionId", "#ClientId")
+
+	ControllerFileCreate("QuestionType",
+		"*Id", "#Title", "*#InputTypeId")
+
+	ControllerFileCreate("InputType",
+		"*Id", "#Title", "#Type")	
+
+	ControllerFileCreate("Theme",
+		"*Id", "#Title")
+
+	ControllerFileCreate("Paymant",
+		"*Number", "#Money", "#Date", "#Time", "#Users", "#Statistics", 
+		"#ProtectionCheating", "%#OrganizationId")
+
+	ControllerFileCreate("DeadLine",
+		"*Id", "#Date", "#Time", "*#OrganizationId")
+
+	ControllerFileCreate("Session",
+		"*Id", "*#UserId", "#IpAddress", "#BackendStartDateTime", 
+		"#StateChangeDateTime", "#StateId")
+
+	ControllerFileCreate("State",
+		"*Id", "#Title")
 }

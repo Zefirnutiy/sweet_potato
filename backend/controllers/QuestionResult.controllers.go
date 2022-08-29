@@ -40,9 +40,10 @@ func GetQuestionResults(c *gin.Context) {
 		err = rows.Scan(
 		&questionResult.Id, 
 		&questionResult.Date, 
+		&questionResult.Time, 
+		&questionResult.Scores, 
 		&questionResult.QuestionId, 
 		&questionResult.ClientId, 
-		&questionResult.Scores, 
 		)
 		questionResultList = append(questionResultList, questionResult)
 		if err != nil {
@@ -68,9 +69,40 @@ func GetQuestionResultById(c *gin.Context) {
 	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "Id"=$1`, id ).Scan(
 		&questionResult.Id, 
 		&questionResult.Date, 
+		&questionResult.Time, 
+		&questionResult.Scores, 
 		&questionResult.QuestionId, 
 		&questionResult.ClientId, 
+		
+	)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"result": questionResult,
+		"message": nil,
+	})
+}
+
+	
+func GetQuestionResultByQuestionId(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	questionId := c.Params.ByName("questionId")
+	var questionResult structs.QuestionResult
+
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "QuestionId"=$1`, questionId ).Scan(
+		&questionResult.Id, 
+		&questionResult.Date, 
+		&questionResult.Time, 
 		&questionResult.Scores, 
+		&questionResult.QuestionId, 
+		&questionResult.ClientId, 
 		
 	)
 	if err != nil {
@@ -90,90 +122,6 @@ func GetQuestionResultById(c *gin.Context) {
 
 	
 
-func GetQuestionResultByQuestionId(c *gin.Context) {
-	model := c.Value("Model").(structs.Claims)
-	questionId := c.Params.ByName("questionId")
-	var questionResultList []structs.QuestionResult
-	var questionResult structs.QuestionResult
-
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "QuestionId"=$1`, questionId )
-	if err != nil {
-		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
-			"result": nil,
-			"message": "Ничего не найдено",
-		})
-		return
-	}
-
-	for rows.Next() {
-		err = rows.Scan(
-		&questionResult.Id, 
-		&questionResult.Date, 
-		&questionResult.QuestionId, 
-		&questionResult.ClientId, 
-		&questionResult.Scores, 
-		)
-		questionResultList = append(questionResultList, questionResult)
-		if err != nil {
-			utils.Logger.Println(err)
-			c.JSON(500, gin.H{
-				"result": nil,
-				"message": "Ошибка сервера",
-			})
-			return
-		}
-	}
-
-	c.JSON(200, gin.H{
-		"result": questionResultList,
-		"message": nil,
-	})
-}
-
-	
-func GetQuestionResultByClientId(c *gin.Context) {
-	model := c.Value("Model").(structs.Claims)
-	clientId := c.Params.ByName("clientId")
-	var questionResultList []structs.QuestionResult
-	var questionResult structs.QuestionResult
-
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "ClientId"=$1`, clientId )
-	if err != nil {
-		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
-			"result": nil,
-			"message": "Ничего не найдено",
-		})
-		return
-	}
-
-	for rows.Next() {
-		err = rows.Scan(
-		&questionResult.Id, 
-		&questionResult.Date, 
-		&questionResult.QuestionId, 
-		&questionResult.ClientId, 
-		&questionResult.Scores, 
-		)
-		questionResultList = append(questionResultList, questionResult)
-		if err != nil {
-			utils.Logger.Println(err)
-			c.JSON(500, gin.H{
-				"result": nil,
-				"message": "Ошибка сервера",
-			})
-			return
-		}
-	}
-
-	c.JSON(200, gin.H{
-		"result": questionResultList,
-		"message": nil,
-	})
-}
-
-	
 
 func CreateQuestionResult(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
@@ -184,16 +132,18 @@ func CreateQuestionResult(c *gin.Context) {
 	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."QuestionResult"
 		(
 		"Date", 
+		"Time", 
+		"Scores", 
 		"QuestionId", 
 		"ClientId", 
-		"Scores", 
 		
 		) 
-		VALUES( $1, $2, $3, $4 )`,
+		VALUES( $1, $2, $3, $4, $5 )`,
 		data.Date, 
+		data.Time, 
+		data.Scores, 
 		data.QuestionId, 
 		data.ClientId, 
-		data.Scores, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -219,16 +169,18 @@ func UpdateQuestionResult(c *gin.Context) {
 	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."QuestionResult" 
 		SET 
 		"Date"=$1,
-		"QuestionId"=$2,
-		"ClientId"=$3,
-		"Scores"=$4
+		"Time"=$2,
+		"Scores"=$3,
+		"QuestionId"=$4,
+		"ClientId"=$5
 		
 		WHERE "Id"=$1`,
 		id,
 		data.Date, 
+		data.Time, 
+		data.Scores, 
 		data.QuestionId, 
 		data.ClientId, 
-		data.Scores, 
 		
 		)
 	if err != nil {

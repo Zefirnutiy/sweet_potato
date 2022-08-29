@@ -39,7 +39,8 @@ func GetQuestionTypes(c *gin.Context) {
 	for rows.Next() {
 		err = rows.Scan(
 		&questionType.Id, 
-		&questionType.Type, 
+		&questionType.Title, 
+		&questionType.InputTypeId, 
 		)
 		questionTypeList = append(questionTypeList, questionType)
 		if err != nil {
@@ -64,7 +65,35 @@ func GetQuestionTypeById(c *gin.Context) {
 
 	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionType" WHERE "Id"=$1`, id ).Scan(
 		&questionType.Id, 
-		&questionType.Type, 
+		&questionType.Title, 
+		&questionType.InputTypeId, 
+		
+	)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"result": questionType,
+		"message": nil,
+	})
+}
+
+	
+func GetQuestionTypeByInputTypeId(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	inputTypeId := c.Params.ByName("inputTypeId")
+	var questionType structs.QuestionType
+
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionType" WHERE "InputTypeId"=$1`, inputTypeId ).Scan(
+		&questionType.Id, 
+		&questionType.Title, 
+		&questionType.InputTypeId, 
 		
 	)
 	if err != nil {
@@ -93,11 +122,13 @@ func CreateQuestionType(c *gin.Context) {
 
 	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."QuestionType"
 		(
-		"Type", 
+		"Title", 
+		"InputTypeId", 
 		
 		) 
-		VALUES( $1 )`,
-		data.Type, 
+		VALUES( $1, $2 )`,
+		data.Title, 
+		data.InputTypeId, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -122,11 +153,13 @@ func UpdateQuestionType(c *gin.Context) {
 	
 	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."QuestionType" 
 		SET 
-		"Type"=$1
+		"Title"=$1,
+		"InputTypeId"=$2
 		
 		WHERE "Id"=$1`,
 		id,
-		data.Type, 
+		data.Title, 
+		data.InputTypeId, 
 		
 		)
 	if err != nil {

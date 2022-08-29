@@ -41,8 +41,11 @@ func GetPublicInfos(c *gin.Context) {
 		&publicInfo.Id, 
 		&publicInfo.Title, 
 		&publicInfo.Text, 
+		&publicInfo.Files, 
 		&publicInfo.Date, 
+		&publicInfo.Time, 
 		&publicInfo.DateDel, 
+		&publicInfo.TimeDel, 
 		&publicInfo.ClientId, 
 		)
 		publicInfoList = append(publicInfoList, publicInfo)
@@ -70,8 +73,11 @@ func GetPublicInfoById(c *gin.Context) {
 		&publicInfo.Id, 
 		&publicInfo.Title, 
 		&publicInfo.Text, 
+		&publicInfo.Files, 
 		&publicInfo.Date, 
+		&publicInfo.Time, 
 		&publicInfo.DateDel, 
+		&publicInfo.TimeDel, 
 		&publicInfo.ClientId, 
 		
 	)
@@ -113,8 +119,11 @@ func GetPublicInfoByClientId(c *gin.Context) {
 		&publicInfo.Id, 
 		&publicInfo.Title, 
 		&publicInfo.Text, 
+		&publicInfo.Files, 
 		&publicInfo.Date, 
+		&publicInfo.Time, 
 		&publicInfo.DateDel, 
+		&publicInfo.TimeDel, 
 		&publicInfo.ClientId, 
 		)
 		publicInfoList = append(publicInfoList, publicInfo)
@@ -146,16 +155,18 @@ func CreatePublicInfo(c *gin.Context) {
 		(
 		"Title", 
 		"Text", 
+		"Files", 
 		"Date", 
-		"DateDel", 
+		"Time", 
 		"ClientId", 
 		
 		) 
-		VALUES( $1, $2, $3, $4, $5 )`,
+		VALUES( $1, $2, $3, $4, $5, $6 )`,
 		data.Title, 
 		data.Text, 
+		data.Files, 
 		data.Date, 
-		data.DateDel, 
+		data.Time, 
 		data.ClientId, 
 		)
 	if err != nil {
@@ -183,16 +194,22 @@ func UpdatePublicInfo(c *gin.Context) {
 		SET 
 		"Title"=$1,
 		"Text"=$2,
-		"Date"=$3,
-		"DateDel"=$4,
-		"ClientId"=$5
+		"Files"=$3,
+		"Date"=$4,
+		"Time"=$5,
+		"DateDel"=$6,
+		"TimeDel"=$7,
+		"ClientId"=$8
 		
 		WHERE "Id"=$1`,
 		id,
 		data.Title, 
 		data.Text, 
+		data.Files, 
 		data.Date, 
+		data.Time, 
 		data.DateDel, 
+		data.TimeDel, 
 		data.ClientId, 
 		
 		)

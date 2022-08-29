@@ -39,13 +39,14 @@ func GetActiveTests(c *gin.Context) {
 	for rows.Next() {
 		err = rows.Scan(
 		&activeTest.Id, 
-		&activeTest.Start, 
-		&activeTest.End, 
+		&activeTest.Date, 
 		&activeTest.Time, 
+		&activeTest.DateClose, 
+		&activeTest.TimeClose, 
 		&activeTest.Attempts, 
+		&activeTest.TestTypeId, 
 		&activeTest.TestId, 
 		&activeTest.ClientId, 
-		&activeTest.TrainingTest, 
 		)
 		activeTestList = append(activeTestList, activeTest)
 		if err != nil {
@@ -70,13 +71,80 @@ func GetActiveTestById(c *gin.Context) {
 
 	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "Id"=$1`, id ).Scan(
 		&activeTest.Id, 
-		&activeTest.Start, 
-		&activeTest.End, 
+		&activeTest.Date, 
 		&activeTest.Time, 
+		&activeTest.DateClose, 
+		&activeTest.TimeClose, 
 		&activeTest.Attempts, 
+		&activeTest.TestTypeId, 
 		&activeTest.TestId, 
 		&activeTest.ClientId, 
-		&activeTest.TrainingTest, 
+		
+	)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"result": activeTest,
+		"message": nil,
+	})
+}
+
+	
+func GetActiveTestByTestId(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	testId := c.Params.ByName("testId")
+	var activeTest structs.ActiveTest
+
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "TestId"=$1`, testId ).Scan(
+		&activeTest.Id, 
+		&activeTest.Date, 
+		&activeTest.Time, 
+		&activeTest.DateClose, 
+		&activeTest.TimeClose, 
+		&activeTest.Attempts, 
+		&activeTest.TestTypeId, 
+		&activeTest.TestId, 
+		&activeTest.ClientId, 
+		
+	)
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"result": activeTest,
+		"message": nil,
+	})
+}
+
+	
+func GetActiveTestByClientId(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	clientId := c.Params.ByName("clientId")
+	var activeTest structs.ActiveTest
+
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "ClientId"=$1`, clientId ).Scan(
+		&activeTest.Id, 
+		&activeTest.Date, 
+		&activeTest.Time, 
+		&activeTest.DateClose, 
+		&activeTest.TimeClose, 
+		&activeTest.Attempts, 
+		&activeTest.TestTypeId, 
+		&activeTest.TestId, 
+		&activeTest.ClientId, 
 		
 	)
 	if err != nil {
@@ -96,13 +164,13 @@ func GetActiveTestById(c *gin.Context) {
 
 	
 
-func GetActiveTestByClientId(c *gin.Context) {
+func GetActiveTestByTestTypeId(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	clientId := c.Params.ByName("clientId")
+	testTypeId := c.Params.ByName("testTypeId")
 	var activeTestList []structs.ActiveTest
 	var activeTest structs.ActiveTest
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."ActiveTest" WHERE "TestTypeId"=$1`, testTypeId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -115,13 +183,14 @@ func GetActiveTestByClientId(c *gin.Context) {
 	for rows.Next() {
 		err = rows.Scan(
 		&activeTest.Id, 
-		&activeTest.Start, 
-		&activeTest.End, 
+		&activeTest.Date, 
 		&activeTest.Time, 
+		&activeTest.DateClose, 
+		&activeTest.TimeClose, 
 		&activeTest.Attempts, 
+		&activeTest.TestTypeId, 
 		&activeTest.TestId, 
 		&activeTest.ClientId, 
-		&activeTest.TrainingTest, 
 		)
 		activeTestList = append(activeTestList, activeTest)
 		if err != nil {
@@ -150,23 +219,21 @@ func CreateActiveTest(c *gin.Context) {
 
 	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."ActiveTest"
 		(
-		"Start", 
-		"End", 
+		"Date", 
 		"Time", 
 		"Attempts", 
+		"TestTypeId", 
 		"TestId", 
 		"ClientId", 
-		"TrainingTest", 
 		
 		) 
-		VALUES( $1, $2, $3, $4, $5, $6, $7 )`,
-		data.Start, 
-		data.End, 
+		VALUES( $1, $2, $3, $4, $5, $6 )`,
+		data.Date, 
 		data.Time, 
 		data.Attempts, 
+		data.TestTypeId, 
 		data.TestId, 
 		data.ClientId, 
-		data.TrainingTest, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -191,23 +258,25 @@ func UpdateActiveTest(c *gin.Context) {
 	
 	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."ActiveTest" 
 		SET 
-		"Start"=$1,
-		"End"=$2,
-		"Time"=$3,
-		"Attempts"=$4,
-		"TestId"=$5,
-		"ClientId"=$6,
-		"TrainingTest"=$7
+		"Date"=$1,
+		"Time"=$2,
+		"DateClose"=$3,
+		"TimeClose"=$4,
+		"Attempts"=$5,
+		"TestTypeId"=$6,
+		"TestId"=$7,
+		"ClientId"=$8
 		
 		WHERE "Id"=$1`,
 		id,
-		data.Start, 
-		data.End, 
+		data.Date, 
 		data.Time, 
+		data.DateClose, 
+		data.TimeClose, 
 		data.Attempts, 
+		data.TestTypeId, 
 		data.TestId, 
 		data.ClientId, 
-		data.TrainingTest, 
 		
 		)
 	if err != nil {

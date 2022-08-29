@@ -37,186 +37,221 @@ func Routs(port string) {
         file.PATCH("/update", controllers.UpdateFile)
         file.DELETE("/delete/:id", controllers.DeleteFile)
         }
+		client := router.Group("/api/client")
+        {
+        client.GET("/getClients", controllers.GetClients)
+        client.GET("/getClientById/:id", controllers.GetClientById)
+        client.GET("/getClientByManyDepartmentId/:departmentId", controllers.GetClientByDepartmentId)
+        client.GET("/getClientByManyGroupId/:groupId", controllers.GetClientByGroupId)
+        client.GET("/getClientByManyCreatorId/:creatorId", controllers.GetClientByCreatorId)
+        client.POST("/create", controllers.CreateClient)
+        client.PATCH("/update", controllers.UpdateClient)
+        client.DELETE("/delete/:id", controllers.DeleteClient)
+        }
 
-	// admin := router.Group("/api/admin")
-	// {
-	// 	admin.GET("/", utils.TokenCheckedFromHeader, controllers.GetAdmins)
-	// 	admin.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetAdminById)
-	// 	admin.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateAdmin)
-	// 	admin.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateAdmin)
-	// 	admin.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteAdmin)
-	// }
+        course := router.Group("/api/course")
+        {
+        course.GET("/getCourses", controllers.GetCourses)
+        course.GET("/getCourseById/:id", controllers.GetCourseById)
+        course.GET("/getCourseByClientId/:clientId", controllers.GetCourseByClientId)
+        course.POST("/create", controllers.CreateCourse)
+        course.PATCH("/update", controllers.UpdateCourse)
+        course.DELETE("/delete/:id", controllers.DeleteCourse)
+        }
 
-	// level := router.Group("/api/level")
-	// {
-	// 	level.GET("/", utils.TokenCheckedFromHeader, controllers.GetLevels)
-	// 	level.GET("/:id", utils.TokenCheckedFromHeader, controllers.GetLevelById)
-	// 	level.POST("/create", utils.TokenCheckedFromHeader, controllers.CreateLevel)
-	// 	level.PATCH("/update/:id", utils.TokenCheckedFromHeader, controllers.UpdateLevel)
-	// 	level.DELETE("/delete/:id", utils.TokenCheckedFromHeader, controllers.DeleteLevel)
-	// }
+        courseResults := router.Group("/api/courseResults")
+        {
+        courseResults.GET("/getCourseResultss", controllers.GetCourseResultss)
+        courseResults.GET("/getCourseResultsById/:id", controllers.GetCourseResultsById)
+        courseResults.GET("/getCourseResultsByCourseId/:courseId", controllers.GetCourseResultsByCourseId)
+        courseResults.GET("/getCourseResultsByManyClientId/:clientId", controllers.GetCourseResultsByClientId)
+        courseResults.POST("/create", controllers.CreateCourseResults)
+        courseResults.PATCH("/update", controllers.UpdateCourseResults)
+        courseResults.DELETE("/delete/:id", controllers.DeleteCourseResults)
+        }
 
-	// client := router.Group("/api/client")
-	// {
-	// 	client.GET("/getClients", controllers.GetClients)
-	// 	client.GET("/getClientById/:id", controllers.GetClientById)
-	// 	client.GET("/getClientByGroupId/:id", controllers.GetClientByGroupId)
-	// 	client.GET("/getClientByClientLevelId/:id", controllers.GetClientByClientLevelId)
-	// 	client.POST("/create", controllers.CreateClient)
-	// 	client.PATCH("/update/:id", controllers.UpdateClient)
-	// 	client.DELETE("/delete/:id", controllers.DeleteClient)
-	// 	client.POST("/login", controllers.LoginClient)
-	// }
+        activeCourse := router.Group("/api/activeCourse")
+        {
+        activeCourse.GET("/getActiveCourses", controllers.GetActiveCourses)
+        activeCourse.GET("/getActiveCourseById/:id", controllers.GetActiveCourseById)
+        activeCourse.GET("/getActiveCourseByCourseId/:courseId", controllers.GetActiveCourseByCourseId)
+        activeCourse.GET("/getActiveCourseByManyClientId/:clientId", controllers.GetActiveCourseByClientId)
+        activeCourse.POST("/create", controllers.CreateActiveCourse)
+        activeCourse.PATCH("/update", controllers.UpdateActiveCourse)
+        activeCourse.DELETE("/delete/:id", controllers.DeleteActiveCourse)
+        }
 
-	// clientLevel := router.Group("/api/clientLevel")
-	// {
-	// 	clientLevel.GET("/getClientLevels", controllers.GetClientLevels)
-	// 	clientLevel.GET("/getClientLevelById/:id", controllers.GetClientLevelById)
-	// 	clientLevel.POST("/create", controllers.CreateClientLevel)
-	// 	clientLevel.PATCH("/update", controllers.UpdateClientLevel)
-	// 	clientLevel.DELETE("/delete/:id", controllers.DeleteClientLevel)
-	// }
+        department := router.Group("/api/department")
+        {
+        department.GET("/getDepartments", controllers.GetDepartments)
+        department.GET("/getDepartmentById/:id", controllers.GetDepartmentById)
+        department.POST("/create", controllers.CreateDepartment)
+        department.PATCH("/update", controllers.UpdateDepartment)
+        department.DELETE("/delete/:id", controllers.DeleteDepartment)
+        }
 
-	// deadLine := router.Group("/api/deadLine")
-	// {
-	// 	deadLine.GET("/getDeadLines/", controllers.GetDeadLines)
-	// 	deadLine.GET("/getDeadLineById/:id", controllers.GetDeadLineById)
-	// 	deadLine.GET("/getDeadLineByOrganizationId/:organizationId", controllers.GetDeadLineByOrganizationId)
-	// 	deadLine.POST("/create/", controllers.CreateDeadLine)
-	// 	deadLine.PATCH("/update/", controllers.UpdateDeadLine)
-	// 	deadLine.DELETE("/delete/:id", controllers.DeleteDeadLine)
-	// }
+        group := router.Group("/api/group")
+        {
+        group.GET("/getGroups", controllers.GetGroups)
+        group.GET("/getGroupById/:id", controllers.GetGroupById)
+        group.GET("/getGroupByDepartmentId/:departmentId", controllers.GetGroupByDepartmentId)
+        group.POST("/create", controllers.CreateGroup)
+        group.PATCH("/update", controllers.UpdateGroup)
+        group.DELETE("/delete/:id", controllers.DeleteGroup)
+        }
 
-	// payment := router.Group("/api/payment")
-	// {
-	// 	payment.GET("/getPayments/", controllers.GetPayments)
-	// 	payment.GET("/getPaymentByNumber/:number", controllers.GetPaymentByNumber)
-	// 	payment.GET("/getPaymentByOrganizationId/:organizationId", controllers.GetPaymentByOrganizationId)
-	// 	payment.POST("/create/", controllers.CreatePayment)
-	// 	payment.PATCH("/update/", controllers.UpdatePayment)
-	// 	payment.DELETE("/delete/:id", controllers.DeletePayment)
-	// }
+        fileInformation := router.Group("/api/fileInformation")
+        {
+        fileInformation.GET("/getFileInformations", controllers.GetFileInformations)
+        fileInformation.GET("/getFileInformationByFileId/:fileId", controllers.GetFileInformationByFileId)
+        fileInformation.GET("/getFileInformationByTestId/:testId", controllers.GetFileInformationByTestId)
+        fileInformation.GET("/getFileInformationByQuestionId/:questionId", controllers.GetFileInformationByQuestionId)
+        fileInformation.GET("/getFileInformationByManyClientId/:clientId", controllers.GetFileInformationByClientId)
+        fileInformation.GET("/getFileInformationByManyPublicInfoId/:publicInfoId", controllers.GetFileInformationByPublicInfoId)
+        fileInformation.GET("/getFileInformationByManyTestId/:testId", controllers.GetFileInformationByTestId)
+        fileInformation.POST("/create", controllers.CreateFileInformation)
+        fileInformation.PATCH("/update", controllers.UpdateFileInformation)
+        fileInformation.DELETE("/delete/:id", controllers.DeleteFileInformation)
+        }
 
-	// test := router.Group("/api/test")
-	// {
-	// 	test.GET("/getTests", controllers.GetTests)
-	// 	test.GET("/getTestById/:id", controllers.GetTestById)
-	// 	test.POST("/create", controllers.CreateTest)
-	// 	test.PATCH("/update", controllers.UpdateTest)
-	// 	test.DELETE("/delete/:id", controllers.DeleteTest)
-	// }
+        publicInfo := router.Group("/api/publicInfo")
+        {
+        publicInfo.GET("/getPublicInfos", controllers.GetPublicInfos)
+        publicInfo.GET("/getPublicInfoById/:id", controllers.GetPublicInfoById)
+        publicInfo.GET("/getPublicInfoByManyClientId/:clientId", controllers.GetPublicInfoByClientId)
+        publicInfo.POST("/create", controllers.CreatePublicInfo)
+        publicInfo.PATCH("/update", controllers.UpdatePublicInfo)
+        publicInfo.DELETE("/delete/:id", controllers.DeletePublicInfo)
+        }
 
-	// question := router.Group("/api/question")
-	// {
-	// 	question.GET("/getQuestions", controllers.GetQuestions)
-	// 	question.GET("/getQuestionById/:id", controllers.GetQuestionById)
-	// 	question.POST("/create", controllers.CreateQuestion)
-	// 	question.PATCH("/update", controllers.UpdateQuestion)
-	// 	question.DELETE("/delete/:id", controllers.DeleteQuestion)
-	// }
+        test := router.Group("/api/test")
+        {
+        test.GET("/getTests", controllers.GetTests)
+        test.GET("/getTestById/:id", controllers.GetTestById)
+        test.POST("/create", controllers.CreateTest)
+        test.PATCH("/update", controllers.UpdateTest)
+        test.DELETE("/delete/:id", controllers.DeleteTest)
+        }
 
-	// questionResult := router.Group("/api/questionResult")
-	// {
-	// 	questionResult.GET("/getQuestionResults", controllers.GetQuestionResults)
-	// 	questionResult.GET("/getQuestionResultById/:id", controllers.GetQuestionResultById)
-	// 	questionResult.POST("/create", controllers.CreateQuestionResult)
-	// 	questionResult.PATCH("/update", controllers.UpdateQuestionResult)
-	// 	questionResult.DELETE("/delete/:id", controllers.DeleteQuestionResult)
-	// }
+        testResults := router.Group("/api/testResults")
+        {
+        testResults.GET("/getTestResultss", controllers.GetTestResultss)
+        testResults.GET("/getTestResultsById/:id", controllers.GetTestResultsById)
+        testResults.GET("/getTestResultsByTestId/:testId", controllers.GetTestResultsByTestId)
+        testResults.GET("/getTestResultsByManyCourseId/:courseId", controllers.GetTestResultsByCourseId)
+        testResults.GET("/getTestResultsByManyClientId/:clientId", controllers.GetTestResultsByClientId)
+        testResults.POST("/create", controllers.CreateTestResults)
+        testResults.PATCH("/update", controllers.UpdateTestResults)
+        testResults.DELETE("/delete/:id", controllers.DeleteTestResults)
+        }
 
-	// questionType := router.Group("/api/questionType")
-	// {
-	// 	questionType.GET("/getQuestionTypes", controllers.GetQuestionTypes)
-	// 	questionType.GET("/getQuestionTypeById/:id", controllers.GetQuestionTypeById)
-	// 	questionType.POST("/create", controllers.CreateQuestionType)
-	// 	questionType.PATCH("/update", controllers.UpdateQuestionType)
-	// 	questionType.DELETE("/delete/:id", controllers.DeleteQuestionType)
-	// }
+        activeTest := router.Group("/api/activeTest")
+        {
+        activeTest.GET("/getActiveTests", controllers.GetActiveTests)
+        activeTest.GET("/getActiveTestById/:id", controllers.GetActiveTestById)
+        activeTest.GET("/getActiveTestByTestId/:testId", controllers.GetActiveTestByTestId)
+        activeTest.GET("/getActiveTestByClientId/:clientId", controllers.GetActiveTestByClientId)
+        activeTest.GET("/getActiveTestByManyTestTypeId/:testTypeId", controllers.GetActiveTestByTestTypeId)
+        activeTest.POST("/create", controllers.CreateActiveTest)
+        activeTest.PATCH("/update", controllers.UpdateActiveTest)
+        activeTest.DELETE("/delete/:id", controllers.DeleteActiveTest)
+        }
 
-	// answer := router.Group("/api/answer")
-	// {
-	// 	answer.GET("/getAnswers", controllers.GetAnswers)
-	// 	answer.GET("/getAnswerById/:id", controllers.GetAnswerById)
-	// 	answer.POST("/create", controllers.CreateAnswer)
-	// 	answer.PATCH("/update", controllers.UpdateAnswer)
-	// 	answer.DELETE("/delete/:id", controllers.DeleteAnswer)
-	// }
+        testType := router.Group("/api/testType")
+        {
+        testType.GET("/getTestTypes", controllers.GetTestTypes)
+        testType.GET("/getTestTypeById/:id", controllers.GetTestTypeById)
+        testType.POST("/create", controllers.CreateTestType)
+        testType.PATCH("/update", controllers.UpdateTestType)
+        testType.DELETE("/delete/:id", controllers.DeleteTestType)
+        }
 
-	// course := router.Group("/api/course")
-	// {
-	// 	course.GET("/getCourses", controllers.GetCourses)
-	// 	course.GET("/getCourseById/:id", controllers.GetCourseById)
-	// 	course.POST("/create", controllers.CreateCourse)
-	// 	course.PATCH("/update", controllers.UpdateCourse)
-	// 	course.DELETE("/delete/:id", controllers.DeleteCourse)
-	// }
+        question := router.Group("/api/question")
+        {
+        question.GET("/getQuestions", controllers.GetQuestions)
+        question.GET("/getQuestionById/:id", controllers.GetQuestionById)
+        question.GET("/getQuestionByManyTestId/:testId", controllers.GetQuestionByTestId)
+        question.POST("/create", controllers.CreateQuestion)
+        question.PATCH("/update", controllers.UpdateQuestion)
+        question.DELETE("/delete/:id", controllers.DeleteQuestion)
+        }
 
-	// publicInfo := router.Group("/api/publicInfo")
-	// {
-	// 	publicInfo.GET("/getPublicInfos", controllers.GetPublicInfos)
-	// 	publicInfo.GET("/getPublicInfoById/:id", controllers.GetPublicInfoById)
-	// 	publicInfo.POST("/create", controllers.CreatePublicInfo)
-	// 	publicInfo.PATCH("/update", controllers.UpdatePublicInfo)
-	// 	publicInfo.DELETE("/delete/:id", controllers.DeletePublicInfo)
-	// }
+        questionResult := router.Group("/api/questionResult")
+        {
+        questionResult.GET("/getQuestionResults", controllers.GetQuestionResults)
+        questionResult.GET("/getQuestionResultById/:id", controllers.GetQuestionResultById)
+        questionResult.GET("/getQuestionResultByQuestionId/:questionId", controllers.GetQuestionResultByQuestionId)
+        questionResult.POST("/create", controllers.CreateQuestionResult)
+        questionResult.PATCH("/update", controllers.UpdateQuestionResult)
+        questionResult.DELETE("/delete/:id", controllers.DeleteQuestionResult)
+        }
 
-	// courseResults := router.Group("/api/courseResults")
-	// {
-	// 	courseResults.GET("/getCourseResultss", controllers.GetCourseResultss)
-	// 	courseResults.GET("/getCourseResultsById/:id", controllers.GetCourseResultsById)
-	// 	courseResults.POST("/create", controllers.CreateCourseResults)
-	// 	courseResults.PATCH("/update", controllers.UpdateCourseResults)
-	// 	courseResults.DELETE("/delete/:id", controllers.DeleteCourseResults)
-	// }
+        questionType := router.Group("/api/questionType")
+        {
+        questionType.GET("/getQuestionTypes", controllers.GetQuestionTypes)
+        questionType.GET("/getQuestionTypeById/:id", controllers.GetQuestionTypeById)
+        questionType.GET("/getQuestionTypeByInputTypeId/:inputTypeId", controllers.GetQuestionTypeByInputTypeId)
+        questionType.POST("/create", controllers.CreateQuestionType)
+        questionType.PATCH("/update", controllers.UpdateQuestionType)
+        questionType.DELETE("/delete/:id", controllers.DeleteQuestionType)
+        }
 
-	// department := router.Group("/api/department")
-	// {
-	// 	department.GET("/getDepartments", controllers.GetDepartments)
-	// 	department.GET("/getDepartmentById/:id", controllers.GetDepartmentById)
-	// 	department.POST("/create", controllers.CreateDepartment)
-	// 	department.PATCH("/update", controllers.UpdateDepartment)
-	// 	department.DELETE("/delete/:id", controllers.DeleteDepartment)
-	// }
+        inputType := router.Group("/api/inputType")
+        {
+        inputType.GET("/getInputTypes", controllers.GetInputTypes)
+        inputType.GET("/getInputTypeById/:id", controllers.GetInputTypeById)
+        inputType.POST("/create", controllers.CreateInputType)
+        inputType.PATCH("/update", controllers.UpdateInputType)
+        inputType.DELETE("/delete/:id", controllers.DeleteInputType)
+        }
 
-	// group := router.Group("/api/group")
-	// {
-	// 	group.GET("/getGroups", controllers.GetGroups)
-	// 	group.GET("/getGroupById/:id", controllers.GetGroupById)
-	// 	group.GET("/getGroupByDepartmentId/:departmentId", controllers.GetGroupByDepartmentId)
-	// 	group.POST("/create", controllers.CreateGroup)
-	// 	group.PATCH("/update", controllers.UpdateGroup)
-	// 	group.DELETE("/delete/:id", controllers.DeleteGroup)
-	// }
+        theme := router.Group("/api/theme")
+        {
+        theme.GET("/getThemes", controllers.GetThemes)
+        theme.GET("/getThemeById/:id", controllers.GetThemeById)
+        theme.POST("/create", controllers.CreateTheme)
+        theme.PATCH("/update", controllers.UpdateTheme)
+        theme.DELETE("/delete/:id", controllers.DeleteTheme)
+        }
 
-	// file := router.Group("/api/file")
-	// {
-	// 	file.GET("/getFiles", controllers.GetFiles)
-	// 	file.GET("/getFileById/:id", controllers.GetFileById)
-	// 	file.POST("/create", controllers.CreateFile)
-	// 	file.PATCH("/update", controllers.UpdateFile)
-	// 	file.DELETE("/delete/:id", controllers.DeleteFile)
-	// }
+        payment := router.Group("/api/Payment")
+        {
+        payment.GET("/getPayments", controllers.GetPayments)
+        payment.GET("/getPaymentByNumber/:number", controllers.GetPaymentByNumber)
+        payment.GET("/getPaymentByManyOrganizationId/:organizationId", controllers.GetPaymentByOrganizationId)
+        payment.POST("/create", controllers.CreatePayment)
+        payment.PATCH("/update", controllers.UpdatePayment)
+        payment.DELETE("/delete/:id", controllers.DeletePayment)
+        }
 
-	// activeTest := router.Group("/api/activeTest")
-	// {
-	// 	activeTest.GET("/getActiveTests", controllers.GetActiveTests)
-	// 	activeTest.GET("/getActiveTestById/:id", controllers.GetActiveTestById)
-	// 	activeTest.GET("/getActiveTestByClientId/:clientId", controllers.GetActiveTestByClientId)
-	// 	activeTest.POST("/create", controllers.CreateActiveTest)
-	// 	activeTest.PATCH("/update", controllers.UpdateActiveTest)
-	// 	activeTest.DELETE("/delete/:id", controllers.DeleteActiveTest)
-	// }
+        deadLine := router.Group("/api/deadLine")
+        {
+        deadLine.GET("/getDeadLines", controllers.GetDeadLines)
+        deadLine.GET("/getDeadLineById/:id", controllers.GetDeadLineById)
+        deadLine.GET("/getDeadLineByOrganizationId/:organizationId", controllers.GetDeadLineByOrganizationId)
+        deadLine.POST("/create", controllers.CreateDeadLine)
+        deadLine.PATCH("/update", controllers.UpdateDeadLine)
+        deadLine.DELETE("/delete/:id", controllers.DeleteDeadLine)
+        }
 
-	// testResults := router.Group("/api/testResults")
-	// {
-	// 	testResults.GET("/getTestResultss", controllers.GetTestResultss)
-	// 	testResults.GET("/getTestResultsById/:id", controllers.GetTestResultsById)
-	// 	testResults.GET("/getTestResultsByClientId/:clientId", controllers.GetTestResultsByClientId)
-	// 	testResults.GET("/getTestResultsByCourseId/:courseId", controllers.GetTestResultsByCourseId)
-	// 	testResults.POST("/create", controllers.CreateTestResults)
-	// 	testResults.PATCH("/update", controllers.UpdateTestResults)
-	// 	testResults.DELETE("/delete/:id", controllers.DeleteTestResults)
-	// }
+        session := router.Group("/api/session")
+        {
+        session.GET("/getSessions", controllers.GetSessions)
+        session.GET("/getSessionById/:id", controllers.GetSessionById)
+        session.GET("/getSessionByUserId/:userId", controllers.GetSessionByUserId)
+        session.POST("/create", controllers.CreateSession)
+        session.PATCH("/update", controllers.UpdateSession)
+        session.DELETE("/delete/:id", controllers.DeleteSession)
+        }
+
+        state := router.Group("/api/state")
+        {
+        state.GET("/getStates", controllers.GetStates)
+        state.GET("/getStateById/:id", controllers.GetStateById)
+        state.POST("/create", controllers.CreateState)
+        state.PATCH("/update", controllers.UpdateState)
+        state.DELETE("/delete/:id", controllers.DeleteState)
+        }
 
 	router.Run(port)
 

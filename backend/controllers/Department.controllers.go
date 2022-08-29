@@ -94,6 +94,7 @@ func CreateDepartment(c *gin.Context) {
 	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Department"
 		(
 		"Title", 
+		
 		) 
 		VALUES( $1 )`,
 		data.Title, 

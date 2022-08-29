@@ -1,20 +1,16 @@
 package controllers
 
 import (
-	"fmt"
-
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
-
 func DataProcessingClient(c gin.Context) structs.Client {
 	var data structs.Client
 	err := c.BindJSON(&data)
 	if err != nil {
-		fmt.Println(err)
 		utils.Logger.Println(err)
 		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
@@ -24,17 +20,17 @@ func DataProcessingClient(c gin.Context) structs.Client {
 	return data
 }
 
+
 func GetClients(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	var clientList []structs.Client
 	var client structs.Client
 
 	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client"`)
-
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
-			"result":  nil,
+			"result": nil,
 			"message": "Ничего не найдено",
 		})
 		return
@@ -42,29 +38,35 @@ func GetClients(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-			&client.Id,
-			&client.FirstName,
-			&client.LastName,
-			&client.Patronymic,
-			&client.Password,
-			&client.Email,
-			&client.Telephone,
-			&client.EmailNotifications,
-			&client.GroupId,
-			&client.ClientLevelId,
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.ManageCourses, 
+		&client.ManageUsers, 
+		&client.AploadFiles, 
+		&client.ViewYourResults, 
+		&client.ViewOtherResults, 
+		&client.DepartmentId, 
+		&client.GroupId, 
+		&client.CreatorId, 
 		)
 		clientList = append(clientList, client)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
-				"result":  nil,
+				"result": nil,
 				"message": "Ошибка сервера",
 			})
 			return
 		}
 	}
 	c.JSON(200, gin.H{
-		"result":  clientList,
+		"result": clientList,
 		"message": nil,
 	})
 }
@@ -74,97 +76,202 @@ func GetClientById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "Id"=$1`, id).Scan(
-		&client.Id,
-		&client.FirstName,
-		&client.LastName,
-		&client.Patronymic,
-		&client.Password,
-		&client.Email,
-		&client.Telephone,
-		&client.EmailNotifications,
-		&client.GroupId,
-		&client.ClientLevelId,
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "Id"=$1`, id ).Scan(
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.ManageCourses, 
+		&client.ManageUsers, 
+		&client.AploadFiles, 
+		&client.ViewYourResults, 
+		&client.ViewOtherResults, 
+		&client.DepartmentId, 
+		&client.GroupId, 
+		&client.CreatorId, 
+		
 	)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
-			"result":  nil,
+			"result": nil,
 			"message": "Ничего не найдено",
 		})
 		return
 	}
 
 	c.JSON(200, gin.H{
-		"result":  client,
+		"result": client,
 		"message": nil,
 	})
 }
 
+	
+
+func GetClientByDepartmentId(c *gin.Context) {
+	model := c.Value("Model").(structs.Claims)
+	departmentId := c.Params.ByName("departmentId")
+	var clientList []structs.Client
+	var client structs.Client
+
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "DepartmentId"=$1`, departmentId )
+	if err != nil {
+		utils.Logger.Println(err)
+		c.JSON(500, gin.H{
+			"result": nil,
+			"message": "Ничего не найдено",
+		})
+		return
+	}
+
+	for rows.Next() {
+		err = rows.Scan(
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.ManageCourses, 
+		&client.ManageUsers, 
+		&client.AploadFiles, 
+		&client.ViewYourResults, 
+		&client.ViewOtherResults, 
+		&client.DepartmentId, 
+		&client.GroupId, 
+		&client.CreatorId, 
+		)
+		clientList = append(clientList, client)
+		if err != nil {
+			utils.Logger.Println(err)
+			c.JSON(500, gin.H{
+				"result": nil,
+				"message": "Ошибка сервера",
+			})
+			return
+		}
+	}
+
+	c.JSON(200, gin.H{
+		"result": clientList,
+		"message": nil,
+	})
+}
+
+	
 func GetClientByGroupId(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	groupId := c.Params.ByName("groupId")
+	var clientList []structs.Client
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "GroupId"=$1`, groupId).Scan(
-		&client.Id,
-		&client.FirstName,
-		&client.LastName,
-		&client.Patronymic,
-		&client.Password,
-		&client.Email,
-		&client.Telephone,
-		&client.EmailNotifications,
-		&client.GroupId,
-		&client.ClientLevelId,
-	)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "GroupId"=$1`, groupId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
-			"result":  nil,
+			"result": nil,
 			"message": "Ничего не найдено",
 		})
 		return
 	}
 
+	for rows.Next() {
+		err = rows.Scan(
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.ManageCourses, 
+		&client.ManageUsers, 
+		&client.AploadFiles, 
+		&client.ViewYourResults, 
+		&client.ViewOtherResults, 
+		&client.DepartmentId, 
+		&client.GroupId, 
+		&client.CreatorId, 
+		)
+		clientList = append(clientList, client)
+		if err != nil {
+			utils.Logger.Println(err)
+			c.JSON(500, gin.H{
+				"result": nil,
+				"message": "Ошибка сервера",
+			})
+			return
+		}
+	}
+
 	c.JSON(200, gin.H{
-		"result":  client,
+		"result": clientList,
 		"message": nil,
 	})
 }
 
-func GetClientByClientLevelId(c *gin.Context) {
+	
+func GetClientByCreatorId(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	clientLevelId := c.Params.ByName("clientLevelId")
+	creatorId := c.Params.ByName("creatorId")
+	var clientList []structs.Client
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "ClientLevelId"=$1`, clientLevelId).Scan(
-		&client.Id,
-		&client.FirstName,
-		&client.LastName,
-		&client.Patronymic,
-		&client.Password,
-		&client.Email,
-		&client.Telephone,
-		&client.EmailNotifications,
-		&client.GroupId,
-		&client.ClientLevelId,
-	)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "CreatorId"=$1`, creatorId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
-			"result":  nil,
+			"result": nil,
 			"message": "Ничего не найдено",
 		})
 		return
 	}
 
+	for rows.Next() {
+		err = rows.Scan(
+		&client.Id, 
+		&client.FirstName, 
+		&client.LastName, 
+		&client.Patronymic, 
+		&client.Password, 
+		&client.Email, 
+		&client.Telephone, 
+		&client.EmailNotifications, 
+		&client.ManageCourses, 
+		&client.ManageUsers, 
+		&client.AploadFiles, 
+		&client.ViewYourResults, 
+		&client.ViewOtherResults, 
+		&client.DepartmentId, 
+		&client.GroupId, 
+		&client.CreatorId, 
+		)
+		clientList = append(clientList, client)
+		if err != nil {
+			utils.Logger.Println(err)
+			c.JSON(500, gin.H{
+				"result": nil,
+				"message": "Ошибка сервера",
+			})
+			return
+		}
+	}
+
 	c.JSON(200, gin.H{
-		"result":  client,
+		"result": clientList,
 		"message": nil,
 	})
 }
 
+
+	
 func CreateClient(c *gin.Context) {
 	data := DataProcessingClient(*c)
 	model := c.Value("Model").(structs.Claims)
@@ -184,23 +291,37 @@ func CreateClient(c *gin.Context) {
 		"FirstName", 
 		"LastName", 
 		"Patronymic", 
+		"Password", 
 		"Email", 
 		"Telephone", 
 		"EmailNotifications", 
+		"ManageCourses", 
+		"ManageUsers", 
+		"AploadFiles", 
+		"ViewYourResults", 
+		"ViewOtherResults", 
+		"DepartmentId", 
 		"GroupId", 
-		"ClientLevelId",
-		"Password") 
-		VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9 )`,
-		data.FirstName,
-		data.LastName,
-		data.Patronymic,
-		data.Email,
-		data.Telephone,
-		data.EmailNotifications,
-		data.GroupId,
-		data.ClientLevelId,
-		hashedPassword,
-	)
+		"CreatorId", 
+		
+		) 
+		VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15 )`,
+		data.FirstName, 
+		data.LastName, 
+		data.Patronymic, 
+		hashedPassword, 
+		data.Email, 
+		data.Telephone, 
+		data.EmailNotifications, 
+		data.ManageCourses, 
+		data.ManageUsers, 
+		data.AploadFiles, 
+		data.ViewYourResults, 
+		data.ViewOtherResults, 
+		data.DepartmentId, 
+		data.GroupId, 
+		data.CreatorId, 
+		)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -240,11 +361,15 @@ func LoginClient(c *gin.Context) {
 		&client.Email,
 		&client.Telephone,
 		&client.EmailNotifications,
-		&client.GroupId,
-		&client.ClientLevelId,
-	)
+		&client.ManageCourses,
+		&client.ManageUsers,
+		&client.AploadFiles,
+		&client.ViewYourResults,
+		&client.ViewOtherResults,
+		&client.DepartmentId,
+		&client.CreatorId,
+		&client.GroupId)
 	if err != nil {
-		fmt.Println(err)
 		utils.Logger.Println(err)
 		c.JSON(400, gin.H{
 			"message": "нет такого клиента",
@@ -267,7 +392,6 @@ func LoginClient(c *gin.Context) {
 
 	claims := structs.Claims{
 		Id:      client.Id,
-		LevelId: client.ClientLevelId,
 		Email:   client.Email,
 		Schema:  loginData.Schema}
 
@@ -288,49 +412,53 @@ func LoginClient(c *gin.Context) {
 
 }
 
+
 func UpdateClient(c *gin.Context) {
+
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
 	data := DataProcessingClient(*c)
 	var err error
-
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(data.Password), bcrypt.DefaultCost)
-	if err != nil {
-		utils.Logger.Println(err)
-		c.JSON(500, gin.H{
-			"message": "Ошибка сервера",
-		})
-		return
-	}
-
+	
+	
 	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Client" 
-
-
 		SET 
-		"FirstName"=$2,
-		"LastName"=$3,
-		"Patronymic"=$4,
-		"Password"=$5,
-		"Email"=$6,
-		"Telephone"=$7,
-		"EmailNotifications"=$8,
-		"GroupId"=$9,
-		"ClientLevelId"=$10
+		"FirstName"=$1,
+		"LastName"=$2,
+		"Patronymic"=$3,
+		"Password"=$4,
+		"Email"=$5,
+		"Telephone"=$6,
+		"EmailNotifications"=$7,
+		"ManageCourses"=$8,
+		"ManageUsers"=$9,
+		"AploadFiles"=$10,
+		"ViewYourResults"=$11,
+		"ViewOtherResults"=$12,
+		"DepartmentId"=$13,
+		"GroupId"=$14,
+		"CreatorId"=$15
 		
 		WHERE "Id"=$1`,
 		id,
-		data.FirstName,
-		data.LastName,
-		data.Patronymic,
-		hashedPassword,
-		data.Email,
-		data.Telephone,
-		data.EmailNotifications,
-		data.GroupId,
-		data.ClientLevelId,
-	)
+		data.FirstName, 
+		data.LastName, 
+		data.Patronymic, 
+		data.Password, 
+		data.Email, 
+		data.Telephone, 
+		data.EmailNotifications, 
+		data.ManageCourses, 
+		data.ManageUsers, 
+		data.AploadFiles, 
+		data.ViewYourResults, 
+		data.ViewOtherResults, 
+		data.DepartmentId, 
+		data.GroupId, 
+		data.CreatorId, 
+		
+		)
 	if err != nil {
-		fmt.Println(err)
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
 			"message": "Не получилось обновить данные",
@@ -340,7 +468,8 @@ func UpdateClient(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"result": "Данные обновлены",
 	})
-}
+}	
+	
 
 func DeleteClient(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
@@ -357,4 +486,5 @@ func DeleteClient(c *gin.Context) {
 		"result": "Данные удалены",
 	})
 }
+	
 	

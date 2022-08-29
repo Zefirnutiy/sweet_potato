@@ -34,7 +34,6 @@ func GetOrganization(email string) (structs.Organization, bool) {
 		&organization.Password,
 		&organization.Email,
 		&organization.EmailNotifications,
-		&organization.LevelId,
 		&organization.Key,
 	)
 

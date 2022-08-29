@@ -7,26 +7,26 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingClientLevel(c gin.Context) structs.ClientLevel {
-	var data structs.ClientLevel
+func DataProcessingInputType(c gin.Context) structs.InputType {
+	var data structs.InputType
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.ClientLevel{}
+		return structs.InputType{}
 	}
 	return data
 }
 
 
-func GetClientLevels(c *gin.Context) {
+func GetInputTypes(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	var clientLevelList []structs.ClientLevel
-	var clientLevel structs.ClientLevel
+	var inputTypeList []structs.InputType
+	var inputType structs.InputType
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."ClientLevel"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."InputType"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -38,15 +38,11 @@ func GetClientLevels(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&clientLevel.Id, 
-		&clientLevel.Title, 
-		&clientLevel.CreateCourse, 
-		&clientLevel.TakeCourse, 
-		&clientLevel.AploadFile, 
-		&clientLevel.ViewYourResult, 
-		&clientLevel.ViewOtherResults, 
+		&inputType.Id, 
+		&inputType.Title, 
+		&inputType.Type, 
 		)
-		clientLevelList = append(clientLevelList, clientLevel)
+		inputTypeList = append(inputTypeList, inputType)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -57,24 +53,20 @@ func GetClientLevels(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": clientLevelList,
+		"result": inputTypeList,
 		"message": nil,
 	})
 }
 
-func GetClientLevelById(c *gin.Context) {
+func GetInputTypeById(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	var clientLevel structs.ClientLevel
+	var inputType structs.InputType
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."ClientLevel" WHERE "Id"=$1`, id ).Scan(
-		&clientLevel.Id, 
-		&clientLevel.Title, 
-		&clientLevel.CreateCourse, 
-		&clientLevel.TakeCourse, 
-		&clientLevel.AploadFile, 
-		&clientLevel.ViewYourResult, 
-		&clientLevel.ViewOtherResults, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."InputType" WHERE "Id"=$1`, id ).Scan(
+		&inputType.Id, 
+		&inputType.Title, 
+		&inputType.Type, 
 		
 	)
 	if err != nil {
@@ -87,7 +79,7 @@ func GetClientLevelById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": clientLevel,
+		"result": inputType,
 		"message": nil,
 	})
 }
@@ -95,29 +87,21 @@ func GetClientLevelById(c *gin.Context) {
 	
 
 
-func CreateClientLevel(c *gin.Context) {
+func CreateInputType(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	data := DataProcessingClientLevel(*c)
+	data := DataProcessingInputType(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."ClientLevel"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."InputType"
 		(
 		"Title", 
-		"CreateCourse", 
-		"TakeCourse", 
-		"AploadFile", 
-		"ViewYourResult", 
-		"ViewOtherResults", 
+		"Type", 
 		
 		) 
-		VALUES( $1, $2, $3, $4, $5, $6 )`,
+		VALUES( $1, $2 )`,
 		data.Title, 
-		data.CreateCourse, 
-		data.TakeCourse, 
-		data.AploadFile, 
-		data.ViewYourResult, 
-		data.ViewOtherResults, 
+		data.Type, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -132,31 +116,23 @@ func CreateClientLevel(c *gin.Context) {
 }
 	
 
-func UpdateClientLevel(c *gin.Context) {
+func UpdateInputType(c *gin.Context) {
 
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	data := DataProcessingClientLevel(*c)
+	data := DataProcessingInputType(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."ClientLevel" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."InputType" 
 		SET 
 		"Title"=$1,
-		"CreateCourse"=$2,
-		"TakeCourse"=$3,
-		"AploadFile"=$4,
-		"ViewYourResult"=$5,
-		"ViewOtherResults"=$6
+		"Type"=$2
 		
 		WHERE "Id"=$1`,
 		id,
 		data.Title, 
-		data.CreateCourse, 
-		data.TakeCourse, 
-		data.AploadFile, 
-		data.ViewYourResult, 
-		data.ViewOtherResults, 
+		data.Type, 
 		
 		)
 	if err != nil {
@@ -172,10 +148,10 @@ func UpdateClientLevel(c *gin.Context) {
 }	
 	
 
-func DeleteClientLevel(c *gin.Context) {
+func DeleteInputType(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."ClientLevel" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."InputType" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

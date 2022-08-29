@@ -46,11 +46,7 @@ func GetFiles(c *gin.Context) {
 		&file.Date, 
 		&file.DateDel, 
 		&file.FileName, 
-		&file.FileNameTmp, 
-		&file.PublicInfoId, 
-		&file.TestId, 
-		&file.QuestionId, 
-		&file.ClientId, 
+		&file.FileNameTmp,
 		)
 		fileList = append(fileList, file)
 		if err != nil {
@@ -78,11 +74,7 @@ func GetFileById(c *gin.Context) {
 		&file.Date, 
 		&file.DateDel, 
 		&file.FileName, 
-		&file.FileNameTmp, 
-		&file.PublicInfoId, 
-		&file.TestId, 
-		&file.QuestionId, 
-		&file.ClientId, 
+		&file.FileNameTmp,
 		
 	)
 	if err != nil {
@@ -124,11 +116,7 @@ func GetFileByClientId(c *gin.Context) {
 		&file.Date, 
 		&file.DateDel, 
 		&file.FileName, 
-		&file.FileNameTmp, 
-		&file.PublicInfoId, 
-		&file.TestId, 
-		&file.QuestionId, 
-		&file.ClientId, 
+		&file.FileNameTmp,
 		)
 		fileList = append(fileList, file)
 		if err != nil {
@@ -182,10 +170,6 @@ func UploadFile(c *gin.Context) {
 		form.MetaData.DateDel,
 		form.MetaData.FileName,
 		serverName,
-		form.MetaData.TestId,
-		form.MetaData.QuestionId,
-		form.MetaData.PublicInfoId,
-		form.MetaData.ClientId,
 	)
 
     if err != nil {
@@ -236,12 +220,7 @@ func UpdateFile(c *gin.Context) {
 		data.Date, 
 		data.DateDel, 
 		data.FileName, 
-		data.FileNameTmp, 
-		data.PublicInfoId, 
-		data.TestId, 
-		data.QuestionId, 
-		data.ClientId, 
-		
+		data.FileNameTmp,		
 		)
 	if err != nil {
 		utils.Logger.Println(err)

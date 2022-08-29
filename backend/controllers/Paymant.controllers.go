@@ -7,26 +7,26 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingAnswer(c gin.Context) structs.Answer {
-	var data structs.Answer
+func DataProcessingPayment(c gin.Context) structs.Payment {
+	var data structs.Payment
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.Answer{}
+		return structs.Payment{}
 	}
 	return data
 }
 
 
-func GetAnswers(c *gin.Context) {
+func GetPayments(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	var answerList []structs.Answer
-	var answer structs.Answer
+	var PaymentList []structs.Payment
+	var Payment structs.Payment
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Answer"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Payment"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -38,12 +38,16 @@ func GetAnswers(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&answer.Id, 
-		&answer.Text, 
-		&answer.Correct, 
-		&answer.QuestionId, 
+		&Payment.Number, 
+		&Payment.Money, 
+		&Payment.Date, 
+		&Payment.Time, 
+		&Payment.Users, 
+		&Payment.Statistics, 
+		&Payment.ProtectionCheating, 
+		&Payment.OrganizationId, 
 		)
-		answerList = append(answerList, answer)
+		PaymentList = append(PaymentList, Payment)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -54,21 +58,25 @@ func GetAnswers(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": answerList,
+		"result": PaymentList,
 		"message": nil,
 	})
 }
 
-func GetAnswerById(c *gin.Context) {
+func GetPaymentByNumber(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	id := c.Params.ByName("id")
-	var answer structs.Answer
+	number := c.Params.ByName("number")
+	var Payment structs.Payment
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Answer" WHERE "Id"=$1`, id ).Scan(
-		&answer.Id, 
-		&answer.Text, 
-		&answer.Correct, 
-		&answer.QuestionId, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
+		&Payment.Number, 
+		&Payment.Money, 
+		&Payment.Date, 
+		&Payment.Time, 
+		&Payment.Users, 
+		&Payment.Statistics, 
+		&Payment.ProtectionCheating, 
+		&Payment.OrganizationId, 
 		
 	)
 	if err != nil {
@@ -81,20 +89,20 @@ func GetAnswerById(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": answer,
+		"result": Payment,
 		"message": nil,
 	})
 }
 
 	
 
-func GetAnswerByQuestionId(c *gin.Context) {
+func GetPaymentByOrganizationId(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	questionId := c.Params.ByName("questionId")
-	var answerList []structs.Answer
-	var answer structs.Answer
+	organizationId := c.Params.ByName("organizationId")
+	var PaymentList []structs.Payment
+	var Payment structs.Payment
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Answer" WHERE "QuestionId"=$1`, questionId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -106,12 +114,16 @@ func GetAnswerByQuestionId(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&answer.Id, 
-		&answer.Text, 
-		&answer.Correct, 
-		&answer.QuestionId, 
+		&Payment.Number, 
+		&Payment.Money, 
+		&Payment.Date, 
+		&Payment.Time, 
+		&Payment.Users, 
+		&Payment.Statistics, 
+		&Payment.ProtectionCheating, 
+		&Payment.OrganizationId, 
 		)
-		answerList = append(answerList, answer)
+		PaymentList = append(PaymentList, Payment)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -123,30 +135,38 @@ func GetAnswerByQuestionId(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": answerList,
+		"result": PaymentList,
 		"message": nil,
 	})
 }
 
 	
 
-func CreateAnswer(c *gin.Context) {
+func CreatePayment(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	data := DataProcessingAnswer(*c)
+	data := DataProcessingPayment(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Answer"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Payment"
 		(
-		"Text", 
-		"Correct", 
-		"QuestionId", 
+		"Money", 
+		"Date", 
+		"Time", 
+		"Users", 
+		"Statistics", 
+		"ProtectionCheating", 
+		"OrganizationId", 
 		
 		) 
-		VALUES( $1, $2, $3 )`,
-		data.Text, 
-		data.Correct, 
-		data.QuestionId, 
+		VALUES( $1, $2, $3, $4, $5, $6, $7 )`,
+		data.Money, 
+		data.Date, 
+		data.Time, 
+		data.Users, 
+		data.Statistics, 
+		data.ProtectionCheating, 
+		data.OrganizationId, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -161,25 +181,33 @@ func CreateAnswer(c *gin.Context) {
 }
 	
 
-func UpdateAnswer(c *gin.Context) {
+func UpdatePayment(c *gin.Context) {
 
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	data := DataProcessingAnswer(*c)
+	data := DataProcessingPayment(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Answer" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Payment" 
 		SET 
-		"Text"=$1,
-		"Correct"=$2,
-		"QuestionId"=$3
+		"Money"=$1,
+		"Date"=$2,
+		"Time"=$3,
+		"Users"=$4,
+		"Statistics"=$5,
+		"ProtectionCheating"=$6,
+		"OrganizationId"=$7
 		
 		WHERE "Id"=$1`,
 		id,
-		data.Text, 
-		data.Correct, 
-		data.QuestionId, 
+		data.Money, 
+		data.Date, 
+		data.Time, 
+		data.Users, 
+		data.Statistics, 
+		data.ProtectionCheating, 
+		data.OrganizationId, 
 		
 		)
 	if err != nil {
@@ -195,10 +223,10 @@ func UpdateAnswer(c *gin.Context) {
 }	
 	
 
-func DeleteAnswer(c *gin.Context) {
+func DeletePayment(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Answer" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Payment" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

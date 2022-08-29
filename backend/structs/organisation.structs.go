@@ -159,6 +159,7 @@ type Question struct{
     AnswerVariant 	string  //Варианты ответа будут храниться в таком виде - ответ;ответ;ответ;ответ
     AnswerCorrect 	string  //Верные варианты ответа будут храниться в таком виде - ответ;ответ;ответ;ответ
     TestId 			int 
+    QuestionTypeId  int
     Files 			bool   
 }
 	
@@ -167,7 +168,8 @@ type QuestionResult struct{
 	QuestionTypeId	int 
     Date 			time.Time 
     Time 			time.Time
-    QuestonId 		int 
+    Scores          int
+    QuestionId 		int 
     ClientId 		int 
 }
 	

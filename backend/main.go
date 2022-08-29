@@ -1,11 +1,7 @@
 package main
 
 import (
-	"fmt"
-	"time"
-
 	"github.com/Zefirnutiy/sweet_potato.git/db"
-	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
 )
 
@@ -21,8 +17,7 @@ func init() {
 
 func main() {
 
-	fdfd := time.Now()
-	fmt.Println(fdfd)
+
 	// err := db.CreateTable("./db/public.sql", "public")
 
 	// if err != nil {
@@ -36,8 +31,8 @@ func main() {
 	// 	return
 	// }
 
-	// utils.Generate()
-	utils.SortQuestion	("./text.txt")
+	// utils.Generate() // создание контроллеров
+	// utils.SortQuestion("./text.txt") //Функция работы парсера
 	// routes.Routs(cfg.Port)
 
 }

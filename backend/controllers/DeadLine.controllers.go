@@ -40,7 +40,7 @@ func GetDeadLines(c *gin.Context) {
 		err = rows.Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
-		&deadLine.LevelId, 
+		&deadLine.Time, 
 		&deadLine.OrganizationId, 
 		)
 		deadLineList = append(deadLineList, deadLine)
@@ -67,7 +67,7 @@ func GetDeadLineById(c *gin.Context) {
 	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."DeadLine" WHERE "Id"=$1`, id ).Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
-		&deadLine.LevelId, 
+		&deadLine.Time, 
 		&deadLine.OrganizationId, 
 		
 	)
@@ -95,7 +95,7 @@ func GetDeadLineByOrganizationId(c *gin.Context) {
 	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."DeadLine" WHERE "OrganizationId"=$1`, organizationId ).Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
-		&deadLine.LevelId, 
+		&deadLine.Time, 
 		&deadLine.OrganizationId, 
 		
 	)
@@ -126,13 +126,13 @@ func CreateDeadLine(c *gin.Context) {
 	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."DeadLine"
 		(
 		"Date", 
-		"LevelId", 
+		"Time", 
 		"OrganizationId", 
 		
 		) 
 		VALUES( $1, $2, $3 )`,
 		data.Date, 
-		data.LevelId, 
+		data.Time, 
 		data.OrganizationId, 
 		)
 	if err != nil {
@@ -159,13 +159,13 @@ func UpdateDeadLine(c *gin.Context) {
 	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."DeadLine" 
 		SET 
 		"Date"=$1,
-		"LevelId"=$2,
+		"Time"=$2,
 		"OrganizationId"=$3
 		
 		WHERE "Id"=$1`,
 		id,
 		data.Date, 
-		data.LevelId, 
+		data.Time, 
 		data.OrganizationId, 
 		
 		)

@@ -7,26 +7,26 @@ import (
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/gin-gonic/gin"
 )
-func DataProcessingPayment(c gin.Context) structs.Payment {
-	var data structs.Payment
+func DataProcessingSession(c gin.Context) structs.Session {
+	var data structs.Session
 	err := c.BindJSON(&data)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(400, gin.H{
 			"message": "Некорректные данные",
 		})
-		return structs.Payment{}
+		return structs.Session{}
 	}
 	return data
 }
 
 
-func GetPayments(c *gin.Context) {
+func GetSessions(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	var paymentList []structs.Payment
-	var payment structs.Payment
+	var sessionList []structs.Session
+	var session structs.Session
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Payment"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Session"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -38,14 +38,14 @@ func GetPayments(c *gin.Context) {
 
 	for rows.Next() {
 		err = rows.Scan(
-		&payment.Number, 
-		&payment.Name, 
-		&payment.Money, 
-		&payment.Date, 
-		&payment.LevelId, 
-		&payment.OrganizationId, 
+		&session.Id, 
+		&session.UserId, 
+		&session.IpAddress, 
+		&session.BackendStartDateTime, 
+		&session.StateChangeDateTime, 
+		&session.StateId, 
 		)
-		paymentList = append(paymentList, payment)
+		sessionList = append(sessionList, session)
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -56,23 +56,23 @@ func GetPayments(c *gin.Context) {
 		}
 	}
 	c.JSON(200, gin.H{
-		"result": paymentList,
+		"result": sessionList,
 		"message": nil,
 	})
 }
 
-func GetPaymentByNumber(c *gin.Context) {
+func GetSessionById(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	number := c.Params.ByName("number")
-	var payment structs.Payment
+	id := c.Params.ByName("id")
+	var session structs.Session
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
-		&payment.Number, 
-		&payment.Name, 
-		&payment.Money, 
-		&payment.Date, 
-		&payment.LevelId, 
-		&payment.OrganizationId, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Session" WHERE "Id"=$1`, id ).Scan(
+		&session.Id, 
+		&session.UserId, 
+		&session.IpAddress, 
+		&session.BackendStartDateTime, 
+		&session.StateChangeDateTime, 
+		&session.StateId, 
 		
 	)
 	if err != nil {
@@ -85,24 +85,24 @@ func GetPaymentByNumber(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": payment,
+		"result": session,
 		"message": nil,
 	})
 }
 
 	
-func GetPaymentByOrganizationId(c *gin.Context) {
+func GetSessionByUserId(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	organizationId := c.Params.ByName("organizationId")
-	var payment structs.Payment
+	userId := c.Params.ByName("userId")
+	var session structs.Session
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId ).Scan(
-		&payment.Number, 
-		&payment.Name, 
-		&payment.Money, 
-		&payment.Date, 
-		&payment.LevelId, 
-		&payment.OrganizationId, 
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Session" WHERE "UserId"=$1`, userId ).Scan(
+		&session.Id, 
+		&session.UserId, 
+		&session.IpAddress, 
+		&session.BackendStartDateTime, 
+		&session.StateChangeDateTime, 
+		&session.StateId, 
 		
 	)
 	if err != nil {
@@ -115,7 +115,7 @@ func GetPaymentByOrganizationId(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": payment,
+		"result": session,
 		"message": nil,
 	})
 }
@@ -123,29 +123,27 @@ func GetPaymentByOrganizationId(c *gin.Context) {
 	
 
 
-func CreatePayment(c *gin.Context) {
+func CreateSession(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	data := DataProcessingPayment(*c)
+	data := DataProcessingSession(*c)
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Payment"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Session"
 		(
-		"Number", 
-		"Name", 
-		"Money", 
-		"Date", 
-		"LevelId", 
-		"OrganizationId", 
+		"UserId", 
+		"IpAddress", 
+		"BackendStartDateTime", 
+		"StateChangeDateTime", 
+		"StateId", 
 		
 		) 
-		VALUES( $1, $2, $3, $4, $5, $6 )`,
-		data.Number, 
-		data.Name, 
-		data.Money, 
-		data.Date, 
-		data.LevelId, 
-		data.OrganizationId, 
+		VALUES( $1, $2, $3, $4, $5 )`,
+		data.UserId, 
+		data.IpAddress, 
+		data.BackendStartDateTime, 
+		data.StateChangeDateTime, 
+		data.StateId, 
 		)
 	if err != nil {
 		utils.Logger.Println(err)
@@ -160,29 +158,29 @@ func CreatePayment(c *gin.Context) {
 }
 	
 
-func UpdatePayment(c *gin.Context) {
+func UpdateSession(c *gin.Context) {
 
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	data := DataProcessingPayment(*c)
+	data := DataProcessingSession(*c)
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Payment" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Session" 
 		SET 
-		"Name"=$1,
-		"Money"=$2,
-		"Date"=$3,
-		"LevelId"=$4,
-		"OrganizationId"=$5
+		"UserId"=$1,
+		"IpAddress"=$2,
+		"BackendStartDateTime"=$3,
+		"StateChangeDateTime"=$4,
+		"StateId"=$5
 		
 		WHERE "Id"=$1`,
 		id,
-		data.Name, 
-		data.Money, 
-		data.Date, 
-		data.LevelId, 
-		data.OrganizationId, 
+		data.UserId, 
+		data.IpAddress, 
+		data.BackendStartDateTime, 
+		data.StateChangeDateTime, 
+		data.StateId, 
 		
 		)
 	if err != nil {
@@ -198,10 +196,10 @@ func UpdatePayment(c *gin.Context) {
 }	
 	
 
-func DeletePayment(c *gin.Context) {
+func DeleteSession(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Payment" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Session" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
