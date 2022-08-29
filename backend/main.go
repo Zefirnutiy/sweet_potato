@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
@@ -18,7 +21,8 @@ func init() {
 
 func main() {
 
-
+	fdfd := time.Now()
+	fmt.Println(fdfd)
 	// err := db.CreateTable("./db/public.sql", "public")
 
 	// if err != nil {
