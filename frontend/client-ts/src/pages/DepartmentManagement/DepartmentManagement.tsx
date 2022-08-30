@@ -112,8 +112,8 @@ export const DepartmentManagement = () => {
                     }
                 >   
                     <Path 
-                    pathDepartament={pathDepartament} 
-                    pathGroup={pathGroup}
+                    firstAddress={pathDepartament} 
+                    secondAddress={pathGroup}
                     showForPath={showForPath}
                     />
                     <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>

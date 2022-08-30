@@ -9,7 +9,7 @@ import { useState } from 'react';
 const App = () => {
   mirage()
   changeSchema()
-  let organizationLinks = [
+  const organizationLinks = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
@@ -19,7 +19,7 @@ const App = () => {
     {icon: "fa fa-chart-column", title: "Статистика", path: "#"},
   ]
 
-  let clientLinks = [
+  const clientLinks = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
     {icon: "fa fa-brain", title: "Тесты", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Результаты", path: "#"},
@@ -27,7 +27,7 @@ const App = () => {
     {icon: "fa fa-circle-info", title: "Информафия", path: "#"},
   ]
 
-  let guestLinks = [
+  const guestLinks = [
     {icon: "fa fa-cubes", title: "Главная", path: "#"},
     {icon: "fa fa-brain", title: "Отзывы", path: "#"},
     {icon: "fa fa-square-poll-horizontal", title: "Документация API", path: "#"},

@@ -1,23 +1,23 @@
 import st from "./Path.module.scss"
 interface PropsTypePath{
-    pathDepartament: string
-    pathGroup: string
+    firstAddress: string
+    secondAddress: string
     showForPath: (isDepartament: boolean) => void
 }
 
-export const Path: React.FC<PropsTypePath> = ({pathDepartament, pathGroup, showForPath}) => {
-      if(pathDepartament && !pathGroup)
+export const Path: React.FC<PropsTypePath> = ({firstAddress, secondAddress, showForPath}) => {
+      if(firstAddress && !secondAddress)
         return <div className={st["path"]} >
-            <div onClick={() => showForPath(true)}>/{pathDepartament}</div>
+            <div onClick={() => showForPath(true)}>/{firstAddress}</div>
         </div>
       
-      if(pathGroup)
+      if(secondAddress)
         return <div className={st["path"]}>
                 <div onClick={() => showForPath(true)}>
-                    /{pathDepartament}
+                    /{firstAddress}
                 </div>
                 <div onClick={() => showForPath(false)}>
-                    /{pathGroup}
+                    /{secondAddress}
                 </div>
             </div>
 
