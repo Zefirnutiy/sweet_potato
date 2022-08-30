@@ -5,7 +5,6 @@ import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
 import { Path } from '../../components/single/Path/Path'
-import { SquareButton } from "../../components/buttons/Buttons";
 
 interface List {
     id: number
@@ -48,6 +47,23 @@ export const DepartmentManagement = () => {
         setShowGroup(true)    
     }
 
+    const showForButtonBack = () => {
+        if(showUser){
+            setShowUser(false)
+            setShowGroup(true)
+            setPathGroup("")
+            return
+        }
+
+        if(showGroup){
+            setShowGroup(false)
+            setShowDepartament(true)
+            setPathDepartament("")
+            return
+        }
+
+    }
+
     const getUsers = useCallback(async (groupId: number, groupTitle: string) => {
         getUsersAPI({groupId, setLoading, setUsersData})
         setShowGroup(false) 
@@ -72,6 +88,8 @@ export const DepartmentManagement = () => {
         getDepartaments()
     }, [getDepartaments])
 
+
+
     return (
         <div id={st["main"]}>
             <div id={st['control']}>
@@ -85,7 +103,13 @@ export const DepartmentManagement = () => {
                     showUser={showUser}
                     usersData={usersData}
                     loading={loading}
-                    buttons={[{icon: "fa fa-plus", event: ()=>{alert("Нажата кнопка 'добавить'")}}, {icon: "fa-solid fa-reply", event: ()=>{alert("Нажата кнопка 'назад'")}}]}
+                    buttons={
+                        showDepartament ? 
+                        [{icon: "fa fa-plus", event: ()=>{alert("Нажата кнопка 'добавить'")}}]
+                        :
+                        [{icon: "fa fa-plus", event: ()=>{alert("Нажата кнопка 'добавить'")}}, 
+                        {icon: "fa-solid fa-reply", event: ()=>{showForButtonBack()}}]
+                    }
                 >   
                     <Path 
                     pathDepartament={pathDepartament} 
