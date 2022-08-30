@@ -5,7 +5,7 @@ import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
 import { Path } from '../../components/single/Path/Path'
-
+import { SquareButton } from "../../components/buttons/Buttons";
 
 interface List {
     id: number
@@ -85,6 +85,7 @@ export const DepartmentManagement = () => {
                     showUser={showUser}
                     usersData={usersData}
                     loading={loading}
+                    buttons={[{icon: "fa fa-plus", event: ()=>{alert("Нажата кнопка 'добавить'")}}, {icon: "fa-solid fa-reply", event: ()=>{alert("Нажата кнопка 'назад'")}}]}
                 >   
                     <Path 
                     pathDepartament={pathDepartament} 

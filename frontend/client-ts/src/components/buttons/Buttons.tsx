@@ -2,18 +2,12 @@ import React, { FC } from "react";
 import st from './Buttons.module.scss';
 
 interface PropTypesPlus {
-    event?: () => void
+    icon: string
+    event: () => void
 }
 
-
-export const AddButton: FC<PropTypesPlus> = ({event = () => {console.log("Кнопка '+' была нажата")}}) => {
+export const SquareButton: FC<PropTypesPlus> = ({icon, event = () => {}}) => {
     return(
-        <button className={st["button-add"]} onClick={event}><i className='fa fa-plus'></i></button>
-    )
-}
-
-export const GoBackButton: FC<PropTypesPlus> = ({event = () => {console.log("Кнопка '+' была нажата")}}) => {
-    return(
-        <button className={st["button-add"]} onClick={event}><i className='fa fa-back'></i></button>
+        <button className={st["button-add"]} onClick={event}><i className={icon}></i></button>
     )
 }

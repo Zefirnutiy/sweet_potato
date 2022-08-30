@@ -1,9 +1,13 @@
 import { TwoCellsCard, UserCard } from "../../cards/Cards";
 import { FunctionalList } from "../../common/FunctionalList/FunctionalList";
 
-
+interface IButton {
+    icon: string
+    event: () => void
+}
 
 interface PropsTypesList{
+    buttons: IButton[]
     showDepartament: boolean
     departamentsData: any[]
     getGroups: (departamentId: number, departamentTitle: string) => Promise<void>
@@ -18,6 +22,7 @@ interface PropsTypesList{
 
 
 export const ListInfo: React.FC<PropsTypesList> = ({
+    buttons,
     showDepartament,
     departamentsData,
     getGroups,
@@ -30,7 +35,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
     children
 }) => (
     <>
-        { showDepartament ? <FunctionalList placeholder='Пользователь или группа' title='Отделения' load={loading}>
+        { showDepartament ? <FunctionalList buttons={buttons} placeholder='Пользователь или группа' title='Отделения' load={loading}>
                     {children}
                       { departamentsData.map(data => 
                         <div onClick={e => getGroups(data.id, data.title)}>
@@ -43,7 +48,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                     )}
                 </FunctionalList> : null}
 
-                { showGroup ? <FunctionalList placeholder='Пользователь или группа' title='Группы' load={loading}>
+                { showGroup ? <FunctionalList buttons={buttons} placeholder='Пользователь или группа' title='Группы' load={loading}>
                     {children}
                       { groupsData.map(data => 
                         <div onClick={e => getUsers(data.id, data.title)}>
@@ -56,7 +61,7 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                     )}
                 </FunctionalList> : null}
 
-                {showUser ? <FunctionalList placeholder='Пользователь или группа' title='Пользователи' load={loading}>
+                {showUser ? <FunctionalList buttons={buttons} placeholder='Пользователь или группа' title='Пользователи' load={loading}>
                     {children}
                       { usersData.map(data => 
                         <div>

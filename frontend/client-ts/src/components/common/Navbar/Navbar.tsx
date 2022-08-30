@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"
 import st from "./Navbar.module.scss"
 import { FC, useState } from "react";
 import { Modal } from "../Modal/Modal";
+import { RegistrationForm } from "../../../modals/account/AccountForms";
+import { LoginForm } from "../../../modals/account/AccountForms";
 
 interface ILink {
     icon: string
@@ -59,43 +61,11 @@ export const Navbar: FC<PropTypes> = ({links, authorized, organizationName='Wain
         
         {openRegModal &&
             <Modal cross={true} onClose={() => setRegModal(false)}>
-                <div className={st["wrapper-registration"]}>
-                    <div className={st["welcome"]}>
-                    </div>
-                    <div className={st["registration"]}>
-                        <h3>Регистрация</h3>
-                        <div className={st["registration-form"]}>
-                            <div>Название организации</div>
-                            <input type="text"/>
-                            <div>Эл. почта</div>
-                            <input type="text"/>
-                            <div>Пароль</div>
-                            <input type="text"/>
-                            <div>Повтор пароля</div>
-                            <input type="text"/>
-                            <button className={st["button-done"]} onClick={()=> setRegModal(false)}>Готово</button>
-                            <p>У вас уже есть аккаунт? <button className={st["button-link"]} onClick={()=> openLoginAndReg()}>Войти</button></p>
-                        </div>
-                    </div>
-                </div>
+                <RegistrationForm sendingEvent={function(){}} setRegModal={() => setRegModal} openLoginAndReg={openLoginAndReg}/>
             </Modal>}
             {openLoginModal &&
             <Modal cross={true} onClose={() => setLoginModal(false)}>
-                <div className={st["wrapper-registration"]}>
-                    <div className={st["welcome"]}>
-                    </div>
-                    <div className={st["registration"]}>
-                        <h3>Вход</h3>
-                        <div className={st["registration-form"]}>
-                            <div>Эл. почта</div>
-                            <input type="text"/>
-                            <div>Пароль</div>
-                            <input type="text"/>
-                            <button className={st["button-done"]} onClick={()=> setLoginModal(false)}>Войти</button>
-                            <p>У вас нет аккаунта? <button className={st["button-link"]} onClick={(e)=> openLoginAndReg()}>Регистрация</button></p>
-                        </div>
-                    </div>
-                </div>
+                <LoginForm sendingEvent={function(){}} setLoginModal={() => setRegModal} openLoginAndReg={openLoginAndReg}/>
             </Modal>}
     </div>
     )
