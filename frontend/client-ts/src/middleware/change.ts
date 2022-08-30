@@ -20,6 +20,11 @@ export function changeSchema(){
         document.documentElement.style.setProperty("--accent-dark-color-2", "" )
         document.documentElement.style.setProperty("--accent-dark-color-3", "" )
         document.documentElement.style.setProperty("--accent-dark-color-4", "" )
+
+        document.documentElement.style.setProperty("--font-color-1", "" )
+        document.documentElement.style.setProperty("--font-color-2", "" )
+        document.documentElement.style.setProperty("--font-color-3", "" )
+        document.documentElement.style.setProperty("--font-color-4", "" )
         return
       } 
   
@@ -34,15 +39,20 @@ export function changeSchema(){
         document.documentElement.style.setProperty("--main-dark-color-3", "#000000" )
         document.documentElement.style.setProperty("--main-dark-color-4", "#000000" )
 
-        document.documentElement.style.setProperty("--accent-color-1", "#A46FAC" )
-        document.documentElement.style.setProperty("--accent-color-2", "#9a5fa3" )
-        document.documentElement.style.setProperty("--accent-color-3", "#8b5593" )
-        document.documentElement.style.setProperty("--accent-color-4", "#7c4c83" )
+        document.documentElement.style.setProperty("--accent-color-1", "#37ecab" )
+        document.documentElement.style.setProperty("--accent-color-2", "#20e9a1" )
+        document.documentElement.style.setProperty("--accent-color-3", "#15da94" )
+        document.documentElement.style.setProperty("--accent-color-4", "#13c384" )
 
-        document.documentElement.style.setProperty("--accent-dark-color-1", "#866fac" )
-        document.documentElement.style.setProperty("--accent-dark-color-2", "#785fa3" )
-        document.documentElement.style.setProperty("--accent-dark-color-3", "#6c5593" )
-        document.documentElement.style.setProperty("--accent-dark-color-4", "#604c83" )
+        document.documentElement.style.setProperty("--accent-dark-color-1", "#11ac74" )
+        document.documentElement.style.setProperty("--accent-dark-color-2", "#0e9565" )
+        document.documentElement.style.setProperty("--accent-dark-color-3", "#0c7d55" )
+        document.documentElement.style.setProperty("--accent-dark-color-4", "#0c7d55" )
+
+        document.documentElement.style.setProperty("--font-color-1", "" )
+        document.documentElement.style.setProperty("--font-color-2", "" )
+        document.documentElement.style.setProperty("--font-color-3", "" )
+        document.documentElement.style.setProperty("--font-color-4", "" )
         return
       } 
   
@@ -66,19 +76,24 @@ export function changeSchema(){
         document.documentElement.style.setProperty("--accent-dark-color-2", "" )
         document.documentElement.style.setProperty("--accent-dark-color-3", "" )
         document.documentElement.style.setProperty("--accent-dark-color-4", "" )
+
+        document.documentElement.style.setProperty("--font-color-1", "" )
+        document.documentElement.style.setProperty("--font-color-2", "" )
+        document.documentElement.style.setProperty("--font-color-3", "" )
+        document.documentElement.style.setProperty("--font-color-4", "" )
         return
       } 
   
       if (event.code === 'KeyV') {
-        document.documentElement.style.setProperty("--main-color-1", "#f69d17" )
-        document.documentElement.style.setProperty("--main-color-2", "#ea9009" )
-        document.documentElement.style.setProperty("--main-color-3", "#d28108" )
-        document.documentElement.style.setProperty("--main-color-4", "#b97207" )
+        document.documentElement.style.setProperty("--main-color-1", "#f2f2f2" )
+        document.documentElement.style.setProperty("--main-color-2", "#e6e6e6" )
+        document.documentElement.style.setProperty("--main-color-3", "#d9d9d9" )
+        document.documentElement.style.setProperty("--main-color-4", "#858585" )
 
-        document.documentElement.style.setProperty("--main-dark-color-1", "#A06307" )
-        document.documentElement.style.setProperty("--main-dark-color-2", "#885406" )
-        document.documentElement.style.setProperty("--main-dark-color-3", "#6f4505" )
-        document.documentElement.style.setProperty("--main-dark-color-4", "#573604" )
+        document.documentElement.style.setProperty("--main-dark-color-1", "#527590" )
+        document.documentElement.style.setProperty("--main-dark-color-2", "#496880" )
+        document.documentElement.style.setProperty("--main-dark-color-3", "#3f5b70" )
+        document.documentElement.style.setProperty("--main-dark-color-4", "#364d5f" )
 
         document.documentElement.style.setProperty("--accent-color-1", "" )
         document.documentElement.style.setProperty("--accent-color-2", "" )
@@ -89,6 +104,11 @@ export function changeSchema(){
         document.documentElement.style.setProperty("--accent-dark-color-2", "" )
         document.documentElement.style.setProperty("--accent-dark-color-3", "" )
         document.documentElement.style.setProperty("--accent-dark-color-4", "" )
+
+        document.documentElement.style.setProperty("--font-color-1", "#0e0a41" )
+        document.documentElement.style.setProperty("--font-color-2", "#b8b8b8" )
+        document.documentElement.style.setProperty("--font-color-3", "#1f1f1f" )
+        document.documentElement.style.setProperty("--font-color-4", "#0a0a0a" )
         return
       }
 
@@ -112,6 +132,11 @@ export function changeSchema(){
         document.documentElement.style.setProperty("--accent-dark-color-2", "" )
         document.documentElement.style.setProperty("--accent-dark-color-3", "" )
         document.documentElement.style.setProperty("--accent-dark-color-4", "" )
+
+        document.documentElement.style.setProperty("--font-color-1", "" )
+        document.documentElement.style.setProperty("--font-color-2", "" )
+        document.documentElement.style.setProperty("--font-color-3", "" )
+        document.documentElement.style.setProperty("--font-color-4", "" )
         return
       }
 
@@ -135,6 +160,11 @@ export function changeSchema(){
         document.documentElement.style.setProperty("--accent-dark-color-2", "" )
         document.documentElement.style.setProperty("--accent-dark-color-3", "" )
         document.documentElement.style.setProperty("--accent-dark-color-4", "" )
+
+        document.documentElement.style.setProperty("--font-color-1", "" )
+        document.documentElement.style.setProperty("--font-color-2", "" )
+        document.documentElement.style.setProperty("--font-color-3", "" )
+        document.documentElement.style.setProperty("--font-color-4", "" )
         return
       }
     });

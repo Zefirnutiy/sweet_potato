@@ -17,11 +17,11 @@
         font-size: 12px;
         padding: 4px;
         &::placeholder{
-            color: var(--font-dark-color);
+            color: var(--font-color-3);
         }
     }
     i{
-        color: var(--font-dark-color);
+        color: var(--font-color-3);
         
     }
 }

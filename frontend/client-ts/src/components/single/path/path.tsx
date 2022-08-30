@@ -1,4 +1,4 @@
-
+import st from "./Path.module.scss"
 interface PropsTypePath{
     pathDepartament: string
     pathGroup: string
@@ -7,17 +7,19 @@ interface PropsTypePath{
 
 export const Path: React.FC<PropsTypePath> = ({pathDepartament, pathGroup, showForPath}) => {
       if(pathDepartament && !pathGroup)
-        return <h5 onClick={() => showForPath(true)}>/{pathDepartament}</h5>
+        return <div className={st["path"]} >
+            <div onClick={() => showForPath(true)}>/{pathDepartament}</div>
+        </div>
       
       if(pathGroup)
-        return <h5>
+        return <div className={st["path"]}>
                 <div onClick={() => showForPath(true)}>
                     /{pathDepartament}
                 </div>
                 <div onClick={() => showForPath(false)}>
                     /{pathGroup}
                 </div>
-            </h5>
+            </div>
 
       return null
 }

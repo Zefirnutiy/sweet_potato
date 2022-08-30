@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
-import { Path } from '../../components/single/path/path'
+import { Path } from '../../components/single/Path/Path'
 
 
 interface List {
