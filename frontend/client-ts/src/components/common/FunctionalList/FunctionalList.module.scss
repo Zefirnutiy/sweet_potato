@@ -1,22 +1,30 @@
-#wrapper-deportations{
+#wrapper{
+    position: relative;
     padding: 15px;
-    box-shadow: inset 0px 0px 40px rgba(0, 0, 0, 0.15);
-    background-color: #352C9F;
-    #list-deportations{
+    box-shadow: 0px 0px 25px 10px rgba(0, 0, 0, 0.10);
+    background-color: var(--main-color-2);
+    display: grid;
+    grid-template-rows: 40px 30px auto;
+    #list{
         margin-top: 25px;
         display: grid;
         gap: 3px;
     }
 }
 .container{
+    position: relative;
     align-items: center;
     display: flex;
     gap: 10px;
-    color: white;
+    color: var(--font-color-1);
     margin-top: 5px;
     margin-bottom: 10px;
     .title{
         font-size: 25px;
+    }
+    .buttons{
+        display: flex;
+        gap: 10px;
     }
    
     

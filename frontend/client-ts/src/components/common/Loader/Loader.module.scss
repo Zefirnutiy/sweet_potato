@@ -9,12 +9,13 @@
     margin-top: auto;
     --background: linear-gradient(135deg, #23C4F8, #275EFE);
     --shadow: #{rgba(#275EFE, .28)};
-    --text: #6C7486;
+    --text: white;
     --page: #{rgba(#fff, .36)};
     --page-fold: #{rgba(#fff, .52)};
     --duration: 3s;
     width: 200px;
     height: 140px;
+    transform: scale(0.8);
     &:before,
     &:after {
         --r: -6deg;

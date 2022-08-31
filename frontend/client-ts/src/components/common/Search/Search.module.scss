@@ -1,6 +1,7 @@
 .search{
-    border: 2px solid #2B2480;
+    border: 2px solid var(--main-color-4);
     border-radius: 8px;
+    background-color: var(--main-color-2);
     padding: 3px;
     display: grid;
     grid-template-columns: auto 20px;
@@ -16,11 +17,11 @@
         font-size: 12px;
         padding: 4px;
         &::placeholder{
-            color: #adadad;
+            color: var(--font-color-3);
         }
     }
     i{
-        color: #adadad;
+        color: var(--font-color-3);
         
     }
 }

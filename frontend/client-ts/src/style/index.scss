@@ -1,22 +1,19 @@
+@import url(./theme.scss);
 @font-face {
     font-family: 'zona';
-    src: url('./fonts/ZonaPro-Light.ttf');
+    src: url('../fonts/ZonaPro-Light.ttf');
 }
-main{
+
+#root{
     margin: 0;
     font-family: 'zona' ;
     font-weight: 500;
     font-size: 18px;
-    color: white;
-    background-color: rgba(72, 61, 201, 1);
-    background: linear-gradient(rgba(72, 61, 201, 1), rgb(49, 38, 164));
+    color: var(--font-color-1);
+    background-color: var(--main-color-2);
     margin: 0;
     display: flex;
     min-height:100vh;
-    #main{
-        width: 100%;
-        min-height:100%;
-    }
 }
 
 button, a {

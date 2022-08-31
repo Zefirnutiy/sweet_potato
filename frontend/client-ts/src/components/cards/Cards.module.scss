@@ -1,0 +1,80 @@
+.card-information{
+    font-size: 14px;
+    font-weight: 800;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+    padding: 10px;
+    background: linear-gradient(86.25deg, var(--accent-dark-color-1) 9.35%, var(--accent-color-1) 99.11%);
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 5px;
+    transition: all 0.1s;
+    color: white;
+    .card-horizontal-line{
+        background-color: white;
+        height: 2px;
+        width: 100%;
+        margin-top: 5px;
+        margin-bottom: 20px;
+    }
+    .card-text{
+        margin-bottom: 10px;
+    }
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.02);
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    }
+}
+
+a{
+    text-decoration: none;
+    color: var(--font-color-1);
+}
+
+.card-user{
+    background-color: var(--main-color-3);
+    padding: 6px;
+    border-bottom: 2px solid var(--main-dark-color-1);
+    border-radius: 6px;
+    display: grid;
+    transition: all 20ms;
+    &:hover{
+        background: linear-gradient(var(--main-color-2), var(--main-color-3));
+        border: 1px solid var(--main-dark-color-1);
+        border-bottom: 3px solid var(--main-dark-color-2);
+        transform: scale(1.02);
+        cursor: pointer;
+    }
+    .user-name{
+        font-size: 16px;
+    }
+    .created{
+        margin-left: 5px;
+        color: --font-color-1;
+        margin-top: 3px;
+        font-size: 10px;
+        font-style: italic;
+    }
+}
+
+.card-deportation{
+    background-color: var(--main-color-3);
+    padding: 6px;
+    border-bottom: 2px solid var(--main-dark-color-1);
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    transition: all 20ms;
+    &:hover{
+        background: linear-gradient(var(--main-color-2), var(--main-color-3));
+        border: 1px solid var(--main-dark-color-1);
+        border-bottom: 3px solid var(--main-dark-color-2);
+        transform: scale(1.02);
+        cursor: pointer;
+    }
+    .number-groups{
+        margin-left: auto;
+    }
+}
