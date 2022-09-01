@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/db"
+	"github.com/Zefirnutiy/sweet_potato.git/routes"
 	_ "github.com/lib/pq"
 )
 
@@ -33,6 +34,6 @@ func main() {
 
 	// utils.Generate() // создание контроллеров
 	// utils.SortQuestion("./text.txt") //Функция работы парсера
-	// routes.Routs(cfg.Port)
+	routes.Routs(cfg.Port)
 
 }
