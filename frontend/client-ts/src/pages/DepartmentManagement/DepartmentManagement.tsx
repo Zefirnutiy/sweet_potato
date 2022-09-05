@@ -5,6 +5,10 @@ import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
 import { Path } from '../../components/single/Path/Path'
+import { Modal } from '../../components/common/Modal/Modal'
+import { AddFolderForm } from '../../modals/AddFolderForm/AddFolderForm'
+import { AddUserForm } from '../../modals/AddUserForm/AddUserForm'
+
 
 interface List {
     id: number
@@ -33,6 +37,9 @@ export const DepartmentManagement = () => {
     const [showUser, setShowUser] = useState(false)
     const [pathDepartament, setPathDepartament] = useState("")
     const [pathGroup, setPathGroup] = useState("")
+    const [openAddOrganization, setAddOrganization] = useState(false)
+    const [openAddGroup, setAddGroup] = useState(false)
+    const [openAddUser, setAddUser] = useState(false)
 
     const showForPath = (isDepartament: boolean) => {
         setShowUser(false)
@@ -104,11 +111,15 @@ export const DepartmentManagement = () => {
                     usersData={usersData}
                     loading={loading}
                     buttons={
-                        showDepartament ? 
-                        [{icon: "fa fa-plus", event: ()=>{alert("Нажата кнопка 'добавить'")}}]
-                        :
-                        [{icon: "fa fa-plus", event: ()=>{alert("Нажата кнопка 'добавить'")}}, 
-                        {icon: "fa-solid fa-reply", event: ()=>{showForButtonBack()}}]
+                        showDepartament ?
+                        [{icon: "fa fa-plus", event: ()=>{setAddOrganization(true)}}]
+                        :  showGroup ?
+                        [{icon: "fa fa-plus", event: ()=>{setAddGroup(true)}}, 
+                        {icon: "fa-solid fa-reply", event: ()=>{showForButtonBack()}}] 
+                        : showUser ? 
+                        [{icon: "fa fa-plus", event: ()=>{setAddUser(true)}}, 
+                        {icon: "fa-solid fa-reply", event: ()=>{showForButtonBack()}}] 
+                        : []
                     }
                 >   
                     <Path 
@@ -122,6 +133,19 @@ export const DepartmentManagement = () => {
                     Тут будет инфа о пользователе 
                 </div>
             </div>
+            {openAddOrganization &&
+                <Modal onClose={() => setAddOrganization(false)} closingBackground={true}>
+                    <AddFolderForm onClose={() => setAddOrganization(false)} title={"Название отделения"}/>
+                </Modal>}
+            {openAddGroup &&
+            <Modal onClose={() => setAddGroup(false)} closingBackground={true} >
+                <AddFolderForm onClose={() => setAddGroup(false)} title={"Название группы"}/>
+            </Modal>}
+
+            {openAddUser &&
+            <Modal onClose={() => setAddUser(false)} closingBackground={true}>
+                <AddUserForm event={()=>{}}/>
+            </Modal>}
         </div>
     )
 }

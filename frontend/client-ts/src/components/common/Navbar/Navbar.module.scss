@@ -47,24 +47,6 @@
     }
 }
 
-.button-link{
-    text-decoration: underline;
-    background: none;
-    border: none;
-    color: var(--font-color-1);
-}
-
-.button-done{
-    background: linear-gradient(86.25deg, var(--accent-dark-color-1) 9.35%, var(--accent-color-2) 99.11%);
-    border-radius: 6px;
-    padding: 6px;
-    padding-left: 8px;
-    padding-right: 8px;
-    border: none;
-    color: var(--font-color-1);
-    font-weight: bold;
-}
-
 #wrapper-account{
     position: absolute;
     width: 100%;
@@ -115,6 +97,11 @@
             position: absolute;
             right: 5px;
             top: 5px;
+            background: none;
+            border: none;
+            i{
+                color: var(--font-color-1);
+            }
         }
         #user-avatar{
             height: 100%;

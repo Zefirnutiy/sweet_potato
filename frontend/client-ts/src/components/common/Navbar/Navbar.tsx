@@ -46,7 +46,7 @@ export const Navbar: FC<PropTypes> = ({links, authorized, organizationName='Wain
         <div id={st["user-account"]}>
             <Link to={"#"} id={st["user-avatar"]}></Link>
             <div id={st["user-info"]}>
-                <i id={st["bell"]} className="fa-solid fa-bell"></i>
+               <button id={st["bell"]}><i className="fa-solid fa-bell"></i></button>
                 <Link to={"#"} id={st["user-name"]}>Ульяна Романова</Link>
                 <div id={st["user-group"]}>АиВТ/261</div>
             </div>

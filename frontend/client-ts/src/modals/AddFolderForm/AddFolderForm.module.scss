@@ -1,0 +1,41 @@
+.wrapper-add-folder{
+    padding: 10px;
+    background-color: var(--main-color-1);
+    border-radius: 8px;
+    display: grid;
+    grid-template-areas: "title title"
+                        "input button";
+
+    input{
+        grid-area: input;
+        all: unset;
+        background-color: var(--main-color-3);
+        color: var(--font-color-1);
+        border: 1px solid var(--font-color-1);
+        border-radius: 6px;
+        height: 18px;
+        padding: 4px;
+        &:focus-within{
+            box-shadow: 0 0 1px 1px var(--accent-color-1);
+            border-color: var(--accent-color-1);
+        }
+    }
+    strong{
+        grid-area: title;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    button{
+        grid-area: button;
+        background: linear-gradient(86.25deg, var(--accent-dark-color-1) 9.35%, var(--accent-color-2) 99.11%);
+        border-radius: 6px;
+        padding: 6px;
+        padding-left: 8px;
+        padding-right: 8px;
+        border: none;
+        color: var(--font-color-1);
+        font-weight: bold;
+        margin-left: 10px;
+    }
+}
+

@@ -1,14 +1,15 @@
-.wrapper-registration{
+.wrapper-add-user{
     display: grid;
     grid-template-columns: 1fr 1fr;
     height: 400px;
     width: 600px;
+    max-width: 100vw;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
     .welcome{
         background: linear-gradient(86.25deg, var(--accent-dark-color-1) 9.35%, var(--accent-color-1) 99.11%);
-        padding: 10px;
+        padding: 15px;
     }
 }
 
@@ -44,23 +45,43 @@
                 border-color: var(--accent-color-1);
             }
         }
+        button{
+            grid-area: button;
+            background: linear-gradient(86.25deg, var(--accent-dark-color-1) 9.35%, var(--accent-color-2) 99.11%);
+            border-radius: 6px;
+            padding: 6px;
+            padding-left: 8px;
+            padding-right: 8px;
+            border: none;
+            color: var(--font-color-1);
+            font-weight: bold;
+        }
     }    
 }
-
-.button-link{
-    text-decoration: underline;
-    background: none;
-    border: none;
-    color: var(--font-color-1);
+#blanks{
+    margin-left: 10px;
+    display: flex;
+    gap: 5px;
+    select{
+        background-color: var(--accent-dark-color-1);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        outline: none; 
+        option{
+            outline: none; 
+            border: 1px solid var(--accent-dark-color-1) !important;
+            box-shadow: none!important;
+        }
+    }
+}
+#list-features{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 10px;
 }
 
-.button-done{
-    background: linear-gradient(86.25deg, var(--accent-dark-color-1) 9.35%, var(--accent-color-2) 99.11%);
-    border-radius: 6px;
-    padding: 6px;
-    padding-left: 8px;
-    padding-right: 8px;
-    border: none;
-    color: var(--font-color-1);
-    font-weight: bold;
+.feature{
+    min-width: 100px;
 }
