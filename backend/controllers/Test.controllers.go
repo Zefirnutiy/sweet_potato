@@ -26,7 +26,7 @@ func GetTests(c *gin.Context) {
 	var testList []structs.Test
 	var test structs.Test
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Test"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Test"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -68,7 +68,7 @@ func GetTestById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var test structs.Test
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Test" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Test" WHERE "Id"=$1`, id ).Scan(
 		&test.Id, 
 		&test.Title, 
 		&test.Text, 
@@ -103,7 +103,7 @@ func CreateTest(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Test"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Test"
 		(
 		"Title", 
 		"Text", 
@@ -140,7 +140,7 @@ func UpdateTest(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Test" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Test" 
 		SET 
 		"Title"=$1,
 		"Text"=$2,
@@ -177,7 +177,7 @@ func UpdateTest(c *gin.Context) {
 func DeleteTest(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Test" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Test" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

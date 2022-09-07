@@ -26,7 +26,7 @@ func GetPublicInfos(c *gin.Context) {
 	var publicInfoList []structs.PublicInfo
 	var publicInfo structs.PublicInfo
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."PublicInfo"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."PublicInfo"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -69,7 +69,7 @@ func GetPublicInfoById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var publicInfo structs.PublicInfo
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."PublicInfo" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."PublicInfo" WHERE "Id"=$1`, id ).Scan(
 		&publicInfo.Id, 
 		&publicInfo.Title, 
 		&publicInfo.Text, 
@@ -104,7 +104,7 @@ func GetPublicInfoByClientId(c *gin.Context) {
 	var publicInfoList []structs.PublicInfo
 	var publicInfo structs.PublicInfo
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."PublicInfo" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."PublicInfo" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -151,7 +151,7 @@ func CreatePublicInfo(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."PublicInfo"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."PublicInfo"
 		(
 		"Title", 
 		"Text", 
@@ -190,7 +190,7 @@ func UpdatePublicInfo(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."PublicInfo" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."PublicInfo" 
 		SET 
 		"Title"=$1,
 		"Text"=$2,
@@ -229,7 +229,7 @@ func UpdatePublicInfo(c *gin.Context) {
 func DeletePublicInfo(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."PublicInfo" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."PublicInfo" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

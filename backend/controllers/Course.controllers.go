@@ -26,7 +26,7 @@ func GetCourses(c *gin.Context) {
 	var courseList []structs.Course
 	var course structs.Course
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Course"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Course"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -69,7 +69,7 @@ func GetCourseById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var course structs.Course
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Course" WHERE "Id"=$1`, id ).Scan(
 		&course.Id, 
 		&course.Title, 
 		&course.Text, 
@@ -102,7 +102,7 @@ func GetCourseByClientId(c *gin.Context) {
 	clientId := c.Params.ByName("clientId")
 	var course structs.Course
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Course" WHERE "ClientId"=$1`, clientId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Course" WHERE "ClientId"=$1`, clientId ).Scan(
 		&course.Id, 
 		&course.Title, 
 		&course.Text, 
@@ -138,7 +138,7 @@ func CreateCourse(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Course"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Course"
 		(
 		"Title", 
 		"Text", 
@@ -177,7 +177,7 @@ func UpdateCourse(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Course" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Course" 
 		SET 
 		"Title"=$1,
 		"Text"=$2,
@@ -216,7 +216,7 @@ func UpdateCourse(c *gin.Context) {
 func DeleteCourse(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Course" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Course" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

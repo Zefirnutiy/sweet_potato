@@ -26,7 +26,7 @@ func GetGroups(c *gin.Context) {
 	var groupList []structs.Group
 	var group structs.Group
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Group"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Group"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -64,7 +64,7 @@ func GetGroupById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var group structs.Group
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Group" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Group" WHERE "Id"=$1`, id ).Scan(
 		&group.Id, 
 		&group.Title, 
 		&group.TitleSingular, 
@@ -92,7 +92,7 @@ func GetGroupByDepartmentId(c *gin.Context) {
 	departmentId := c.Params.ByName("departmentId")
 	var group structs.Group
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Group" WHERE "DepartmentId"=$1`, departmentId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Group" WHERE "DepartmentId"=$1`, departmentId ).Scan(
 		&group.Id, 
 		&group.Title, 
 		&group.TitleSingular, 
@@ -123,7 +123,7 @@ func CreateGroup(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Group"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Group"
 		(
 		"Title", 
 		"TitleSingular", 
@@ -156,7 +156,7 @@ func UpdateGroup(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Group" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Group" 
 		SET 
 		"Title"=$1,
 		"TitleSingular"=$2,
@@ -185,7 +185,7 @@ func UpdateGroup(c *gin.Context) {
 func DeleteGroup(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Group" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Group" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

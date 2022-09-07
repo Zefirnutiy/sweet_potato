@@ -26,7 +26,7 @@ func GetThemes(c *gin.Context) {
 	var themeList []structs.Theme
 	var theme structs.Theme
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Theme"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Theme"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -62,7 +62,7 @@ func GetThemeById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var theme structs.Theme
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Theme" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Theme" WHERE "Id"=$1`, id ).Scan(
 		&theme.Id, 
 		&theme.Title, 
 		
@@ -91,7 +91,7 @@ func CreateTheme(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Theme"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Theme"
 		(
 		"Title", 
 		
@@ -120,7 +120,7 @@ func UpdateTheme(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Theme" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Theme" 
 		SET 
 		"Title"=$1
 		
@@ -145,7 +145,7 @@ func UpdateTheme(c *gin.Context) {
 func DeleteTheme(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Theme" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Theme" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

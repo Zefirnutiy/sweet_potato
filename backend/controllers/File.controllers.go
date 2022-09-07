@@ -30,7 +30,7 @@ func GetFiles(c *gin.Context) {
 	var fileList []structs.File
 	var file structs.File
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."File"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."File"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -69,7 +69,7 @@ func GetFileById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var file structs.File
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."File" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."File" WHERE "Id"=$1`, id ).Scan(
 		&file.Id, 
 		&file.Date, 
 		&file.DateDel, 
@@ -100,7 +100,7 @@ func GetFileByClientId(c *gin.Context) {
 	var fileList []structs.File
 	var file structs.File
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."File" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."File" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -154,7 +154,7 @@ func UploadFile(c *gin.Context) {
 
 	serverName := fmt.Sprintf(`%[1]s_%[2]s`, time.Now(), form.File.Filename)
 
-	_, err := db.Dbpool.Exec(`INSERT INTO"`+model.Schema+`"."File"
+	_, err := db.Dbpool.Exec(`INSERT INTO"`+model.KeySchema+`"."File"
 	(
 		"Date",
 		"DateDel",
@@ -204,7 +204,7 @@ func UpdateFile(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."File" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."File" 
 		SET 
 		"Date"=$1,
 		"DateDel"=$2,
@@ -238,7 +238,7 @@ func UpdateFile(c *gin.Context) {
 func DeleteFile(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."File" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."File" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

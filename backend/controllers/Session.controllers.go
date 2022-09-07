@@ -26,7 +26,7 @@ func GetSessions(c *gin.Context) {
 	var sessionList []structs.Session
 	var session structs.Session
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Session"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Session"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -66,7 +66,7 @@ func GetSessionById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var session structs.Session
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Session" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Session" WHERE "Id"=$1`, id ).Scan(
 		&session.Id, 
 		&session.UserId, 
 		&session.IpAddress, 
@@ -96,7 +96,7 @@ func GetSessionByUserId(c *gin.Context) {
 	userId := c.Params.ByName("userId")
 	var session structs.Session
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Session" WHERE "UserId"=$1`, userId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Session" WHERE "UserId"=$1`, userId ).Scan(
 		&session.Id, 
 		&session.UserId, 
 		&session.IpAddress, 
@@ -129,7 +129,7 @@ func CreateSession(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Session"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Session"
 		(
 		"UserId", 
 		"IpAddress", 
@@ -166,7 +166,7 @@ func UpdateSession(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Session" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Session" 
 		SET 
 		"UserId"=$1,
 		"IpAddress"=$2,
@@ -199,7 +199,7 @@ func UpdateSession(c *gin.Context) {
 func DeleteSession(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Session" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Session" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

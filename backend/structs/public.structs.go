@@ -1,8 +1,7 @@
 package structs
 
 import (
-	"time"
-    "github.com/golang/protobuf/ptypes/timestamp"
+	"github.com/golang/protobuf/ptypes/timestamp"
 )
 
 type Organization struct {
@@ -15,8 +14,8 @@ type Organization struct {
     UserLimit          int       `json:"userLimit"`
     Statistics         bool      `json:"statistics"`
     ProtectionCheating bool      `json:"protectionCheating"`
-    Date               time.Time `json:"date"`
-    Time               time.Time `json:"time"`
+    Date               string `json:"date"`
+    Time               string `json:"time"`
     ThemeId            int       `json:"themeId"`
 }
 
@@ -28,8 +27,8 @@ type Theme struct {
 type Payment struct {
 	Number             int        `json:"number"`
     Money              int        `json:"money"`
-    Date               time.Time  `json:"date"`
-    Time               time.Time  `json:"time"`
+    Date               timestamp.Timestamp  `json:"date"`
+    Time               timestamp.Timestamp  `json:"time"`
     Users              int        `json:"users"`
     Statistics         bool       `json:"statistics"`
     ProtectionCheating bool       `json:"protectionCheating"`
@@ -38,8 +37,8 @@ type Payment struct {
 
 type DeadLine struct {
 	Id	           int       `json:"Id"`
-    Date           time.Time `json:"Date"`
-    Time           time.Time `json:"Time"`
+    Date           timestamp.Timestamp `json:"Date"`
+    Time           timestamp.Timestamp `json:"Time"`
     OrganizationId int       `json:"OrganizationId"`
 }
 

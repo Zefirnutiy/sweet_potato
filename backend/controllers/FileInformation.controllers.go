@@ -26,7 +26,7 @@ func GetFileInformations(c *gin.Context) {
 	var fileInformationList []structs.FileInformation
 	var fileInformation structs.FileInformation
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."FileInformation"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."FileInformation"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -65,7 +65,7 @@ func GetFileInformationByFileId(c *gin.Context) {
 	fileId := c.Params.ByName("fileId")
 	var fileInformation structs.FileInformation
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."FileInformation" WHERE "FileId"=$1`, fileId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."FileInformation" WHERE "FileId"=$1`, fileId ).Scan(
 		&fileInformation.ClientId, 
 		&fileInformation.FileId, 
 		&fileInformation.PublicInfoId, 
@@ -94,7 +94,7 @@ func GetFileInformationByTestId(c *gin.Context) {
 	testId := c.Params.ByName("testId")
 	var fileInformation structs.FileInformation
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."FileInformation" WHERE "TestId"=$1`, testId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."FileInformation" WHERE "TestId"=$1`, testId ).Scan(
 		&fileInformation.ClientId, 
 		&fileInformation.FileId, 
 		&fileInformation.PublicInfoId, 
@@ -123,7 +123,7 @@ func GetFileInformationByQuestionId(c *gin.Context) {
 	questionId := c.Params.ByName("questionId")
 	var fileInformation structs.FileInformation
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."FileInformation" WHERE "QuestionId"=$1`, questionId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."FileInformation" WHERE "QuestionId"=$1`, questionId ).Scan(
 		&fileInformation.ClientId, 
 		&fileInformation.FileId, 
 		&fileInformation.PublicInfoId, 
@@ -154,7 +154,7 @@ func GetFileInformationByClientId(c *gin.Context) {
 	var fileInformationList []structs.FileInformation
 	var fileInformation structs.FileInformation
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."FileInformation" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."FileInformation" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -196,7 +196,7 @@ func GetFileInformationByPublicInfoId(c *gin.Context) {
 	var fileInformationList []structs.FileInformation
 	var fileInformation structs.FileInformation
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."FileInformation" WHERE "PublicInfoId"=$1`, publicInfoId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."FileInformation" WHERE "PublicInfoId"=$1`, publicInfoId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -238,7 +238,7 @@ func CreateFileInformation(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."FileInformation"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."FileInformation"
 		(
 		"ClientId", 
 		"FileId", 
@@ -275,7 +275,7 @@ func UpdateFileInformation(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."FileInformation" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."FileInformation" 
 		SET 
 		"FileId"=$1,
 		"PublicInfoId"=$2,
@@ -306,7 +306,7 @@ func UpdateFileInformation(c *gin.Context) {
 func DeleteFileInformation(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."FileInformation" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."FileInformation" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

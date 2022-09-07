@@ -26,7 +26,7 @@ func GetQuestionResults(c *gin.Context) {
 	var questionResultList []structs.QuestionResult
 	var questionResult structs.QuestionResult
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."QuestionResult"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."QuestionResult"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -66,7 +66,7 @@ func GetQuestionResultById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var questionResult structs.QuestionResult
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."QuestionResult" WHERE "Id"=$1`, id ).Scan(
 		&questionResult.Id, 
 		&questionResult.Date, 
 		&questionResult.Time, 
@@ -96,7 +96,7 @@ func GetQuestionResultByQuestionId(c *gin.Context) {
 	questionId := c.Params.ByName("questionId")
 	var questionResult structs.QuestionResult
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."QuestionResult" WHERE "QuestionId"=$1`, questionId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."QuestionResult" WHERE "QuestionId"=$1`, questionId ).Scan(
 		&questionResult.Id, 
 		&questionResult.Date, 
 		&questionResult.Time, 
@@ -129,7 +129,7 @@ func CreateQuestionResult(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."QuestionResult"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."QuestionResult"
 		(
 		"Date", 
 		"Time", 
@@ -166,7 +166,7 @@ func UpdateQuestionResult(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."QuestionResult" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."QuestionResult" 
 		SET 
 		"Date"=$1,
 		"Time"=$2,
@@ -199,7 +199,7 @@ func UpdateQuestionResult(c *gin.Context) {
 func DeleteQuestionResult(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."QuestionResult" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."QuestionResult" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

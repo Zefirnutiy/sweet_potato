@@ -26,7 +26,7 @@ func GetQuestions(c *gin.Context) {
 	var questionList []structs.Question
 	var question structs.Question
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Question"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Question"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -72,7 +72,7 @@ func GetQuestionById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var question structs.Question
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Question" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Question" WHERE "Id"=$1`, id ).Scan(
 		&question.Id, 
 		&question.Text, 
 		&question.Date, 
@@ -110,7 +110,7 @@ func GetQuestionByTestId(c *gin.Context) {
 	var questionList []structs.Question
 	var question structs.Question
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Question" WHERE "TestId"=$1`, testId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Question" WHERE "TestId"=$1`, testId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -160,7 +160,7 @@ func CreateQuestion(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Question"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Question"
 		(
 		"Text", 
 		"Date", 
@@ -205,7 +205,7 @@ func UpdateQuestion(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Question" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Question" 
 		SET 
 		"Text"=$1,
 		"Date"=$2,
@@ -250,7 +250,7 @@ func UpdateQuestion(c *gin.Context) {
 func DeleteQuestion(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Question" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Question" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

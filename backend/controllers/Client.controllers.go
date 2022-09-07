@@ -26,7 +26,7 @@ func GetClients(c *gin.Context) {
 	var clientList []structs.Client
 	var client structs.Client
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Client"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -76,7 +76,7 @@ func GetClientById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var client structs.Client
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Client" WHERE "Id"=$1`, id ).Scan(
 		&client.Id, 
 		&client.FirstName, 
 		&client.LastName, 
@@ -118,7 +118,7 @@ func GetClientByDepartmentId(c *gin.Context) {
 	var clientList []structs.Client
 	var client structs.Client
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "DepartmentId"=$1`, departmentId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Client" WHERE "DepartmentId"=$1`, departmentId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -171,7 +171,7 @@ func GetClientByGroupId(c *gin.Context) {
 	var clientList []structs.Client
 	var client structs.Client
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "GroupId"=$1`, groupId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Client" WHERE "GroupId"=$1`, groupId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -224,7 +224,7 @@ func GetClientByCreatorId(c *gin.Context) {
 	var clientList []structs.Client
 	var client structs.Client
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Client" WHERE "CreatorId"=$1`, creatorId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Client" WHERE "CreatorId"=$1`, creatorId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -286,7 +286,7 @@ func CreateClient(c *gin.Context) {
 		return
 	}
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Client"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Client"
 		(
 		"FirstName", 
 		"LastName", 
@@ -393,7 +393,7 @@ func LoginClient(c *gin.Context) {
 	claims := structs.Claims{
 		Id:      client.Id,
 		Email:   client.Email,
-		Schema:  loginData.Schema}
+		KeySchema:  loginData.Schema}
 
 	token, err := utils.CreateToken(claims)
 
@@ -421,7 +421,7 @@ func UpdateClient(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Client" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Client" 
 		SET 
 		"FirstName"=$1,
 		"LastName"=$2,
@@ -474,7 +474,7 @@ func UpdateClient(c *gin.Context) {
 func DeleteClient(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Client" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Client" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

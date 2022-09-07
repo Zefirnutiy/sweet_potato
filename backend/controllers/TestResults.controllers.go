@@ -26,7 +26,7 @@ func GetTestResultss(c *gin.Context) {
 	var testResultsList []structs.TestResults
 	var testResults structs.TestResults
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."TestResults"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."TestResults"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -70,7 +70,7 @@ func GetTestResultsById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var testResults structs.TestResults
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."TestResults" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."TestResults" WHERE "Id"=$1`, id ).Scan(
 		&testResults.Id, 
 		&testResults.PassageTime, 
 		&testResults.Assessment, 
@@ -104,7 +104,7 @@ func GetTestResultsByTestId(c *gin.Context) {
 	testId := c.Params.ByName("testId")
 	var testResults structs.TestResults
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."TestResults" WHERE "TestId"=$1`, testId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."TestResults" WHERE "TestId"=$1`, testId ).Scan(
 		&testResults.Id, 
 		&testResults.PassageTime, 
 		&testResults.Assessment, 
@@ -140,7 +140,7 @@ func GetTestResultsByCourseId(c *gin.Context) {
 	var testResultsList []structs.TestResults
 	var testResults structs.TestResults
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."TestResults" WHERE "CourseId"=$1`, courseId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."TestResults" WHERE "CourseId"=$1`, courseId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -187,7 +187,7 @@ func GetTestResultsByClientId(c *gin.Context) {
 	var testResultsList []structs.TestResults
 	var testResults structs.TestResults
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."TestResults" WHERE "ClientId"=$1`, clientId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."TestResults" WHERE "ClientId"=$1`, clientId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -235,7 +235,7 @@ func CreateTestResults(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."TestResults"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."TestResults"
 		(
 		"PassageTime", 
 		"Assessment", 
@@ -280,7 +280,7 @@ func UpdateTestResults(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."TestResults" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."TestResults" 
 		SET 
 		"PassageTime"=$1,
 		"Assessment"=$2,
@@ -321,7 +321,7 @@ func UpdateTestResults(c *gin.Context) {
 func DeleteTestResults(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."TestResults" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."TestResults" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

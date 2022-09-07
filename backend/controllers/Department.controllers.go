@@ -26,7 +26,7 @@ func GetDepartments(c *gin.Context) {
 	var departmentList []structs.Department
 	var department structs.Department
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Department"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Department"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -62,7 +62,7 @@ func GetDepartmentById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var department structs.Department
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Department" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Department" WHERE "Id"=$1`, id ).Scan(
 		&department.Id, 
 		&department.Title, 
 		
@@ -91,7 +91,7 @@ func CreateDepartment(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Department"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Department"
 		(
 		"Title", 
 		
@@ -120,7 +120,7 @@ func UpdateDepartment(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Department" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Department" 
 		SET 
 		"Title"=$1
 		
@@ -145,7 +145,7 @@ func UpdateDepartment(c *gin.Context) {
 func DeleteDepartment(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Department" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Department" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

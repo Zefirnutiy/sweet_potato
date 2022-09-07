@@ -26,7 +26,7 @@ func GetInputTypes(c *gin.Context) {
 	var inputTypeList []structs.InputType
 	var inputType structs.InputType
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."InputType"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."InputType"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -63,7 +63,7 @@ func GetInputTypeById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var inputType structs.InputType
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."InputType" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."InputType" WHERE "Id"=$1`, id ).Scan(
 		&inputType.Id, 
 		&inputType.Title, 
 		&inputType.Type, 
@@ -93,7 +93,7 @@ func CreateInputType(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."InputType"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."InputType"
 		(
 		"Title", 
 		"Type", 
@@ -124,7 +124,7 @@ func UpdateInputType(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."InputType" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."InputType" 
 		SET 
 		"Title"=$1,
 		"Type"=$2
@@ -151,7 +151,7 @@ func UpdateInputType(c *gin.Context) {
 func DeleteInputType(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."InputType" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."InputType" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

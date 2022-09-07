@@ -12,17 +12,24 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateOrganization(title, password, email, key string, emailnotifications bool) (sql.Result, error) {
-	result, err := db.Dbpool.Exec(`
-		INSERT INTO "public"."Organization" ("Title", "Password", "Email", "EmailNotifications", "Key") 
-		VALUES ($1, $2, $3, $4, $5);`,
-		title, password, email, emailnotifications, key)
+func CreateOrganization(org structs.Organization) *sql.Row {
+	result := db.Dbpool.QueryRow(`INSERT INTO "public"."Organization" ("Title", 
+	"Password", "Email", "EmailNotifications", "Key", "UserLimit", "Statistics", 
+	"ProtectionCheating", "Date", "Time", "ThemeId") 
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING "Id";`,
+		org.Title, 
+		org.Password, 
+		org.Email, 
+		org.EmailNotifications, 
+		org.Key,  
+		org.UserLimit, 
+		org.Statistics, 
+		org.ProtectionCheating, 
+		org.Date, 
+		org.Time,
+		org.ThemeId)
 
-	if err != nil {
-		return nil, err
-	}
-
-	return result, nil
+	return result
 }
 
 func GetOrganization(email string) (structs.Organization, bool) {
@@ -35,6 +42,12 @@ func GetOrganization(email string) (structs.Organization, bool) {
 		&organization.Email,
 		&organization.EmailNotifications,
 		&organization.Key,
+		&organization.UserLimit,
+		&organization.Statistics,
+		&organization.ProtectionCheating,
+		&organization.Date,
+		&organization.Time,
+		&organization.ThemeId,
 	)
 
 	if err != nil {
@@ -46,44 +59,42 @@ func GetOrganization(email string) (structs.Organization, bool) {
 }
 
 func RegisterOrganization(c *gin.Context) {
-	var organization structs.Organization
-	var claimOrganization structs.Claims
+	var (
+		organization structs.Organization
+	 	claimOrganization structs.Claims
+		id int
+	)
 
 	if err := c.ShouldBindJSON(&organization); err != nil {
-		c.String(http.StatusBadGateway, err.Error())
+		c.JSON(http.StatusBadGateway, err.Error())
 		return
 	}
 
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(organization.Password), bcrypt.DefaultCost)
-
-	_, candidate := GetOrganization(organization.Email)
-
-	if candidate {
+	
+	_, isExist := GetOrganization(organization.Email)
+	
+	if isExist {
 		c.JSON(http.StatusConflict, gin.H{
 			"message": "Такой пользователь уже существует",
 		})
 		return
 	}
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(organization.Password), bcrypt.DefaultCost)
 
-	_, err := CreateOrganization(
-		organization.Title,
-		string(hashedPassword),
-		organization.Email,
-		string(hashedPassword[len(hashedPassword)-6:]),
-		organization.EmailNotifications,
-	)
-	db.CreateTable("./db/organization.sql", string(hashedPassword[len(hashedPassword)-6:]))
+	res := CreateOrganization(organization)
 
-	if err != nil {
+	organization.Key = string(hashedPassword[len(hashedPassword)-6:])
+	res.Scan(&id)
+	
+	if err := db.CreateTable("./db/organization.sql", string(hashedPassword[len(hashedPassword)-6:])); err != nil {
 		c.String(http.StatusNotImplemented, err.Error(), gin.H{
 			"message": "Что-то пошло не так",
 		})
 		return
 	}
-	organizationFromDb, _ := GetOrganization(organization.Email)
-	claimOrganization.Id = organization.Id
+	claimOrganization.Id = id
 	claimOrganization.Email = organization.Email
-	claimOrganization.Schema = organizationFromDb.Key
+	claimOrganization.KeySchema = organization.Key
 
 	token, err := utils.CreateToken(claimOrganization)
 
@@ -92,10 +103,10 @@ func RegisterOrganization(c *gin.Context) {
 		return
 	}
 
-	organizationFromDb.Password = ""
+	organization.Password = ""
 
 	c.JSON(http.StatusCreated, gin.H{
-		"organization": organizationFromDb,
+		"organization": organization,
 		"token":        token,
 		"message":      "Организация успешно создана",
 	})
@@ -134,7 +145,7 @@ func LoginOrganization(c *gin.Context) {
 
 	claimOrganization.Id = result.Id
 	claimOrganization.Email = result.Email
-	claimOrganization.Schema = result.Key
+	claimOrganization.KeySchema = result.Key
 	token, err := utils.CreateToken(claimOrganization)
 
 	if err != nil {

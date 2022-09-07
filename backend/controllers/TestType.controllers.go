@@ -26,7 +26,7 @@ func GetTestTypes(c *gin.Context) {
 	var testTypeList []structs.TestType
 	var testType structs.TestType
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."TestType"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."TestType"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -62,7 +62,7 @@ func GetTestTypeById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var testType structs.TestType
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."TestType" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."TestType" WHERE "Id"=$1`, id ).Scan(
 		&testType.Id, 
 		&testType.Title, 
 		
@@ -91,7 +91,7 @@ func CreateTestType(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."TestType"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."TestType"
 		(
 		"Title", 
 		
@@ -120,7 +120,7 @@ func UpdateTestType(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."TestType" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."TestType" 
 		SET 
 		"Title"=$1
 		
@@ -145,7 +145,7 @@ func UpdateTestType(c *gin.Context) {
 func DeleteTestType(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."TestType" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."TestType" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

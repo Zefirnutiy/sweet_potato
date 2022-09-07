@@ -26,7 +26,7 @@ func GetDeadLines(c *gin.Context) {
 	var deadLineList []structs.DeadLine
 	var deadLine structs.DeadLine
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."DeadLine"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."DeadLine"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -64,7 +64,7 @@ func GetDeadLineById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var deadLine structs.DeadLine
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."DeadLine" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."DeadLine" WHERE "Id"=$1`, id ).Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
 		&deadLine.Time, 
@@ -92,7 +92,7 @@ func GetDeadLineByOrganizationId(c *gin.Context) {
 	organizationId := c.Params.ByName("organizationId")
 	var deadLine structs.DeadLine
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."DeadLine" WHERE "OrganizationId"=$1`, organizationId ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."DeadLine" WHERE "OrganizationId"=$1`, organizationId ).Scan(
 		&deadLine.Id, 
 		&deadLine.Date, 
 		&deadLine.Time, 
@@ -123,7 +123,7 @@ func CreateDeadLine(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."DeadLine"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."DeadLine"
 		(
 		"Date", 
 		"Time", 
@@ -156,7 +156,7 @@ func UpdateDeadLine(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."DeadLine" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."DeadLine" 
 		SET 
 		"Date"=$1,
 		"Time"=$2,
@@ -185,7 +185,7 @@ func UpdateDeadLine(c *gin.Context) {
 func DeleteDeadLine(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."DeadLine" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."DeadLine" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

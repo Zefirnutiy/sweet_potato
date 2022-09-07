@@ -26,7 +26,7 @@ func GetPayments(c *gin.Context) {
 	var PaymentList []structs.Payment
 	var Payment structs.Payment
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Payment"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Payment"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -68,7 +68,7 @@ func GetPaymentByNumber(c *gin.Context) {
 	number := c.Params.ByName("number")
 	var Payment structs.Payment
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Payment" WHERE "Number"=$1`, number ).Scan(
 		&Payment.Number, 
 		&Payment.Money, 
 		&Payment.Date, 
@@ -102,7 +102,7 @@ func GetPaymentByOrganizationId(c *gin.Context) {
 	var PaymentList []structs.Payment
 	var Payment structs.Payment
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId )
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Payment" WHERE "OrganizationId"=$1`, organizationId )
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -148,7 +148,7 @@ func CreatePayment(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."Payment"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."Payment"
 		(
 		"Money", 
 		"Date", 
@@ -189,7 +189,7 @@ func UpdatePayment(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."Payment" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."Payment" 
 		SET 
 		"Money"=$1,
 		"Date"=$2,
@@ -226,7 +226,7 @@ func UpdatePayment(c *gin.Context) {
 func DeletePayment(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."Payment" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."Payment" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{

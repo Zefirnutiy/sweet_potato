@@ -26,7 +26,7 @@ func GetStates(c *gin.Context) {
 	var stateList []structs.State
 	var state structs.State
 
-	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.Schema+`"."State"`)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."State"`)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -62,7 +62,7 @@ func GetStateById(c *gin.Context) {
 	id := c.Params.ByName("id")
 	var state structs.State
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.Schema+`"."State" WHERE "Id"=$1`, id ).Scan(
+	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."State" WHERE "Id"=$1`, id ).Scan(
 		&state.Id, 
 		&state.Title, 
 		
@@ -91,7 +91,7 @@ func CreateState(c *gin.Context) {
 	var err error
 	
 
-	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.Schema+`"."State"
+	_, err = db.Dbpool.Exec(`INSERT INTO "`+model.KeySchema+`"."State"
 		(
 		"Title", 
 		
@@ -120,7 +120,7 @@ func UpdateState(c *gin.Context) {
 	var err error
 	
 	
-	_, err = db.Dbpool.Exec(`UPDATE "`+model.Schema+`"."State" 
+	_, err = db.Dbpool.Exec(`UPDATE "`+model.KeySchema+`"."State" 
 		SET 
 		"Title"=$1
 		
@@ -145,7 +145,7 @@ func UpdateState(c *gin.Context) {
 func DeleteState(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	id := c.Params.ByName("id")
-	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.Schema+`"."State" WHERE "Id"=$1`, id)
+	_, err := db.Dbpool.Exec(`DELETE FROM "`+model.KeySchema+`"."State" WHERE "Id"=$1`, id)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
