@@ -1,7 +1,8 @@
-
 package controllers
 
 import (
+	"fmt"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -23,8 +24,14 @@ func DataProcessingDepartment(c gin.Context) structs.Department {
 
 func GetDepartments(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
-	var departmentList []structs.Department
 	var department structs.Department
+	type customeDepartment struct {
+		Id 		int 
+    	Title  	string  
+		GroupCount int	
+	}
+	
+	var departmentList []customeDepartment
 
 	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Department"`)
 	if err != nil {
@@ -35,13 +42,14 @@ func GetDepartments(c *gin.Context) {
 		})
 		return
 	}
+	var groupCount int
 
 	for rows.Next() {
 		err = rows.Scan(
 		&department.Id, 
 		&department.Title, 
 		)
-		departmentList = append(departmentList, department)
+		
 		if err != nil {
 			utils.Logger.Println(err)
 			c.JSON(500, gin.H{
@@ -50,7 +58,14 @@ func GetDepartments(c *gin.Context) {
 			})
 			return
 		}
+		query := fmt.Sprintf(`SELECT Count("Title") FROM "`+model.KeySchema+`"."Group" WHERE "DepartmentId"=$1`)
+		row := db.Dbpool.QueryRow(query, department.Id)
+		row.Scan(&groupCount)
+
+		departmentList = append(departmentList, customeDepartment{department.Id, department.Title, groupCount})
 	}
+
+	fmt.Println(departmentList)
 	c.JSON(200, gin.H{
 		"result": departmentList,
 		"message": nil,
