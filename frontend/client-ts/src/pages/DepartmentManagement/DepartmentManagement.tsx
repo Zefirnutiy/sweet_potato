@@ -8,6 +8,7 @@ import { Path } from '../../components/single/Path/Path'
 import { Modal } from '../../components/common/Modal/Modal'
 import { AddFolderForm } from '../../modals/AddFolderForm/AddFolderForm'
 import { AddUserForm } from '../../modals/AddUserForm/AddUserForm'
+import { UserAccountInformation } from '../../components/windows/UserAccountInformation/UserAccountInformation'
 
 
 interface List {
@@ -129,9 +130,7 @@ export const DepartmentManagement = () => {
                     />
                     <div id={st['functions']}><Search placehold={"Поиск"} width={"300px"}/></div>
                 </ListInfo>
-                <div>
-                    Тут будет инфа о пользователе 
-                </div>
+                <UserAccountInformation/>
             </div>
             {openAddOrganization &&
                 <Modal onClose={() => setAddOrganization(false)} closingBackground={true}>

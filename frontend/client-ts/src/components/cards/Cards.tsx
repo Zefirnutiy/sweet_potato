@@ -25,6 +25,7 @@ interface PropsTypesTwoCellsCard {
 
 export const UserCard: React.FC<PropsTypesUsersCard> = ({userName, autorCreate, dateCreate}) => (
         <div className={st["card-user"]}>
+            <div className={st["card-user-avatar"]}><img src="#" alt="Аватар"></img></div>
             <div className={st["user-name"]}>{userName}</div>
             <div className={st["created"]}>Создал: {autorCreate}<br/> Создан: {dateCreate}</div>
         </div>

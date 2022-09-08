@@ -1,0 +1,39 @@
+.window-user-account-information{
+    margin: auto;
+    width: fit-content;
+    height: 90%;
+    padding: 20px;
+    background-color: rgb(90, 90, 90);
+    display: grid;
+    gap: 30px;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 200px 30%;
+    grid-template-areas: "avatar information"
+                        "permissions permissions";
+    .user-account-avatar{
+        grid-area: avatar;
+        width: 200px;
+        height: 200px;
+        background-color: var(--accent-color-1);
+        border-radius: 30px;
+    }
+    .user-account-information{
+        grid-area: information;
+        .user-account-name{
+
+        }
+        .created{
+
+        }
+        .contacts{
+
+        }
+    }
+
+    .user-account-permissions{
+        grid-area: permissions;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        justify-content: center;
+    }
+}

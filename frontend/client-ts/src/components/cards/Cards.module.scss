@@ -39,6 +39,10 @@ a{
     border-bottom: 2px solid var(--main-dark-color-1);
     border-radius: 6px;
     display: grid;
+    gap: 5px;
+    grid-template-columns: 50px auto;
+    grid-template-areas: "avatar name"
+                        "avatar created";
     transition: all 20ms;
     &:hover{
         background: linear-gradient(var(--main-color-2), var(--main-color-3));
@@ -47,10 +51,20 @@ a{
         transform: scale(1.02);
         cursor: pointer;
     }
+    .card-user-avatar{
+        padding: 5px;
+        grid-area: avatar;
+        background-color: aqua;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
     .user-name{
+        grid-area: name;
         font-size: 16px;
     }
     .created{
+        grid-area: created;
         margin-left: 5px;
         color: --font-color-1;
         margin-top: 3px;
