@@ -39,6 +39,8 @@ type InputSort struct {
 	Answers 	map[string]int
 }
 
+//функция принимает в себя строку - путь к файлу, который должен соответствовать стандартам
+//которые мы опишем позже.
 func SortQuestion(path string){
 	allQuestion := strings.Split(parseFile(path), "\n\n")
 
@@ -52,7 +54,7 @@ func SortQuestion(path string){
 			fmt.Println(inputButton(value, typeAns))
 		case "[]":
 			fmt.Println(inputText(value))
-		case "==":
+		case "=":
 			fmt.Println(inputConstraint(value))
 		case "empty":
 			fmt.Println(inputSort(value))
@@ -65,7 +67,7 @@ func inputSort(str string) InputSort {
 	mapAns := make(map[string]int)
 	strMas := strings.Split(str, "\n")
 	for index, val := range strMas[1:] {
-		mapAns[val] = index
+		mapAns[val] = index + 1
 	}
 	globalId += 1
 
@@ -77,13 +79,13 @@ func inputConstraint(str string) InpuntConstraint {
 	leftAns := ""
 	rightAns := ""
 	for _, val := range strMas[1:]{
-		mas := strings.Split(val, "==")
+		mas := strings.Split(val, "=")
 
 		leftAns += mas[0] + globalStr
 		rightAns += mas[len(mas)-1] + globalStr
 	}
 	globalId += 1
-	return InpuntConstraint{globalId, strMas[0], strings.Split(leftAns, globalStr), strings.Split(rightAns, globalStr), "=="}
+	return InpuntConstraint{globalId, strMas[0], strings.Split(leftAns, globalStr), strings.Split(rightAns, globalStr), "="}
 }
 
 func inputButton(str, simbol string) InputButton {
@@ -108,7 +110,7 @@ func inputButton(str, simbol string) InputButton {
 
 func inputText(str string) InputText{
 	mas := strings.Split(str, "\n")
-	clearStr := strings.ReplaceAll(str, "[", "")
+	clearStr := strings.ReplaceAll(mas[1], "[", "")
 	clearStr = strings.ReplaceAll(clearStr, "]", "")
 	globalId += 1
 	return InputText{globalId, mas[0], clearStr, "[]"}
@@ -128,8 +130,8 @@ func getType(str string) string{
 		return "[]"
 	}
 
-	if strings.Contains(str, "==") {
-		return "=="
+	if strings.Contains(str, "=") {
+		return "="
 	}
 
 	if strings.Contains(str, "1. ") {
