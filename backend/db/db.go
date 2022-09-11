@@ -7,21 +7,19 @@ import (
 
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	"github.com/joho/godotenv"
-	"github.com/spf13/viper"
 )
 
 var Dbpool *sql.DB
 
-func Connect() error {
+func Connect(host, port, user, dbName string) error {
 	var err error
 
 	if err := godotenv.Load(); err != nil{
 		utils.Logger.Println(err)
 		return err
 	}
-	
 	Dbpool, err = sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", 
-	viper.GetString("db.host"), viper.GetString("db.port"), viper.GetString("db.user"), os.Getenv("DB_PASSWORD"), viper.GetString("db.name")))
+	host, port, user, os.Getenv("DB_PASSWORD"), dbName))
 	if err != nil {
 		return err
 	}
