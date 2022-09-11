@@ -2,14 +2,14 @@ package main
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/db"
+	"github.com/Zefirnutiy/sweet_potato.git/routes"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
+	"github.com/spf13/viper"
 )
 
-var cfg = db.Load("./settings.cfg")
-
 func init() {
-	err := db.Connect(*cfg)
+	err := db.Connect()
 	if err != nil {
 		panic(err)
 	}
@@ -18,22 +18,18 @@ func init() {
 
 func main() {
 
+	if err := InitConfig(); err != nil{
+		utils.Logger.Println(err)
+		return
+	}
 
-	// err := db.CreateTable("./db/public.sql", "public")
+	routes.Routs(viper.GetString("port"))
 
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	return
-	// }
-	// err = db.CreateTable("./db/organization.sql", "KTK")
+}
 
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	return
-	// }
 
-	// utils.Generate() // создание контроллеров
-	utils.SortQuestion("./text.txt") //Функция работы парсера
-	// routes.Routs(cfg.Port)
-
+func InitConfig() error {
+	viper.AddConfigPath("configs")
+	viper.SetConfigName("config")
+	return viper.ReadInConfig()
 }

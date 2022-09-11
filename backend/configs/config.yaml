@@ -1,0 +1,9 @@
+host: "127.0.0.1"
+port: ":8090"
+db:
+    host: "localhost"
+    port: "5432"
+    user: "postgres"
+    pass: "postgres"
+    name: "sweet_potato_db"
+
