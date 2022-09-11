@@ -1,5 +1,5 @@
 import {useState, useCallback, useEffect} from "react"
-import { setCookie, getCookie } from "../middleware/cookieUtils"
+import { setCookie, getCookie, deleteCookie } from "../middleware/cookieUtils"
 
 
 export const useAuth = () => {
@@ -10,33 +10,35 @@ export const useAuth = () => {
 	const [ready, setReady] = useState<boolean>(false)
 
 
-	const login = useCallback((jwtToken: string, id: number) => {
+	 const login = useCallback((jwtToken: string, id: number): null => {
 		setToken(jwtToken)
 		setUserId(id)
 
 		setCookie('userData', JSON.stringify({
 			userId: id, token: jwtToken
 		}))
-
+		return null
 	}, [])
 
 
 	const logout = useCallback(() => {
 		setToken(null)
 		setUserId(null)
-		localStorage.removeItem('userData')
+		deleteCookie('userData')
 
 	}, [])
 
 	useEffect(() => {
         const userData = getCookie('userData')
+		if(userData){
+			const data = JSON.parse(userData)
 
-		const data = JSON.parse(userData || "")
-
-		if(data && data.token){
-			login(data.token, data.userId)
+			if(data && data.token){
+				login(data.token, data.userId)
+			}
+			setReady(true)
 		}
-		setReady(true)
+		
 
 	}, [login])
 
