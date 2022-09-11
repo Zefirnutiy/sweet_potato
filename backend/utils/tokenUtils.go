@@ -2,9 +2,11 @@ package utils
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/dgrijalva/jwt-go/v4"
-	"time"
+	"os"
 )
 
 type MyCustomOrganization struct {
@@ -25,7 +27,7 @@ func CreateToken(Model structs.Claims) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := token.SignedString([]byte("woe_ifhb_o$wei_$rhb#fqol#eri@bf"))
+	ss, err := token.SignedString([]byte(os.Getenv("SECRET_WORD_FOR_ORG")))
 
 	if err != nil {
 		return "", err
@@ -49,9 +51,7 @@ func ParseToken(accessToken string, signingKey []byte) (structs.Claims, error) {
 	}
 
 	if claims, ok := token.Claims.(*MyCustomOrganization); ok && token.Valid {
-		fmt.Println(claims)
 		return claims.Organization, nil
-
 	}
 
 	return structs.Claims{}, fmt.Errorf("расшифровки нет")

@@ -26,10 +26,11 @@ func Routs(port string) {
 
 	router.Use(CORS())
 	
-	organization := router.Group("/auth")
+	auth := router.Group("/auth")
 	{
-		go organization.POST("/register", controllers.RegisterOrganization)
-		go organization.POST("/login", controllers.LoginOrganization) 
+		auth.POST("/register", controllers.RegisterOrganization)
+		auth.POST("/login", controllers.LoginOrganization) 
+        auth.POST("/client/login", controllers.LoginClient)
 	}
 
     api := router.Group("/api", utils.TokenCheckedFromHeader)

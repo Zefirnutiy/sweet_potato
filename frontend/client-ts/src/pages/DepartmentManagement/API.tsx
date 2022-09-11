@@ -2,6 +2,7 @@ import axios from "axios"
 
 interface IGetRequest{
     setLoading: (value: React.SetStateAction<boolean>) => void
+    token: string | null
 }
 
 interface IGetUsers extends IGetRequest{
@@ -19,10 +20,13 @@ interface IGetDepartament extends IGetRequest{
     setDepartamentsData: (value: React.SetStateAction<never[] | any[]>) => void
 }
 
-export const getUsersAPI = async ({groupId, setLoading, setUsersData}: IGetUsers) => {
+
+
+export const getUsersAPI = async ({groupId, setLoading, setUsersData, token}: IGetUsers) => {
     setLoading(true)
     await axios.get(
         `/api/users/${groupId}`, 
+        {headers: {'Authorization': `Bearer ${token}`}},
         ).then((response) => {
             setLoading(false)
             console.log(response.data.users)
@@ -31,11 +35,12 @@ export const getUsersAPI = async ({groupId, setLoading, setUsersData}: IGetUsers
         .catch(e => console.log(e))
 }
 
-export const getGroupsAPI = async ({departamentId, setLoading, setGroupsData, setUsersData}: IGetGroups) => {
+export const getGroupsAPI = async ({departamentId, setLoading, setGroupsData, setUsersData, token}: IGetGroups) => {
     setUsersData([])
     setLoading(true)
     await axios.get(
         `/api/groups/${departamentId}`, 
+        {headers: {'Authorization': `Bearer ${token}`}},
         ).then((response) => {
             setLoading(false)
             console.log(response.data.groups)
@@ -44,10 +49,11 @@ export const getGroupsAPI = async ({departamentId, setLoading, setGroupsData, se
         .catch(e => console.log(e))
 }
 
-export const getDepartamentsAPI = async ({setLoading, setDepartamentsData} : IGetDepartament) => {
+export const getDepartamentsAPI = async ({setLoading, setDepartamentsData, token} : IGetDepartament) => {
     setLoading(true)
     await axios.get(
-        `/api/depataments/`, 
+        `http://localhost:8080/api/department/getDepartments`, 
+        {headers: {'Authorization': `Bearer ${token}`}},
         ).then((response) => {
             setLoading(false)
             setDepartamentsData(response.data.groups)

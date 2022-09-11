@@ -9,10 +9,11 @@ import "./fonts/fontawesome-free-6.1.2-web/css/all.css"
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
-  <BrowserRouter>
+    <BrowserRouter>
           <App />
-  </BrowserRouter> 
+  </BrowserRouter>
 );
 
 

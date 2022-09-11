@@ -3,14 +3,23 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"os"
+
+	"github.com/Zefirnutiy/sweet_potato.git/utils"
+	"github.com/joho/godotenv"
 )
 
 var Dbpool *sql.DB
 
-func Connect(cfg SettingServer) error {
+func Connect(host, port, user, dbName string) error {
 	var err error
+
+	if err := godotenv.Load(); err != nil{
+		utils.Logger.Println(err)
+		return err
+	}
 	Dbpool, err = sql.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", 
-	cfg.Database.DbHost, cfg.Database.DbPort, cfg.Database.DbUser, cfg.Database.DbPass, cfg.Database.DbName))
+	host, port, user, os.Getenv("DB_PASSWORD"), dbName))
 	if err != nil {
 		return err
 	}
