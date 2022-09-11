@@ -21,7 +21,6 @@ func init() {
 }
 
 func main() {
-	utils.SortQuestion("./text.txt")
 	routes.Routs(viper.GetString("port"))
 }
 

@@ -302,10 +302,8 @@ func CreateClient(c *gin.Context) {
 		"ViewOtherResults", 
 		"DepartmentId", 
 		"GroupId", 
-		"CreatorId", 
-		
-		) 
-		VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15 )`,
+		"CreatorId") 
+		VALUES( $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)`,
 		data.FirstName, 
 		data.LastName, 
 		data.Patronymic, 
@@ -320,8 +318,7 @@ func CreateClient(c *gin.Context) {
 		data.ViewOtherResults, 
 		data.DepartmentId, 
 		data.GroupId, 
-		data.CreatorId, 
-		)
+		data.CreatorId)
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -379,7 +376,7 @@ func LoginClient(c *gin.Context) {
 
 	inputPas := []byte(loginData.Password)
 	clientPas := []byte(client.Password)
-	err = bcrypt.CompareHashAndPassword(inputPas, clientPas)
+	err = bcrypt.CompareHashAndPassword(clientPas, inputPas)
 
 	if err != nil {
 		utils.Logger.Println(err)
