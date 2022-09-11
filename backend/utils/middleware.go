@@ -12,15 +12,14 @@ import (
 func TokenCheckedFromHeader(c *gin.Context) {
 	authHeader := c.Request.Header[`Authorization`]
 	
-	authHeaderMas := strings.Split(authHeader[0], " ") 
-
-	if len(authHeaderMas) == 0{
+	if authHeader[0] == ""{
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Авторизуйтесь",
 		})
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
+	authHeaderMas := strings.Split(authHeader[0], " ") 
 
 	if len(authHeaderMas) != 2 {
 		c.AbortWithStatus(http.StatusUnauthorized)

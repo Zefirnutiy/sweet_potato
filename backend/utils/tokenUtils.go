@@ -51,9 +51,7 @@ func ParseToken(accessToken string, signingKey []byte) (structs.Claims, error) {
 	}
 
 	if claims, ok := token.Claims.(*MyCustomOrganization); ok && token.Valid {
-		fmt.Println(claims)
 		return claims.Organization, nil
-
 	}
 
 	return structs.Claims{}, fmt.Errorf("расшифровки нет")
