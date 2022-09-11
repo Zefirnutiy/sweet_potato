@@ -1,6 +1,6 @@
 
 import st from './DepartmentManagement.module.scss'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { Search } from '../../components/common/Search/Search'
 import { getDepartamentsAPI, getGroupsAPI, getUsersAPI } from './API'
 import { ListInfo } from '../../components/single/List/List'
@@ -8,6 +8,7 @@ import { Path } from '../../components/single/Path/Path'
 import { Modal } from '../../components/common/Modal/Modal'
 import { AddFolderForm } from '../../modals/AddFolderForm/AddFolderForm'
 import { AddUserForm } from '../../modals/AddUserForm/AddUserForm'
+import { AuthContext } from '../../context/authContext'
 
 
 interface List {
@@ -41,6 +42,8 @@ export const DepartmentManagement = () => {
     const [openAddGroup, setAddGroup] = useState(false)
     const [openAddUser, setAddUser] = useState(false)
 
+    const token = useContext(AuthContext).token
+
     const showForPath = (isDepartament: boolean) => {
         setShowUser(false)
         setPathGroup("")
@@ -72,7 +75,7 @@ export const DepartmentManagement = () => {
     }
 
     const getUsers = useCallback(async (groupId: number, groupTitle: string) => {
-        getUsersAPI({groupId, setLoading, setUsersData})
+        //getUsersAPI({groupId, setLoading, setUsersData, token})
         setShowGroup(false) 
         setShowUser(true)
         setPathGroup(groupTitle)
@@ -80,7 +83,7 @@ export const DepartmentManagement = () => {
 
 
     const getGroups = useCallback(async (departamentId: number, departamentTitle: string) => {
-        getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData})
+        //getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData, token})
         setShowDepartament(false) 
         setShowGroup(true)
         setPathDepartament(departamentTitle)
@@ -88,7 +91,7 @@ export const DepartmentManagement = () => {
 
 
     const getDepartaments = useCallback(async () => {
-        getDepartamentsAPI({setLoading, setDepartamentsData})
+        getDepartamentsAPI({setLoading, setDepartamentsData, token})
     }, [])
 
     useEffect(() => {

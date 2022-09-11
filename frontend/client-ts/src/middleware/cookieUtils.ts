@@ -17,5 +17,5 @@ export function getCookie (name: string)
   if ( results )
     return (  decodeURIComponent( results[2] ) );
   else
-    return null;
+    return "";
 }

@@ -2,12 +2,15 @@ import { DepartmentManagement } from './pages/DepartmentManagement/DepartmentMan
 import { Navbar } from './components/common/Navbar/Navbar';
 import { InformationCard } from './components/cards/Cards';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { mirage } from './middleware/mirage';
 import { changePages, changeSchema } from './middleware/change';
 import { useState } from 'react';
+import { useAuth } from './hooks/auth.hook';
+import { AuthContext } from './context/authContext';
+
+
 
 const App = () => {
-  mirage()
+  
   changeSchema()
   const organizationLinks = [
     {icon: "fa fa-cubes", title: "Курсы", path: "#"},
@@ -35,10 +38,13 @@ const App = () => {
   ]
   const [page, setPage] = useState("organization")
     changePages(setPage)
+    const {login, logout, token, userId} = useAuth()
+    const isAuthenticated = !!token
+    
+    if(page === "organization" || isAuthenticated){
 
-    if(page === "organization"){
       return (
-      <>
+      <AuthContext.Provider value={{ login, token, userId, logout, isAuthenticated }}>
         <Navbar links={organizationLinks} authorized={true}>
           <InformationCard title="ТЫ ОРГАНИЗАЦИЯ" message="Храни тебя бог"/>
         </Navbar>
@@ -46,7 +52,7 @@ const App = () => {
           <Route path="/" element={<DepartmentManagement/>} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </>
+      </AuthContext.Provider>
       )
     }
   
@@ -65,8 +71,9 @@ const App = () => {
     }
 
     if(page === "guest"){
+    
       return (
-        <>
+        <AuthContext.Provider value={{ login, token, userId, logout, isAuthenticated }}>
           <Navbar links={guestLinks} authorized={false}>
           <InformationCard title="ТЫ ГОСТЬ" message="Храни тебя бог"/>
           </Navbar>
@@ -74,7 +81,7 @@ const App = () => {
             <Route path="/" element={<div></div>} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-        </>
+        </AuthContext.Provider>
       )
     }
     return null
