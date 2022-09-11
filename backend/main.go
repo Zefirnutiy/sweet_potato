@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/Zefirnutiy/sweet_potato.git/db"
-	// "github.com/Zefirnutiy/sweet_potato.git/routes"
+	"github.com/Zefirnutiy/sweet_potato.git/routes"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
@@ -22,7 +22,7 @@ func init() {
 
 func main() {
 	utils.SortQuestion("./text.txt")
-	// routes.Routs(viper.GetString("port"))
+	routes.Routs(viper.GetString("port"))
 }
 
 
