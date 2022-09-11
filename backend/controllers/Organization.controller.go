@@ -81,6 +81,7 @@ func RegisterOrganization(c *gin.Context) {
 	}
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(organization.Password), bcrypt.DefaultCost)
 
+	organization.Password = string(hashedPassword)
 	res := CreateOrganization(organization)
 
 	organization.Key = string(hashedPassword[len(hashedPassword)-6:])
@@ -137,7 +138,7 @@ func LoginOrganization(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"err":     err,
+			"err":     err.Error(),
 			"message": "Вы ввели неправильные данные",
 		})
 		return

@@ -1,26 +1,30 @@
 package routes
 
 import (
-	"time"
 
 	"github.com/Zefirnutiy/sweet_potato.git/controllers"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
+
+func CORS() gin.HandlerFunc {
+    // TO allow CORS
+    return func(c *gin.Context) {
+        c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+        c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+        c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+        if c.Request.Method == "OPTIONS" {
+            c.AbortWithStatus(204)
+            return
+        }
+        c.Next()
+    }
+}
 
 func Routs(port string) {
 	router := gin.Default()
 
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"DELETE", "POST", "GET"},
-		AllowHeaders:     []string{"Origin"},
-		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
-	router.MaxMultipartMemory = 8 << 20  
+	router.Use(CORS())
 	
 	organization := router.Group("/auth")
 	{
