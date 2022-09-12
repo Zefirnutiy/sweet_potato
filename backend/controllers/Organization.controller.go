@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -51,6 +52,7 @@ func GetOrganization(email string) (structs.Organization, bool) {
 	)
 
 	if err != nil {
+		fmt.Println(err.Error())
 		return structs.Organization{}, false
 	}
 
@@ -75,7 +77,6 @@ func RegisterOrganization(c *gin.Context) {
 		return
 	}
 
-	
 	_, isExist := GetOrganization(organization.Email)
 	
 	if isExist {

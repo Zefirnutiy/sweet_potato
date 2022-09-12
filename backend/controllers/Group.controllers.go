@@ -1,7 +1,7 @@
-
 package controllers
 
 import (
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
@@ -92,41 +92,41 @@ func GetGroupByDepartmentId(c *gin.Context) {
 	departmentId := c.Params.ByName("departmentId")
 	var group structs.Group
 	var groupList []structs.Group
-
+  
 	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Group" WHERE "DepartmentId"=$1`, departmentId )
-
+  
 	if err != nil {
+	  utils.Logger.Println(err)
+	  c.JSON(500, gin.H{
+		"result": nil,
+		"message": "Ничего не найдено",
+	  })
+	  return
+	}
+  
+	for rows.Next(){
+	  err = rows.Scan(
+		&group.Id, 
+		&group.Title, 
+		&group.TitleSingular, 
+		&group.DepartmentId, 
+	  )
+	  if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
-			"result": nil,
-			"message": "Ничего не найдено",
+		  "result": nil,
+		  "message": "Ошибка сервера",
 		})
 		return
-	}
-
-	for rows.Next(){
-		err = rows.Scan(
-			&group.Id, 
-			&group.Title, 
-			&group.TitleSingular, 
-			&group.DepartmentId, 
-		)
-		if err != nil {
-			utils.Logger.Println(err)
-			c.JSON(500, gin.H{
-				"result": nil,
-				"message": "Ошибка сервера",
-			})
-			return
-		}
-		groupList = append(groupList, group)
+	  }
+	  groupList = append(groupList, group)
 	}
 
 	c.JSON(200, gin.H{
-		"result": groupList,
+		"result": group,
 		"message": nil,
 	})
-}
+  }
 
 	
 

@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/utils"
 	_ "github.com/lib/pq"
@@ -14,7 +16,7 @@ func init() {
 	}
 	err := db.Connect(viper.GetString("db.host"), viper.GetString("db.port"), viper.GetString("db.user"), viper.GetString("db.name"))
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	
 }
