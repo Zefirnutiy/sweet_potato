@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"database/sql"
-	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/Zefirnutiy/sweet_potato.git/db"
 	"github.com/Zefirnutiy/sweet_potato.git/structs"
@@ -12,7 +12,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-func CreateOrganization(org structs.Organization) *sql.Row {
+func CreateOrganization(org MyCustomeOrg) *sql.Row {
 	result := db.Dbpool.QueryRow(`INSERT INTO "public"."Organization" ("Title", 
 	"Password", "Email", "EmailNotifications", "Key", "UserLimit", "Statistics", 
 	"ProtectionCheating", "Date", "Time", "ThemeId") 
@@ -20,14 +20,14 @@ func CreateOrganization(org structs.Organization) *sql.Row {
 		org.Title, 
 		org.Password, 
 		org.Email, 
-		org.EmailNotifications, 
+		false, 
 		org.Key,  
-		org.UserLimit, 
-		org.Statistics, 
-		org.ProtectionCheating, 
-		org.Date, 
-		org.Time,
-		org.ThemeId)
+		1000, 
+		false, 
+		false, 
+		time.Now(), 
+		time.Now(), 
+		1)
 
 	return result
 }
@@ -51,16 +51,21 @@ func GetOrganization(email string) (structs.Organization, bool) {
 	)
 
 	if err != nil {
-		fmt.Println(err)
 		return structs.Organization{}, false
 	}
 
 	return organization, true
 }
 
+type MyCustomeOrg struct {
+	Title string
+	Password string
+	Email string
+	Key string
+}
 func RegisterOrganization(c *gin.Context) {
 	var (
-		organization structs.Organization
+		organization MyCustomeOrg
 	 	claimOrganization structs.Claims
 		id int
 	)
@@ -82,9 +87,10 @@ func RegisterOrganization(c *gin.Context) {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(organization.Password), bcrypt.DefaultCost)
 
 	organization.Password = string(hashedPassword)
+	organization.Key = string(hashedPassword[len(hashedPassword)-6:])
+
 	res := CreateOrganization(organization)
 
-	organization.Key = string(hashedPassword[len(hashedPassword)-6:])
 	res.Scan(&id)
 	
 	if err := db.CreateTable("./db/organization.sql", string(hashedPassword[len(hashedPassword)-6:])); err != nil {

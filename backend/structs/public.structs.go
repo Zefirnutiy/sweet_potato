@@ -5,17 +5,17 @@ import (
 )
 
 type Organization struct {
-	Id		           int       `json:"id"`
+	Id		           int       `json:"-"`
     Title 	           string    `json:"title"`
     Password           string    `json:"password"`
     Email              string    `json:"email"`
     EmailNotifications bool      `json:"emailNotifications"`
     Key                string    `json:"key"`
     UserLimit          int       `json:"userLimit"`
-    Statistics         bool      `json:"statistics"`
-    ProtectionCheating bool      `json:"protectionCheating"`
-    Date               string `json:"date"`
-    Time               string `json:"time"`
+    Statistics         bool      `json:"-"`
+    ProtectionCheating bool      `json:"-"`
+    Date               string `json:"-"`
+    Time               string `json:"-"`
     ThemeId            int       `json:"themeId"`
 }
 
