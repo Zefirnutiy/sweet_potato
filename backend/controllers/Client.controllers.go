@@ -198,7 +198,6 @@ func GetClientByGroupId(c *gin.Context) {
 		&client.ViewOtherResults, 
 		&client.DepartmentId, 
 		&client.GroupId, 
-		&client.CreatorId, 
 		)
 		clientList = append(clientList, client)
 		if err != nil {

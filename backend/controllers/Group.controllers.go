@@ -123,7 +123,7 @@ func GetGroupByDepartmentId(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"result": group,
+		"result": groupList,
 		"message": nil,
 	})
   }
