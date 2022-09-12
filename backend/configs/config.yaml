@@ -4,5 +4,6 @@ db:
     user: "postgres"
     host: "127.0.0.1"
     port: "5432"
-    name: "sweet_potato_db"
+    password: "admin"
+    name: "testing_system"
 
