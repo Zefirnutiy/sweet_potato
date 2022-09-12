@@ -42,25 +42,27 @@ type InputSort struct {
 //функция принимает в себя строку - путь к файлу, который должен соответствовать стандартам
 //которые мы опишем позже.
 func SortQuestion(path string){
-	allQuestion := strings.Split(parseFile(path), "\n\n")
-
-	for _, value := range allQuestion{
-		typeAns := getType(value)
-		switch typeAns{
+	textFile := parseFile(path)
+	allQuestion := strings.Split(textFile, "\n")
+	
+	fmt.Println(len(allQuestion), allQuestion)
+	// for _, value := range allQuestion{
+	// 	typeAns := getType(value)
+	// 	switch typeAns{
 		
-		case "*":
-			fmt.Println(inputButton(value, typeAns))
-		case "#":
-			fmt.Println(inputButton(value, typeAns))
-		case "[]":
-			fmt.Println(inputText(value))
-		case "=":
-			fmt.Println(inputConstraint(value))
-		case "empty":
-			fmt.Println(inputSort(value))
-		}
+	// 	case "*":
+	// 		fmt.Println( inputButton(value, typeAns))
+	// 	case "#":
+	// 		fmt.Println(inputButton(value, typeAns))
+	// 	case "[]":
+	// 		fmt.Println(inputText(value))
+	// 	case "=":
+	// 		fmt.Println(inputConstraint(value))
+	// 	case "empty":
+	// 		fmt.Println(inputSort(value))
+	// 	}
 		
-	}
+	// }
 }
 
 func inputSort(str string) InputSort {

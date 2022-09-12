@@ -91,14 +91,10 @@ func GetGroupByDepartmentId(c *gin.Context) {
 	model := c.Value("Model").(structs.Claims)
 	departmentId := c.Params.ByName("departmentId")
 	var group structs.Group
+	var groupList []structs.Group
 
-	err := db.Dbpool.QueryRow(`SELECT * FROM "`+model.KeySchema+`"."Group" WHERE "DepartmentId"=$1`, departmentId ).Scan(
-		&group.Id, 
-		&group.Title, 
-		&group.TitleSingular, 
-		&group.DepartmentId, 
-		
-	)
+	rows, err := db.Dbpool.Query(`SELECT * FROM "`+model.KeySchema+`"."Group" WHERE "DepartmentId"=$1`, departmentId )
+
 	if err != nil {
 		utils.Logger.Println(err)
 		c.JSON(500, gin.H{
@@ -108,8 +104,26 @@ func GetGroupByDepartmentId(c *gin.Context) {
 		return
 	}
 
+	for rows.Next(){
+		err = rows.Scan(
+			&group.Id, 
+			&group.Title, 
+			&group.TitleSingular, 
+			&group.DepartmentId, 
+		)
+		if err != nil {
+			utils.Logger.Println(err)
+			c.JSON(500, gin.H{
+				"result": nil,
+				"message": "Ошибка сервера",
+			})
+			return
+		}
+		groupList = append(groupList, group)
+	}
+
 	c.JSON(200, gin.H{
-		"result": group,
+		"result": groupList,
 		"message": nil,
 	})
 }

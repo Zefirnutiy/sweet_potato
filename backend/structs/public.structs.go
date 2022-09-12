@@ -14,8 +14,8 @@ type Organization struct {
     UserLimit          int       `json:"userLimit"`
     Statistics         bool      `json:"-"`
     ProtectionCheating bool      `json:"-"`
-    Date               string `json:"-"`
-    Time               string `json:"-"`
+    Date               string    `json:"-"`
+    Time               string    `json:"-"`
     ThemeId            int       `json:"themeId"`
 }
 
