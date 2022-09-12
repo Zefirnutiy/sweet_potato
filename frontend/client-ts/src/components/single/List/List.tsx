@@ -38,11 +38,11 @@ export const ListInfo: React.FC<PropsTypesList> = ({
         { showDepartament ? <FunctionalList buttons={buttons} placeholder='Пользователь или группа' title='Отделения' load={loading}>
                     {children}
                       { departamentsData.map(data => 
-                        <div onClick={e => getGroups(data.id, data.title)}>
+                        <div onClick={e => getGroups(data.Id, data.Title)}>
                             <TwoCellsCard 
-                                title={data.title} 
-                                message={data.message} 
-                                key={data.id} 
+                                title={data.Title} 
+                                message={"Всего групп " + data.GroupCount} 
+                                key={data.Id} 
                             />
                         </div>
                     )}
@@ -51,11 +51,11 @@ export const ListInfo: React.FC<PropsTypesList> = ({
                 { showGroup ? <FunctionalList buttons={buttons} placeholder='Пользователь или группа' title='Группы' load={loading}>
                     {children}
                       { groupsData.map(data => 
-                        <div onClick={e => getUsers(data.id, data.title)}>
+                        <div onClick={e => getUsers(data.Id, data.Title)}>
                             <TwoCellsCard 
-                                title={data.title} 
-                                message={data.message} 
-                                key={data.id} 
+                                title={data.Title} 
+                                message={data.TitleSingular} 
+                                key={data.Id} 
                             />
                         </div>
                     )}

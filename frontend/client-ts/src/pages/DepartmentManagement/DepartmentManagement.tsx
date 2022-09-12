@@ -75,30 +75,30 @@ export const DepartmentManagement = () => {
     }
 
     const getUsers = useCallback(async (groupId: number, groupTitle: string) => {
-        //getUsersAPI({groupId, setLoading, setUsersData, token})
+        getUsersAPI({groupId, setLoading, setUsersData, token})
         setShowGroup(false) 
         setShowUser(true)
         setPathGroup(groupTitle)
-    }, [])
+    }, [token])
 
 
     const getGroups = useCallback(async (departamentId: number, departamentTitle: string) => {
-        //getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData, token})
+        getGroupsAPI({departamentId, setLoading, setUsersData, setGroupsData, token})
         setShowDepartament(false) 
         setShowGroup(true)
         setPathDepartament(departamentTitle)
-    }, [])
+    }, [token])
 
 
     const getDepartaments = useCallback(async () => {
         getDepartamentsAPI({setLoading, setDepartamentsData, token})
-    }, [])
+    }, [token])
 
     useEffect(() => {
         getDepartaments()
     }, [getDepartaments])
 
-
+    console.log(departamentsData)
 
     return (
         <div id={st["main"]}>

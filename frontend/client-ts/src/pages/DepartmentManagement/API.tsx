@@ -25,12 +25,12 @@ interface IGetDepartament extends IGetRequest{
 export const getUsersAPI = async ({groupId, setLoading, setUsersData, token}: IGetUsers) => {
     setLoading(true)
     await axios.get(
-        `/api/users/${groupId}`, 
+        `http://localhost:8080/api/client/getClientByManyGroupId/${groupId}`, 
         {headers: {'Authorization': `Bearer ${token}`}},
         ).then((response) => {
             setLoading(false)
-            console.log(response.data.users)
-            setUsersData(response.data.users)
+            console.log(response.data.result)
+            setUsersData(response.data.result)
         })  
         .catch(e => console.log(e))
 }
@@ -39,12 +39,11 @@ export const getGroupsAPI = async ({departamentId, setLoading, setGroupsData, se
     setUsersData([])
     setLoading(true)
     await axios.get(
-        `/api/groups/${departamentId}`, 
+        `http://localhost:8080/api/group/getGroupByDepartmentId/${departamentId}`, 
         {headers: {'Authorization': `Bearer ${token}`}},
         ).then((response) => {
             setLoading(false)
-            console.log(response.data.groups)
-            setGroupsData(response.data.groups)
+            setGroupsData(response.data.result)
         })  
         .catch(e => console.log(e))
 }
@@ -56,7 +55,7 @@ export const getDepartamentsAPI = async ({setLoading, setDepartamentsData, token
         {headers: {'Authorization': `Bearer ${token}`}},
         ).then((response) => {
             setLoading(false)
-            setDepartamentsData(response.data.groups)
+            setDepartamentsData(response.data.result)
         })  
         .catch(e => console.log(e))
 }
